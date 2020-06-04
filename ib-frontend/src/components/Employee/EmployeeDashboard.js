@@ -38,7 +38,7 @@ class EmployeeDashboard extends Component {
                                     >
                                         {name}{" "}
                                         <i
-                                            class="fa fa-user-circle-o fa-lg"
+                                            className="fa fa-user-circle-o fa-lg"
                                             aria-hidden="true"
                                         ></i>
                                     </a>
@@ -49,7 +49,7 @@ class EmployeeDashboard extends Component {
                                         <a className="dropdown-item" href="./">
                                             Thông tin{" "}
                                             <i
-                                                class="fa fa-info"
+                                                className="fa fa-info"
                                                 aria-hidden="true"
                                             ></i>
                                         </a>
@@ -57,7 +57,7 @@ class EmployeeDashboard extends Component {
                                         <a className="dropdown-item" href="./">
                                             Đăng xuất{" "}
                                             <i
-                                                class="fa fa-sign-out"
+                                                className="fa fa-sign-out"
                                                 aria-hidden="true"
                                             ></i>
                                         </a>
