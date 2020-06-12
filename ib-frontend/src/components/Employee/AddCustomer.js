@@ -1,9 +1,15 @@
 import React, { Component } from "react";
+import * as actions from "../../actions/index";
+import { connect } from "react-redux";
 
 class AddCustomer extends Component {
+    handleInput = (e) => {
+        e.preventDefault();
+        this.props.onAddCustomer();
+    };
     render() {
         return (
-            <form>
+            <form onSubmit={this.handleInput}>
                 <div className="form-row">
                     <div className="form-group col-md-6">
                         <label>Tên đăng nhập</label>
@@ -39,4 +45,11 @@ class AddCustomer extends Component {
     }
 }
 
-export default AddCustomer;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onAddCustomer: () => {
+            dispatch(actions.addCustomer());
+        },
+    };
+};
+export default connect(null, mapDispatchToProps)(AddCustomer);
