@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import AddCustomer from "./AddCustomer";
 import PayIn from "./PayIn";
+import History from "./History";
 
 class EmployeeDashboard extends Component {
     constructor() {
@@ -98,7 +99,7 @@ class EmployeeDashboard extends Component {
                                 ) : this.state.tabIndex === 2 ? (
                                     <PayIn />
                                 ) : (
-                                    " "
+                                    <History />
                                 )}
                             </div>
                         </div>

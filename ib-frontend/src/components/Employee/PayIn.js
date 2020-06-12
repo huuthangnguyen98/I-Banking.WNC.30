@@ -26,11 +26,11 @@ class PayIn extends Component {
                             placeholder="Số tiền nạp"
                         />
                     </div>
-                </div>
-                <div className="d-flex justify-content-center">
-                    <button type="submit" className="btn btn-primary">
-                        Xác nhận
-                    </button>
+                    <div className="form-group col">
+                        <button type="submit" className="btn btn-primary">
+                            Xác nhận
+                        </button>
+                    </div>
                 </div>
             </form>
         );
