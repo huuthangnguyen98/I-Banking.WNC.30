@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import Nav from "../Nav";
-import NavAdmin from "./NavAdmn";
-import AdRoutes from "../../routers/AdRoutes";
-class Admin extends Component {
+import NavEmp from "./NavEmp";
+import EmpRoutes from "../../routers/EmpRoutes";
+class EmployeeDashboard extends Component {
     render() {
         return (
             <div>
@@ -13,12 +13,12 @@ class Admin extends Component {
                     <div className="row">
                         <div className="col-sm-3">
                             <div className="container">
-                                <NavAdmin />
+                                <NavEmp />
                             </div>
                         </div>
                         <div className="col-sm-9">
                             <div className="container mt-4">
-                                <AdRoutes />
+                                <EmpRoutes />
                             </div>
                         </div>
                     </div>
@@ -28,4 +28,4 @@ class Admin extends Component {
     }
 }
 
-export default Admin;
+export default EmployeeDashboard;

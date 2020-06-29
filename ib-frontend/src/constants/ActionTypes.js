@@ -1,1 +1,11 @@
 export const ADD_CUSTOMER = "ADD_CUSTOMER";
+export const LOGIN_CUSTOMER = "LOGIN_CUSTOMER";
+export const LOGIN_EMPLOYEE = "LOGIN_EMPLOYEE";
+export const LOGIN_ADMIN = "LOGIN_ADMIN";
+export const LOGOUT = "LOGOUT";
+
+export const FETCH_INFO = "FETCH_INFO";
+export const FETCH_RECEIVERS = "FETCH_RECEIVERS";
+export const ADD_RECEIVER = " ADD_RECEIVER";
+export const REMOVE_RECEIVER = " REMOVE_RECEIVER";
+export const CHANGE_RECEIVER = "  CHANGE_RECEIVER";

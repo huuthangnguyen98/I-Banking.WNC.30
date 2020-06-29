@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import Nav from "./Nav";
-import NavEmp from "./NavEmp";
-import EmpRoutes from "../../routers/EmpRoutes";
-class EmployeeDashboard extends Component {
+import Nav from "../Nav";
+import NavCustomer from "../Customer/NavCustomer";
+import CusRoutes from "../../routers/CusRoutes";
+class Customer extends Component {
     render() {
         return (
             <div>
@@ -13,12 +13,12 @@ class EmployeeDashboard extends Component {
                     <div className="row">
                         <div className="col-sm-3">
                             <div className="container">
-                                <NavEmp />
+                                <NavCustomer />
                             </div>
                         </div>
                         <div className="col-sm-9">
                             <div className="container mt-4">
-                                <EmpRoutes />
+                                <CusRoutes />
                             </div>
                         </div>
                     </div>
@@ -28,4 +28,4 @@ class EmployeeDashboard extends Component {
     }
 }
 
-export default EmployeeDashboard;
+export default Customer;
