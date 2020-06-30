@@ -6,10 +6,11 @@ const History = () => (
         <table className="table table-hover">
             <thead>
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
+                    <th scope="col">Loại</th>
+                    <th scope="col">Gửi</th>
+                    <th scope="col">Nhận</th>
+                    <th scope="col">Số tiền</th>
+                    <th scope="col">Thời gian</th>
                 </tr>
             </thead>
             <tbody>
@@ -18,18 +19,21 @@ const History = () => (
                     <td>Mark</td>
                     <td>Otto</td>
                     <td>@mdo</td>
+                    <td>@mdo</td>
                 </tr>
                 <tr className="table-success">
                     <th scope="row">2</th>
                     <td>Jacob</td>
                     <td>Thornton</td>
                     <td>@fat</td>
+                    <td>@mdo</td>
                 </tr>
                 <tr className="table-warning">
                     <th scope="row">3</th>
                     <td>Larry</td>
                     <td>the Bird</td>
                     <td>@twitter</td>
+                    <td>@mdo</td>
                 </tr>
             </tbody>
         </table>

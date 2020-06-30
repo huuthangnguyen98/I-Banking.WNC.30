@@ -6,6 +6,10 @@ class Noibo extends Component {
         this.state = {
             class: true,
             reqOtp: false,
+            ngNhan: "",
+            ngNhanErr: "",
+            sotien: "",
+            sotienErr: "",
         };
     }
     changeClass = () => {
@@ -13,8 +17,25 @@ class Noibo extends Component {
             class: !this.state.class,
         });
     };
-    sendReq = (e) => {
+    formValide = (e) => {
+        let error = false;
         e.preventDefault();
+
+        if (this.state.ngNhan === "" && this.state.class === false) {
+            this.setState({
+                ngNhanErr: "Bạn cần nhập số tài khoản người nhận",
+            });
+            error = true;
+        }
+        if (this.state.sotien === "" || typeof this.state.sotien !== "number") {
+            this.setState({
+                sotienErr: "Vui lòng nhập số tiền hợp lệ",
+            });
+            error = true;
+        }
+        if (!error) this.sendReq();
+    };
+    sendReq = () => {
         this.setState({
             reqOtp: true,
         });
@@ -26,7 +47,7 @@ class Noibo extends Component {
                 <form
                     onSubmit={(e) => {
                         if (window.confirm("Xác nhận thực hiện giao dịch?"))
-                            this.sendReq(e);
+                            this.formValide(e);
                     }}
                 >
                     <div className="form-group">
@@ -84,17 +105,39 @@ class Noibo extends Component {
                         </div>
                     ) : (
                         <div className="form-group mt-2">
+                            <span style={{ color: "red" }}>
+                                {this.state.ngNhanErr}
+                            </span>
                             <input
                                 type="text"
                                 className="form-control"
                                 placeholder="Số tài khoản người nhận"
+                                onChange={(e) => {
+                                    this.setState({
+                                        ngNhan: e.target.value,
+                                    });
+                                }}
                             />
                         </div>
                     )}
 
                     <div className="form-group mt-2">
-                        <label htmlFor="inputAddress">Số tiền chuyển</label>
-                        <input type="text" className="form-control" />
+                        <div>
+                            <label htmlFor="inputAddress">Số tiền chuyển</label>
+                        </div>
+
+                        <span style={{ color: "red" }}>
+                            {this.state.sotienErr}
+                        </span>
+                        <input
+                            type="text"
+                            className="form-control"
+                            onChange={(e) => {
+                                this.setState({
+                                    sotien: e.target.value,
+                                });
+                            }}
+                        />
                     </div>
 
                     <div className="form-group">

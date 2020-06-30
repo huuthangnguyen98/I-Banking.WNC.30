@@ -21,13 +21,19 @@ var data = {
 };
 
 //
-export const fetchInfo = () => {
+export const fetchInfo = (data) => {
     return {
         type: types.FETCH_INFO,
         data,
     };
 };
 
+export const fetchListAccount = (data) => {
+    return {
+        type: types.FETCH_LIST_ACCOUNT,
+        data,
+    };
+};
 // export const fetchInfoReq = () => {
 //     return (dispatch) => {
 //         dispatch(fetchInfo());

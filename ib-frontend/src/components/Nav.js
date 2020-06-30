@@ -4,6 +4,7 @@ import * as actions from "../actions/index";
 import { Link } from "react-router-dom";
 class Nav extends Component {
     render() {
+        const username = localStorage.getItem("username");
         return (
             <div className="container-fluid">
                 <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -21,7 +22,7 @@ class Nav extends Component {
                                     aria-haspopup="true"
                                     aria-expanded="false"
                                 >
-                                    htnguyen
+                                    {username}
                                     <i
                                         className="fa fa-user-circle-o fa-lg ml-2"
                                         aria-hidden="true"

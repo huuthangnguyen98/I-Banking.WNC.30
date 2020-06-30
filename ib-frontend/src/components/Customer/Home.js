@@ -10,9 +10,9 @@ class Home extends Component {
         const { profile, list } = this.props;
         const accountList = list.map((item) => (
             <tr key={item.id}>
-                <th scope="row">{item.id}</th>
-                <td>{item.amount}</td>
-                <td>{item.class === 0 ? "Thanh toán" : "Tiết kiệm"}</td>
+                <th scope="row">{item.accountNumber}</th>
+                <td>{item.balance}</td>
+                <td>{item.accountType === 1 ? "Thanh toán" : "Tiết kiệm"}</td>
             </tr>
         ));
 

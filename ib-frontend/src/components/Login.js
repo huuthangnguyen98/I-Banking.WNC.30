@@ -41,19 +41,24 @@ class Login extends Component {
     }
 
     render() {
+        if (this.props.wrongLogging)
+            var wrongHandle = (
+                <div className="alert alert-danger alert-sm" role="alert">
+                    Bạn nhập sai Số điện thoại/ mật khẩu. Mời nhập lại
+                </div>
+            );
         return (
             <div className="col-sm-4 offset-4" style={{ marginTop: "100px" }}>
                 <div className="card">
                     <article className="card-body">
                         <h4 className="card-title mb-4 mt-1">Đăng nhập</h4>
-
+                        {wrongHandle}
                         <form onSubmit={(e) => this.handleInput(e)}>
                             <div className="form-group">
-                                <label>Email</label>
+                                <label>Số điện thoại</label>
                                 <input
                                     className="form-control"
-                                    placeholder="Địa chỉ email"
-                                    // type="email"
+                                    placeholder="Số điện thoại"
                                     type="text"
                                     ref="username"
                                 />
@@ -109,4 +114,9 @@ const mapDispatchToProps = (dispatch) => {
         },
     };
 };
-export default connect(null, mapDispatchToProps)(Login);
+const mapStateToProps = (state) => {
+    return {
+        wrongLogging: state.Auth.wrongLogging,
+    };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
