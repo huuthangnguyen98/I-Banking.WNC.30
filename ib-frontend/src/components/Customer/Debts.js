@@ -4,7 +4,7 @@ import AddDebt from "../../containers/Customer/AddDebt";
 import ShowUnpaid from "./ShowUnpaid";
 //import AddReceiver from "../../containers/Customer/AddReceiver";
 import * as CustomerActions from "../../actions/CustomerActions";
-import { thousandsSeparators } from '../../utils/number'
+import { thousandsSeparators } from '../../utils/general'
 class Debts extends Component {
     componentDidMount() {
         var self = this;
