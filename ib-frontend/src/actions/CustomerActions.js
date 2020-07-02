@@ -80,11 +80,23 @@ export const addReceiver = (id, name) => {
     };
 };
 
-// export const addReceiverReq = (id, name) => {
-//     return (dispatch) => {
-//         dispatch(addReceiver({ id, name }));
-//     };
-// };
+export const addDebt = (debtInfo) => {
+    return {
+        type: types.ADD_DEBT,
+        debtInfo
+    }
+};
+
+
+export const addDebtReq = ({ id, amount, description }) => {
+    return (dispatch) => {
+        callApi("user/save-debtor", "POST", { debtor_account_number: id, amount, description }).then((res) => {
+            if (res && res.data && res.data.data && res.data.data.debtor_account_number == id) {
+                dispatch(addDebt(res.data.data));
+            }
+        })
+    };
+};
 
 export const removeReceiver = (id) => {
     return {

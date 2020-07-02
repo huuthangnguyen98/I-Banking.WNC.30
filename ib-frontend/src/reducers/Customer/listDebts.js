@@ -24,6 +24,13 @@ const listDebts = (state = intState, action) => {
                 debts: action.debts,
                 debtors: action.debtors
             };
+        case types.ADD_DEBT:
+
+            let newDebtors = [action.debtInfo, ...state.debtors]
+            return {
+                ...state,
+                debtors: newDebtors
+            }
         default:
             return state;
     }

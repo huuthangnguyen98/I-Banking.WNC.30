@@ -62,7 +62,7 @@ class Debts extends Component {
                 </tr>
             ));
         } else {
-            return 'Chưa có thông tin';
+            return <tr><td>Chưa có thông tin</td></tr>;
         }
     }
     render() {

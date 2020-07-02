@@ -3,14 +3,16 @@ import { connect } from "react-redux";
 import * as CustomerActions from "../../actions/CustomerActions";
 class AddDebt extends Component {
     _addDebt = (e) => {
+
         e.preventDefault();
-        // const id = this.refs.id.value;
-        // const name = this.refs.name.value;
-        // if (id !== "" && name !== "") this.props.onAddReiver(id, name);
+        const id = this.refs.id.value;
+        const amount = this.refs.amount.value;
+        const description = this.refs.description.value;
+        if (id && amount) this.props.onAddDebt({ id, amount, description });
     };
     render() {
         return (
-            <form onSubmit={(e) => this._addReceiver(e)}>
+            <form onSubmit={(e) => this._addDebt(e)}>
                 <div className="form-row">
                     <div className="form-group col-sm-8">
                         <input
@@ -25,7 +27,7 @@ class AddDebt extends Component {
                             type="text"
                             className="form-control"
                             placeholder="Số tiền"
-                            ref="name"
+                            ref="amount"
                         />
                     </div>
                 </div>
@@ -35,7 +37,7 @@ class AddDebt extends Component {
                             type="text"
                             className="form-control"
                             placeholder="Nội dung"
-                            ref="name"
+                            ref="description"
                         />
                     </div>
                     <div className="form-group col-sm-2">
@@ -50,6 +52,10 @@ class AddDebt extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        onAddDebt: ({ id, amount, description }) => {
+            dispatch(CustomerActions.addDebtReq({ id, amount, description }));
+        },
+    };
 };
 export default connect(null, mapDispatchToProps)(AddDebt);
