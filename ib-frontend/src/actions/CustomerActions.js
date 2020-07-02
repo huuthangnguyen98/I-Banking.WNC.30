@@ -1,4 +1,5 @@
 import * as types from "../constants/ActionTypes";
+import callApi from "../utils/apiCaller";
 var data = {
     user: {
         name: "Huu Thang Nguyen",
@@ -47,19 +48,29 @@ export const fetchListAccount = (data) => {
 //     };
 // };
 
-const rlist = [];
-export const fetchReceivers = () => {
+export const fetchReceivers = ({ debts, debtors }) => {
     return {
         type: types.FETCH_RECEIVERS,
-        rlist,
+        debts,
+        debtors
     };
 };
 
-// export const fetchReceiversReq = () => {
-//     return (dispatch) => {
-//         dispatch(fetchReceivers());
-//     };
-// };
+export const fetchReceiversReq = () => {
+    return (dispatch) => {
+        callApi("user/list-debts", "POST", {
+            "debt_type": 3
+        }).then((res) => {
+            if (res && res.data && res.data.data && res.data.data.list_debtors && res.data.data.list_debts) {
+
+                return dispatch(fetchReceivers({ debtors: res.data.data.list_debtors, debts: res.data.data.list_debts }));
+
+            } else {
+                return dispatch(fetchReceivers([]));
+            }
+        })
+    };
+};
 
 export const addReceiver = (id, name) => {
     return {

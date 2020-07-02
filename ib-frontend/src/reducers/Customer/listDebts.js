@@ -1,5 +1,8 @@
 import * as types from "../../constants/ActionTypes";
-var intState = [{ id: 0, name: "thang_debt", amount: 100000 }];
+var intState = {
+    debts: [],
+    debtors: []
+};
 var newState;
 const listDebts = (state = intState, action) => {
     switch (action.type) {
@@ -15,6 +18,12 @@ const listDebts = (state = intState, action) => {
         //         if (item.id === action.id) item.name = action.name;
         //     });
         //     return newState;
+        case types.FETCH_RECEIVERS:
+            return {
+                ...state,
+                debts: action.debts,
+                debtors: action.debtors
+            };
         default:
             return state;
     }
