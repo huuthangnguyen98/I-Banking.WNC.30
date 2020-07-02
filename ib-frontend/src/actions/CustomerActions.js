@@ -98,6 +98,28 @@ export const addDebtReq = ({ id, amount, description }) => {
     };
 };
 
+export const payDebt = (debtId) => {
+    return {
+        type: types.PAY_DEBT,
+        debtId
+    }
+};
+
+
+export const payDebtReq = ({ debtId, transaction_id, otp }) => {
+    return (dispatch) => {
+        callApi("account/capture-transfer", "POST", { transaction_id, otp }).then((res) => {
+            if (res && res.data) {
+                if (res.data.code === 0) {
+                    dispatch(payDebt(debtId))
+                } else {
+                    alert('OTP bạn nhập vào không chính xác.')
+                }
+            }
+        })
+    };
+};
+
 export const removeReceiver = (id) => {
     return {
         type: types.REMOVE_RECEIVER,

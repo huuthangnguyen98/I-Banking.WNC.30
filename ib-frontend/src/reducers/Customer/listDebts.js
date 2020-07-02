@@ -1,4 +1,5 @@
 import * as types from "../../constants/ActionTypes";
+import { objectIndexOf } from "../../utils/general";
 var intState = {
     debts: [],
     debtors: []
@@ -30,6 +31,17 @@ const listDebts = (state = intState, action) => {
             return {
                 ...state,
                 debtors: newDebtors
+            }
+        case types.PAY_DEBT:
+
+            let indexOfWillPayDebt = objectIndexOf(state.debts, action.debtId, 'debtor_id');
+            let newDebts = [...state.debts];
+            if (indexOfWillPayDebt > -1) {
+                newDebts[indexOfWillPayDebt].status = 0;
+            }
+            return {
+                ...state,
+                debts: newDebts
             }
         default:
             return state;

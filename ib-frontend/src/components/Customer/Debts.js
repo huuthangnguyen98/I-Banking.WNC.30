@@ -5,10 +5,28 @@ import ShowUnpaid from "./ShowUnpaid";
 //import AddReceiver from "../../containers/Customer/AddReceiver";
 import * as CustomerActions from "../../actions/CustomerActions";
 import { thousandsSeparators } from '../../utils/general'
+import callApi from "../../utils/apiCaller";
 class Debts extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isCreatingTransaction: false,
+        }
+        this._loadingButtonInfo = {
+            isDebtOwnerList: null,
+            indexOfButton: null
+        }
+    }
     componentDidMount() {
         var self = this;
         self.props.onFetchReceivers();
+        window.addEventListener("beforeunload", this._preventPrompt, false)
+    }
+    componentWillUnmount() {
+        window.removeEventListener("beforeunload", this._preventPrompt, false);
+    }
+    _preventPrompt = (e) => {
+        e.preventDefault();
     }
     _onRemove = (id) => {
         const self = this;
@@ -22,7 +40,39 @@ class Debts extends Component {
             self.props.onChange(id, name);
         }
     };
+    _onClickPayDebt = ({ debtId, isDebtOwnerList, indexOfButton }) => {
+        this._loadingButtonInfo = {
+            isDebtOwnerList,
+            indexOfButton
+        }
+        this.setState({ isCreatingTransaction: true });
+        this._callTransactionWaitForOTP(debtId)
+    }
+    _callTransactionWaitForOTP = (debtId) => {
+        callApi("user/pay-debt", "POST", { debt_id: debtId }).then((res) => {
+            if (res && res.data && res.data.data) {
+                let { to_account_number, amount, transaction_id } = res.data.data;
+
+                let otp = prompt(`Bạn đang thực hiện một giao dịch chuyển tiền đến số tài khoản ${to_account_number}.\nTài khoản của bạn sẽ bị trừ: ${thousandsSeparators(amount)}đ.\nHãy nhập OTP đã được gửi qua email của bạn để xác nhận giao dịch:`);
+                if (otp) {
+                    this._loadingButtonInfo = {
+                        isDebtOwnerList: null,
+                        indexOfButton: null
+                    }
+                    this.setState({ isCreatingTransaction: false });
+                    this._onPayDebt({ debtId, transaction_id, otp })
+                }
+            }
+        })
+    }
+    _onPayDebt = ({ debtId, transaction_id, otp }) => {
+        const self = this;
+        self.props.onPayDebt({ debtId, transaction_id, otp });
+    };
+
     _renderDebtList = (list, isDebtOwner) => {
+        const { isCreatingTransaction } = this.state;
+        const { isDebtOwnerList, indexOfButton } = this._loadingButtonInfo
 
         if (list && list.length) {
 
@@ -34,9 +84,12 @@ class Debts extends Component {
                     <td>
                         {/* NOTE: status = là chưa thanh toán */}
                         {item.status === 0 && 'Đã thanh toán'}
-                        {item.status === 1 && !isDebtOwner && <button className="btn btn-success btn-sm mr-2">
-                            Thanh toán
-                    </button>
+                        {item.status === 1 && !isDebtOwner &&
+                            (<button className="btn btn-success btn-sm mr-2"
+                                disabled={isCreatingTransaction && isDebtOwnerList === isDebtOwner && indexOfButton === index}
+                                onClick={() => this._onClickPayDebt({ debtId: item.debtor_id, isDebtOwnerList: isDebtOwner, indexOfButton: index })}>
+                                {isCreatingTransaction && isDebtOwnerList === isDebtOwner && indexOfButton === index ? 'Loading...' : 'Thanh toán'}
+                            </button>)
                         }
 
                         {/* <button
@@ -116,8 +169,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onFetchReceivers: () => dispatch(CustomerActions.fetchReceiversReq())
+        onFetchReceivers: () => dispatch(CustomerActions.fetchReceiversReq()),
+        onPayDebt: ({ debtId, transaction_id, otp }) => dispatch(CustomerActions.payDebtReq({ debtId, transaction_id, otp }))
     };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Debts);
+

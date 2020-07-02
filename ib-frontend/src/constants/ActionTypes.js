@@ -13,3 +13,4 @@ export const REMOVE_RECEIVER = " REMOVE_RECEIVER";
 export const CHANGE_RECEIVER = "  CHANGE_RECEIVER";
 
 export const ADD_DEBT = "ADD_DEBT";
+export const PAY_DEBT = "PAY_DEBT";
