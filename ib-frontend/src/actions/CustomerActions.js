@@ -48,101 +48,71 @@ export const fetchListAccount = (data) => {
 //     };
 // };
 
-export const fetchReceivers = ({ debts, debtors }) => {
+const rlist = [];
+export const fetchReceivers = () => {
     return {
         type: types.FETCH_RECEIVERS,
-        debts,
-        debtors
+        rlist,
     };
 };
 
-export const fetchReceiversReq = () => {
-    return (dispatch) => {
-        callApi("user/list-debts", "POST", {
-            "debt_type": 3
-        }).then((res) => {
-            if (res && res.data && res.data.data && res.data.data.list_debtors && res.data.data.list_debts) {
+// export const fetchReceiversReq = () => {
+//     return (dispatch) => {
+//         dispatch(fetchReceivers());
+//     };
+// };
 
-                return dispatch(fetchReceivers({ debtors: res.data.data.list_debtors, debts: res.data.data.list_debts }));
-
-            } else {
-                return dispatch(fetchReceivers([]));
-            }
-        })
-    };
-};
-
-export const addReceiver = (id, name) => {
+export const addReceiver = (id, name, bank) => {
     return {
         type: types.ADD_RECEIVER,
         name,
         id,
+        bank,
     };
 };
 
-export const addDebt = (debtInfo) => {
-    return {
-        type: types.ADD_DEBT,
-        debtInfo
-    }
-};
+// export const addReceiverReq = (id, name, bank) => {
+//     const token = localStorage.getItem("token");
+//     return (dispatch) => {
+//         // Check if acoount exist
+//         return callApi(
+//             "account/info",
+//             "POST",
+//             { account_number: id },
+//             token
+//         ).then((res) => {
+//             // console.log(res);
 
+//             if (res.data.code === 0) {
+//                 return callApi("user/save-receiver", "POST", {
+//                     account_bank: bank,
+//                     account_number: id,
+//                     account_name: name,
+//                 }).then((res) => {
+//                     console.log(res);
+//                     dispatch(addReceiver(id, name, bank));
+//                 });
+//             }
+//         });
+//         //dispatch(addReceiver({ id, name, bank }));
+//     };
+// };
 
-export const addDebtReq = ({ id, amount, description }) => {
+export const addReceiverReq = (id, name, bank) => {
+    const token = localStorage.getItem("token");
     return (dispatch) => {
-        callApi("user/save-debtor", "POST", { debtor_account_number: id, amount, description }).then((res) => {
-            if (res && res.data && res.data.data && res.data.data.debtor_account_number == id) {
-                dispatch(addDebt(res.data.data));
-            }
-        })
-    };
-};
+        return callApi(
+            "user/save-receiver",
+            "POST",
+            { account_bank: bank, account_number: id, account_name: name },
+            token
+        ).then((res) => {
+            // console.log(res);
 
-export const payDebt = (debtId) => {
-    return {
-        type: types.PAY_DEBT,
-        debtId
-    }
-};
-
-
-export const payDebtReq = ({ debtId, transaction_id, otp }) => {
-    return (dispatch) => {
-        callApi("account/capture-transfer", "POST", { transaction_id, otp }).then((res) => {
-            if (res && res.data) {
-                if (res.data.code === 0) {
-                    dispatch(payDebt(debtId))
-                } else {
-                    alert('OTP bạn nhập vào không chính xác.')
-                }
-            }
-        })
-    };
-};
-
-export const cancelDebt = ({ debtId, isDebtOwner }) => {
-    return {
-        type: types.CANCEL_DEBT,
-        debtId,
-        isDebtOwner
-    }
-};
-
-
-export const cancelDebtReq = ({ debtId, description, isDebtOwner }) => {
-    return (dispatch) => {
-        callApi("user/cancel-debt", "POST", {
-            debt_id: debtId,
-            description
-        }).then((res) => {
-            if (res && res.data) {
-                if (res.data.code === 0) {
-                    dispatch(cancelDebt({ debtId, isDebtOwner }))
-                } else {
-                    alert('Không thể hủy nhắc nợ này.')
-                }
-            }
-        })
+            if (res.data.code === 0) {
+                dispatch(addReceiver(id, name, bank));
+            } else alert("Số tài khoản không hợp lệ. Vui lòng thử lại");
+        });
     };
 };
 
@@ -150,6 +120,24 @@ export const removeReceiver = (id) => {
     return {
         type: types.REMOVE_RECEIVER,
         id,
+    };
+};
+
+export const changeReceiverReq = (id, name) => {
+    const token = localStorage.getItem("token");
+    return (dispatch) => {
+        return callApi(
+            "user/update-receiver",
+            "POST",
+            {
+                account_number: id,
+                account_name: name,
+            },
+            token
+        ).then((res) => {
+            if (res.data.code === 0) dispatch(changeReceiver(id, name));
+            else alert("Có lỗi xảy ra. Vui lòng thử lại");
+        });
     };
 };
 
