@@ -1,18 +1,18 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as CustomerActions from "../../actions/CustomerActions";
-class AddReceiver extends Component {
-    _addReceiver = (e) => {
+class AddDebt extends Component {
+    _addDebt = (e) => {
         e.preventDefault();
-        const id = this.refs.id.value;
-        const name = this.refs.name.value;
-        if (id !== "" && name !== "") this.props.onAddReiver(id, name);
+        // const id = this.refs.id.value;
+        // const name = this.refs.name.value;
+        // if (id !== "" && name !== "") this.props.onAddReiver(id, name);
     };
     render() {
         return (
             <form onSubmit={(e) => this._addReceiver(e)}>
                 <div className="form-row">
-                    <div className="form-group col-sm-6">
+                    <div className="form-group col-sm-8">
                         <input
                             type="text"
                             className="form-control"
@@ -24,13 +24,23 @@ class AddReceiver extends Component {
                         <input
                             type="text"
                             className="form-control"
-                            placeholder="Tên gợi nhớ"
+                            placeholder="Số tiền"
+                            ref="name"
+                        />
+                    </div>
+                </div>
+                <div className="form-row">
+                    <div className="form-group col-sm-10">
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Nội dung"
                             ref="name"
                         />
                     </div>
                     <div className="form-group col-sm-2">
                         <button type="submit" className="btn btn-primary">
-                            Thêm
+                            Gửi nhắc nợ
                         </button>
                     </div>
                 </div>
@@ -40,10 +50,6 @@ class AddReceiver extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return {
-        onAddReiver: (id, name) => {
-            dispatch(CustomerActions.addReceiver(id, name));
-        },
-    };
+    return {};
 };
-export default connect(null, mapDispatchToProps)(AddReceiver);
+export default connect(null, mapDispatchToProps)(AddDebt);

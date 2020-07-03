@@ -33,15 +33,10 @@ class Nav extends Component {
                                     aria-labelledby="navbarDropdown"
                                 >
                                     <Link
-                                        to="/changepw"
+                                        to="customer/changepw"
                                         style={{ textDecoration: "none" }}
                                     >
-                                        <button
-                                            className="dropdown-item"
-                                            onClick={() =>
-                                                this.props.onLogout()
-                                            }
-                                        >
+                                        <button className="dropdown-item">
                                             Đổi mật khẩu{" "}
                                             <i
                                                 className="fa fa-sign-out"

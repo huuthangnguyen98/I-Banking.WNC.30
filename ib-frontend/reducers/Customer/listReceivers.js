@@ -1,5 +1,8 @@
 import * as types from "../../constants/ActionTypes";
-var intState = [{ id: 0, name: "thang" }];
+var intState = [
+    { id: 0, name: "thang" },
+    { id: 1, name: "0909878678" },
+];
 var newState;
 const listReceivers = (state = intState, action) => {
     switch (action.type) {

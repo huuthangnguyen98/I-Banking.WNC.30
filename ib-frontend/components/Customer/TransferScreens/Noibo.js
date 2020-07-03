@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import { connect } from "react-redux";
 class Noibo extends Component {
     constructor(props) {
         super(props);
@@ -42,6 +42,13 @@ class Noibo extends Component {
         console.log("Nhap OTP");
     };
     render() {
+        const { list, listRe } = this.props;
+        const listAccount = list.map((item, index) => (
+            <option key={index}>{item.accountNumber}</option>
+        ));
+        const listRe_show = listRe.map((item, index) => (
+            <option key={index}>{item.name}</option>
+        ));
         return (
             <div>
                 <form
@@ -54,10 +61,7 @@ class Noibo extends Component {
                         <label htmlFor="exampleFormControlSelect1">
                             Chọn tài khoản thanh toán
                         </label>
-                        <select className="form-control">
-                            <option>1</option>
-                            <option>2</option>
-                        </select>
+                        <select className="form-control">{listAccount}</select>
                     </div>
                     <div className="d-flex justify-content-around mb-2">
                         <div className="custom-control custom-radio custom-control-inline">
@@ -99,8 +103,7 @@ class Noibo extends Component {
                                 Chọn người nhận
                             </label>
                             <select className="form-control">
-                                <option>Aurthur</option>
-                                <option>Pijanic</option>
+                                {listRe_show}
                             </select>
                         </div>
                     ) : (
@@ -185,4 +188,17 @@ class Noibo extends Component {
     }
 }
 
-export default Noibo;
+const mapStateToProps = (state) => {
+    return {
+        list: state.listAccount,
+        listRe: state.listReceivers,
+    };
+};
+const mapDispatchToProps = (dispatch) => {
+    return {
+        // onFetchInfo: () => {
+        //     dispatch(CustomerActions.fetchInfo());
+        // },
+    };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Noibo);

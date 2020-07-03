@@ -50,12 +50,18 @@ class Receivers extends Component {
             <div className="container">
                 <h4>Danh sách người nhận</h4>
                 <AddReceiver />
-                <table className="table">
+                <table className="table table-sm">
                     <thead className="thead-dark">
                         <tr>
-                            <th scope="col">Số tài khoản</th>
-                            <th scope="col">Tên gợi nhớ</th>
-                            <th scope="col">Thao tác</th>
+                            <th scope="col" className="w-50">
+                                Số tài khoản
+                            </th>
+                            <th scope="col" className="w-30">
+                                Tên gợi nhớ
+                            </th>
+                            <th scope="col" className="w-20">
+                                Thao tác
+                            </th>
                         </tr>
                     </thead>
                     <tbody>{List}</tbody>
@@ -77,7 +83,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(CustomerActions.removeReceiver(id));
         },
         onChange: (id, name) => {
-            dispatch(CustomerActions.changeReceiver(id, name));
+            dispatch(CustomerActions.changeReceiverReq(id, name));
         },
     };
 };

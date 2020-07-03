@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 class Login extends Component {
     constructor(props) {
         super(props);
+        if (localStorage.getItem("token"))
+            this.props.onLoginWithToken(localStorage.getItem("token"));
         this.onLoadRecaptcha = this.onLoadRecaptcha.bind(this);
         this.verifyCallback = this.verifyCallback.bind(this);
         this.state = {
@@ -111,6 +113,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onLogin: (username, pwd) => {
             dispatch(actions.login(username, pwd));
+        },
+        onLoginWithToken: (token) => {
+            dispatch(actions.loginWithToken(token));
         },
     };
 };

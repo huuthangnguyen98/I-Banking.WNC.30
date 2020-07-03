@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { Route } from "react-router-dom";
+import { Route, Router } from "react-router-dom";
 import Receivers from "../components/Customer/Receivers";
 import Transfer from "../components/Customer/Transfer";
 import Debts from "../components/Customer/Debts";
 import History from "../components/Customer/History";
 import Home from "../components/Customer/Home";
+import ChangePw from "../components/ChangePw";
 class EmpRoutes extends Component {
     render() {
         return (
@@ -14,6 +15,7 @@ class EmpRoutes extends Component {
                 <Route path="/customer/transfer" component={Transfer} />
                 <Route path="/customer/debts" component={Debts} />
                 <Route path="/customer/history" component={History} />
+                <Route path="/customer/changepw" component={ChangePw} />
             </div>
         );
     }

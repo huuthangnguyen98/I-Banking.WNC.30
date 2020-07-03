@@ -6,7 +6,7 @@ class ChangePw extends Component {
     };
     render() {
         return (
-            <div className="col-sm-4 offset-4" style={{ marginTop: "100px" }}>
+            <div className="col-sm-6 offset-3" style={{ marginTop: "50px" }}>
                 <div className="card">
                     <article className="card-body">
                         <h4 className="card-title mb-4 mt-1">
@@ -37,16 +37,20 @@ class ChangePw extends Component {
                                     Thay đổi
                                 </button>
                             </div>{" "}
-                            <div>
+                            {/* <div>
                                 {" "}
                                 <Link
                                     className="float-right"
                                     to="/"
                                     style={{ textDecoration: "none" }}
                                 >
-                                    Đăng nhập?
+                                    <i
+                                        className="fa fa-home"
+                                        aria-hidden="true"
+                                    ></i>{" "}
+                                    Trở về Trang chủ ?
                                 </Link>
-                            </div>
+                            </div> */}
                         </form>
                     </article>
                 </div>

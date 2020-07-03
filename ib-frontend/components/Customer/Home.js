@@ -8,13 +8,17 @@ class Home extends Component {
     }
     render() {
         const { profile, list } = this.props;
-        const accountList = list.map((item) => (
-            <tr key={item.id}>
-                <th scope="row">{item.accountNumber}</th>
-                <td>{item.balance}</td>
-                <td>{item.accountType === 1 ? "Thanh toán" : "Tiết kiệm"}</td>
-            </tr>
-        ));
+        const accountList = list
+            ? list.map((item) => (
+                  <tr key={item.id}>
+                      <th scope="row">{item.accountNumber}</th>
+                      <td>{item.balance}</td>
+                      <td>
+                          {item.accountType === 1 ? "Thanh toán" : "Tiết kiệm"}
+                      </td>
+                  </tr>
+              ))
+            : "";
 
         return (
             <div className="container">
