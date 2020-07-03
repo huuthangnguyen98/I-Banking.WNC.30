@@ -28,9 +28,19 @@ class Debts extends Component {
     _preventPrompt = (e) => {
         e.preventDefault();
     }
-    _onRemove = (id) => {
+    _onClickCancelDebt = ({ debtId, isDebtOwner }) => {
         const self = this;
-        self.props.onRemoveReceiver(id);
+
+        let description = prompt('Vui lòng nhập lý do hủy nhắc nợ này:');
+
+        while (!description && description !== null) {
+            description = prompt('Vui lòng nhập lý do hủy nhắc nợ này:');
+        }
+
+        if (description) {
+            self.props.onCancelDebt({ debtId, description, isDebtOwner });
+        }
+
     };
     _onChange = (id) => {
         const self = this;
@@ -102,9 +112,9 @@ class Debts extends Component {
                             className="btn btn-danger btn-sm"
                             onClick={() => {
                                 if (
-                                    window.confirm("Xóa người nhận khỏi danh sách?")
+                                    window.confirm("Chắc chắn xóa nhắc nợ này?")
                                 )
-                                    this._onRemove(item.id);
+                                    this._onClickCancelDebt({ debtId: item.debtor_id, isDebtOwner });
                             }}
                         >
                             Hủy
@@ -170,7 +180,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onFetchReceivers: () => dispatch(CustomerActions.fetchReceiversReq()),
-        onPayDebt: ({ debtId, transaction_id, otp }) => dispatch(CustomerActions.payDebtReq({ debtId, transaction_id, otp }))
+        onPayDebt: ({ debtId, transaction_id, otp }) => dispatch(CustomerActions.payDebtReq({ debtId, transaction_id, otp })),
+        onCancelDebt: ({ debtId, description, isDebtOwner }) => dispatch(CustomerActions.cancelDebtReq({ debtId, description, isDebtOwner }))
     };
 };
 

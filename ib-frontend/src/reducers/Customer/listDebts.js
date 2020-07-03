@@ -43,6 +43,31 @@ const listDebts = (state = intState, action) => {
                 ...state,
                 debts: newDebts
             }
+        case types.CANCEL_DEBT:
+            let newReplaceDebts;
+            if (action.isDebtOwner) {
+                newReplaceDebts = {
+                    debtors: [
+                        ...state.debtors
+                    ]
+                }
+            } else {
+                newReplaceDebts = {
+                    debts: [
+                        ...state.debts
+                    ]
+                }
+            }
+            let targetDebtArray = action.isDebtOwner ? newReplaceDebts.debtors : newReplaceDebts.debts;
+            let indexOfWillCancelDebt = objectIndexOf(targetDebtArray, action.debtId, 'debtor_id');
+            if (indexOfWillCancelDebt > -1) {
+                targetDebtArray[indexOfWillCancelDebt].status = 2;
+            }
+
+            return {
+                ...state,
+                ...newReplaceDebts
+            }
         default:
             return state;
     }

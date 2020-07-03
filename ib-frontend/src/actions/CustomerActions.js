@@ -120,6 +120,32 @@ export const payDebtReq = ({ debtId, transaction_id, otp }) => {
     };
 };
 
+export const cancelDebt = ({ debtId, isDebtOwner }) => {
+    return {
+        type: types.CANCEL_DEBT,
+        debtId,
+        isDebtOwner
+    }
+};
+
+
+export const cancelDebtReq = ({ debtId, description, isDebtOwner }) => {
+    return (dispatch) => {
+        callApi("user/cancel-debt", "POST", {
+            debt_id: debtId,
+            description
+        }).then((res) => {
+            if (res && res.data) {
+                if (res.data.code === 0) {
+                    dispatch(cancelDebt({ debtId, isDebtOwner }))
+                } else {
+                    alert('Không thể hủy nhắc nợ này.')
+                }
+            }
+        })
+    };
+};
+
 export const removeReceiver = (id) => {
     return {
         type: types.REMOVE_RECEIVER,
