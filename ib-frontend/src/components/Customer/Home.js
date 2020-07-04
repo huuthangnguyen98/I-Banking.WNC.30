@@ -4,21 +4,22 @@ import * as CustomerActions from "../../actions/CustomerActions";
 class Home extends Component {
     componentDidMount() {
         //var self = this;
-        //self.props.onFetchInfo();
+        //self.props.onFetchListAccount();
+        // console.log("again");
     }
     render() {
         const { profile, list } = this.props;
         const accountList = list
             ? list.map((item) => (
-                  <tr key={item.id}>
-                      <th scope="row">{item.accountNumber}</th>
+                  <tr key={item.account_number}>
+                      <th scope="row">{item.account_number}</th>
                       <td>{item.balance}</td>
                       <td>
-                          {item.accountType === 1 ? "Thanh toán" : "Tiết kiệm"}
+                          {item.account_type === 1 ? "Thanh toán" : "Tiết kiệm"}
                       </td>
                   </tr>
               ))
-            : "";
+            : null;
 
         return (
             <div className="container">
@@ -55,8 +56,8 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
     return {
-        onFetchInfo: () => {
-            dispatch(CustomerActions.fetchInfo());
+        onFetchListAccount: () => {
+            dispatch(CustomerActions.fetchListAccountReq());
         },
     };
 };

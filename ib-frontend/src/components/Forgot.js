@@ -1,14 +1,47 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import * as CustomerActions from "../actions/CustomerActions";
+import callApi from "../utils/apiCaller";
 class Forgot extends Component {
     constructor(props) {
         super(props);
         this.state = {
             errMsg: false,
+            sendEmail: 1,
+            email: "",
         };
     }
     handleInput = (e) => {
         e.preventDefault();
+        const email = this.refs.email.value;
+        this.sendEmail(email);
+    };
+    sendEmail = (email) => {
+        return callApi("user/forgot-password", "POST", { email: email }).then(
+            (res) => {
+                console.log(res);
+                if (res.data.code === 0) {
+                    const clemail = this.refs.email.value;
+                    this.refs.email.value = "";
+                    this.setState({
+                        sendEmail: 0,
+                        email: clemail,
+                    });
+                } else {
+                    alert("Email không hợp lệ. Vui lòng thử lại");
+                }
+            }
+        );
+    };
+    handleOtp = (e) => {
+        e.preventDefault();
+        const otp = this.refs.otp.value;
+        console.log(otp);
+        const email = this.state.email;
+        console.log(email);
+        const newpw = this.refs.newpw.value;
+        this.props.onSendOtp(email, otp, newpw);
     };
     render() {
         if (this.state.errMsg)
@@ -17,45 +50,92 @@ class Forgot extends Component {
                     Email không tồn tại/ chưa đăng kí dịch vụ I-banking.
                 </div>
             );
+        if (this.state.sendEmail === 0) {
+            var main = (
+                <form onSubmit={(e) => this.handleOtp(e)}>
+                    <span>{this.state.email}</span>
+                    <div className="form-group mt-1">
+                        <label>Kiểm tra email và nhập mã OTP</label>
+                        <input
+                            className="form-control mb-1"
+                            placeholder="Mã OTP"
+                            // type="email"
+                            type="text"
+                            ref="otp"
+                        />
+                        <label>Mật khẩu mới</label>
+                        <input
+                            className="form-control"
+                            placeholder="Mật khẩu mới"
+                            type="text"
+                            ref="newpw"
+                        />
+                    </div>{" "}
+                    <div className="form-group mt-2">
+                        <button className="btn btn-primary btn-block">
+                            {" "}
+                            Xác nhận
+                        </button>
+                    </div>{" "}
+                </form>
+            );
+        } else
+            main = (
+                <form onSubmit={(e) => this.handleInput(e)}>
+                    <div className="form-group">
+                        <label>Email</label>
+                        <input
+                            className="form-control"
+                            placeholder="Địa chỉ email"
+                            // type="email"
+                            type="email"
+                            ref="email"
+                        />
+                    </div>{" "}
+                    <div className="form-group mt-2">
+                        <button
+                            className="btn btn-primary btn-block"
+                            ref="btncon"
+                        >
+                            {" "}
+                            Tiếp tục
+                        </button>
+                    </div>{" "}
+                </form>
+            );
         return (
             <div className="col-sm-4 offset-4" style={{ marginTop: "100px" }}>
                 <div className="card">
                     <article className="card-body">
                         <h4 className="card-title mb-4 mt-1">Quên mật khẩu</h4>
                         {wrongHandle}
-                        <form onSubmit={(e) => this.handleInput(e)}>
-                            <div className="form-group">
-                                <label>Email</label>
-                                <input
-                                    className="form-control"
-                                    placeholder="Địa chỉ email"
-                                    // type="email"
-                                    type="text"
-                                    ref="username"
-                                />
-                            </div>{" "}
-                            <div className="form-group mt-2">
-                                <button className="btn btn-primary btn-block">
-                                    {" "}
-                                    Tiếp tục
-                                </button>
-                            </div>{" "}
-                            <div>
-                                {" "}
-                                <Link
-                                    className="float-right"
-                                    to="/"
-                                    style={{ textDecoration: "none" }}
-                                >
-                                    Đăng nhập?
-                                </Link>
-                            </div>
-                        </form>
+
+                        {main}
+                        <div>
+                            {" "}
+                            <Link
+                                className="float-right"
+                                to="/"
+                                style={{ textDecoration: "none" }}
+                            >
+                                Đăng nhập?
+                            </Link>
+                        </div>
                     </article>
                 </div>
             </div>
         );
     }
 }
+const mapDispatchToProps = (dispatch) => {
+    return {
+        // onSendEmail: (email) => {
+        //     dispatch(CustomerActions.sendEmail(email));
+        // },
+        onSendOtp: (email, otp, newpw) => {
+            dispatch(CustomerActions.sendOtp(email, otp, newpw));
+        },
+    };
+};
 
-export default Forgot;
+export default connect(null, mapDispatchToProps)(Forgot);

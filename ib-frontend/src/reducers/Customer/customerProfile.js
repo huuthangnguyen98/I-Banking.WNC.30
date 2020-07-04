@@ -1,10 +1,6 @@
 import * as types from "../../constants/ActionTypes";
 
-var intState = {
-    name: "htnguyen",
-    email: "email@c",
-    phone: "123",
-};
+var intState = {};
 let newState;
 const customerProfile = (state = intState, action) => {
     switch (action.type) {

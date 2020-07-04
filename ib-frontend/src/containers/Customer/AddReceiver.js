@@ -8,8 +8,16 @@ class AddReceiver extends Component {
         const name = this.refs.name.value;
         const bank = this.refs.bank.value;
         //console.log(bank);
-
-        if (id !== "") this.props.onAddReiver(id, name, bank);
+        const { list } = this.props;
+        if (
+            list.filter(
+                (item) => item.receiver_account_number.toString() === id
+            ).length > 0
+        ) {
+            alert("Số tài khoản đã tồn tại trong danh sách!");
+        } else {
+            if (id !== "") this.props.onAddReiver(id, name, bank);
+        }
     };
     render() {
         return (
@@ -35,7 +43,7 @@ class AddReceiver extends Component {
                 <div className="form-row">
                     <div className="form-group col-sm-10">
                         <select className="form-control" ref="bank">
-                            <option>I-Banking</option>
+                            <option>30Bank</option>
                             <option>BIDV</option>
                         </select>
                     </div>
@@ -50,6 +58,12 @@ class AddReceiver extends Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        list: state.listReceivers,
+    };
+};
+
 const mapDispatchToProps = (dispatch) => {
     return {
         onAddReiver: (id, name, bank) => {
@@ -57,4 +71,4 @@ const mapDispatchToProps = (dispatch) => {
         },
     };
 };
-export default connect(null, mapDispatchToProps)(AddReceiver);
+export default connect(mapStateToProps, mapDispatchToProps)(AddReceiver);

@@ -17,7 +17,7 @@ class Routes extends Component {
                 {/* <Route path="/customer" component={Customer} />
                 <Route path="/admin" component={Admin} /> */}
                 <Route path="/forgot" component={Forgot} />
-                <Route path="/changepw" component={ChangePw} />
+                {/* <Route path="/changepw" component={ChangePw} /> */}
                 <Route component={NotFound} />
             </Switch>
         );

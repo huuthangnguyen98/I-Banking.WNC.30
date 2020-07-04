@@ -1,12 +1,18 @@
 import React, { Component } from "react";
 import Noibo from "./TransferScreens/Noibo";
 import LienNh from "./TransferScreens/LienNh";
+import * as CustomerActions from "../../actions/CustomerActions";
+import { connect } from "react-redux";
 class Transfer extends Component {
     constructor(props) {
         super(props);
         this.state = {
             class: true,
         };
+    }
+    componentDidMount() {
+        var self = this;
+        self.props.onFetchReceivers();
     }
     changeClass = () => {
         this.setState({
@@ -61,4 +67,24 @@ class Transfer extends Component {
     }
 }
 
-export default Transfer;
+const mapStateToProps = (state) => {
+    return {
+        list: state.listReceivers,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onRemoveReceiver: (id) => {
+            dispatch(CustomerActions.removeReceiver(id));
+        },
+        onChange: (id, name) => {
+            dispatch(CustomerActions.changeReceiverReq(id, name));
+        },
+        onFetchReceivers: () => {
+            dispatch(CustomerActions.fetchReceiversReq());
+        },
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Transfer);

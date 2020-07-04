@@ -15,7 +15,7 @@ class EmpRoutes extends Component {
                 <Route path="/customer/transfer" component={Transfer} />
                 <Route path="/customer/debts" component={Debts} />
                 <Route path="/customer/history" component={History} />
-                <Route path="/customer/changepw" component={ChangePw} />
+                <Route path="/changepw" component={ChangePw} />
             </div>
         );
     }

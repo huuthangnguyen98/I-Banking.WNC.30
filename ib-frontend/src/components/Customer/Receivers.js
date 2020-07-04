@@ -4,8 +4,8 @@ import AddReceiver from "../../containers/Customer/AddReceiver";
 import * as CustomerActions from "../../actions/CustomerActions";
 class Receivers extends Component {
     componentDidMount() {
-        //var self = this;
-        //self.props.onFetchReceivers();
+        var self = this;
+        self.props.onFetchReceivers();
     }
     _onRemove = (id) => {
         const self = this;
@@ -23,12 +23,15 @@ class Receivers extends Component {
         const { list } = this.props;
         const List = list.map((item, index) => (
             <tr key={index}>
-                <th scope="row">{item.id}</th>
-                <td>{item.name}</td>
+                <th scope="row">{item.receiver_account_number}</th>
+                <td>{item.receiver_name}</td>
+                <td>{item.receiver_bank}</td>
                 <td>
                     <button
                         className="btn btn-warning btn-sm mr-2"
-                        onClick={() => this._onChange(item.id)}
+                        onClick={() =>
+                            this._onChange(item.receiver_account_number)
+                        }
                     >
                         Sửa
                     </button>
@@ -38,7 +41,7 @@ class Receivers extends Component {
                             if (
                                 window.confirm("Xóa người nhận khỏi danh sách?")
                             )
-                                this._onRemove(item.id);
+                                this._onRemove(item.receiver_account_number);
                         }}
                     >
                         Xóa
@@ -58,6 +61,9 @@ class Receivers extends Component {
                             </th>
                             <th scope="col" className="w-30">
                                 Tên gợi nhớ
+                            </th>
+                            <th scope="col" className="w-20">
+                                Ngân hàng
                             </th>
                             <th scope="col" className="w-20">
                                 Thao tác
@@ -80,10 +86,13 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onRemoveReceiver: (id) => {
-            dispatch(CustomerActions.removeReceiver(id));
+            dispatch(CustomerActions.removeReceiverReq(id));
         },
         onChange: (id, name) => {
             dispatch(CustomerActions.changeReceiverReq(id, name));
+        },
+        onFetchReceivers: () => {
+            dispatch(CustomerActions.fetchReceiversReq());
         },
     };
 };

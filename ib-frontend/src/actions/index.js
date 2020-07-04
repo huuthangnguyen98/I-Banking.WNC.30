@@ -11,11 +11,12 @@ export const loginWithToken = (token) => {
     return (dispatch) => {
         return callApi("user/info", "GET", null, token).then((res) => {
             let role = res.data.data.role;
+            localStorage.setItem("username", res.data.data.full_name);
             //console.log(res.data.data);
             if (role === 1) dispatch(loginCustomer());
             if (role === 2) dispatch(loginEmployee());
             if (role === 3) dispatch(loginAdmin());
-            localStorage.setItem("username", res.data.data.full_name);
+
             const data = {
                 name: res.data.data.full_name,
                 email: res.data.data.email,
@@ -73,6 +74,26 @@ export const login = (username, pwd) => {
                 //     });
                 // });
             } else dispatch(wrongLogging());
+        });
+    };
+};
+
+export const changePw = (oldpw, newpw, data = null) => {
+    var token;
+    if (data === null) token = localStorage.getItem("token");
+    else token = data;
+    return () => {
+        return callApi(
+            "user/change-password",
+            "POST",
+            { old_password: oldpw, new_password: newpw },
+            token
+        ).then((res) => {
+            if (res.data.code === 0) {
+                alert("Thay đổi mật khẩu thành công");
+            } else {
+                alert("Thay đổi mật khẩu không thành công. Vui lòng thử lại");
+            }
         });
     };
 };

@@ -1,8 +1,21 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import * as actions from "../actions/index";
 class ChangePw extends Component {
+    constructor(props) {
+        super(props);
+    }
     handleInput = (e) => {
         e.preventDefault();
+        const oldpw = this.refs.oldpw.value;
+        const newpw1 = this.refs.newpw1.value;
+        const newpw2 = this.refs.newpw2.value;
+        // if (oldpw === '' || newpw1 === '' || newpw2 === '')
+        // alert('Vui lòng nhập đầy đủ thông tin');
+        // if (newpw1 !== newpw2 )
+        // alert('Mật khẩu xác nhận không đúng!')
+        this.props.onChangePw(oldpw, newpw1);
     };
     render() {
         return (
@@ -19,16 +32,19 @@ class ChangePw extends Component {
                                 <input
                                     className="form-control"
                                     type="password"
+                                    ref="oldpw"
                                 />
                                 <label>Mật khẩu mới</label>
                                 <input
                                     className="form-control"
                                     type="password"
+                                    ref="newpw1"
                                 />
                                 <label>Xác nhận mật khẩu mới</label>
                                 <input
                                     className="form-control"
                                     type="password"
+                                    ref="newpw2"
                                 />
                             </div>{" "}
                             <div className="form-group mt-2">
@@ -58,5 +74,12 @@ class ChangePw extends Component {
         );
     }
 }
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onChangePw: (oldpw, newpw) => {
+            dispatch(actions.changePw(oldpw, newpw));
+        },
+    };
+};
 
-export default ChangePw;
+export default connect(null, mapDispatchToProps)(ChangePw);

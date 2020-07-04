@@ -33,7 +33,7 @@ class Nav extends Component {
                                     aria-labelledby="navbarDropdown"
                                 >
                                     <Link
-                                        to="customer/changepw"
+                                        to="/changepw"
                                         style={{ textDecoration: "none" }}
                                     >
                                         <button className="dropdown-item">
