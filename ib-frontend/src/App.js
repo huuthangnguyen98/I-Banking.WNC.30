@@ -6,30 +6,41 @@ import Admin from "./components/Admin/Admin";
 //import Login from "./components/Login";
 import Customer from "./components/Customer/Customer";
 import Employee from "./components/Employee/Employee";
+//import { loginWithToken } from "./actions/index";
+import * as actions from "./actions/index";
 class App extends Component {
-    render() {
-        let main;
-        let role = this.props.Auth.role;
-        if (role === 0) main = <IndexRoute />;
-        else if (role === 1) main = <Customer />;
-        else if (role === 2) main = <Employee />;
-        else if (role === 3) main = <Admin />;
-        // console.log(this.props.Auth.role);
+  componentDidMount(dispatch) {
+    const token = localStorage.getItem("token");
+    this.props.onLogin(token);
+  }
+  render() {
+    let main;
+    let role = this.props.Auth.role;
+    if (role === 0) main = <IndexRoute />;
+    else if (role === 1) main = <Customer />;
+    else if (role === 2) main = <Employee />;
+    else if (role === 3) main = <Admin />;
 
-        return (
-            <Router>
-                <div className="container">
-                    {/* <IndexRoute /> */}
-                    {main}
-                </div>
-            </Router>
-        );
-    }
+    return (
+      <Router>
+        <div className="container">
+          {/* <IndexRoute /> */}
+          {main}
+        </div>
+      </Router>
+    );
+  }
 }
 const mapStateToProps = (state) => {
-    return {
-        Auth: state.Auth,
-    };
+  return {
+    Auth: state.Auth,
+  };
 };
-
-export default connect(mapStateToProps, null)(App);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onLogin: (token) => {
+      dispatch(actions.loginWithToken(token));
+    },
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(App);
