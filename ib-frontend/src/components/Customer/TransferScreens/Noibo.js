@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { defaultBank } from "../../../constants/config";
 import * as CustomerActions from "../../../actions/CustomerActions";
 import callApi from "../../../utils/apiCaller";
+import thousandify from "thousandify";
 class Noibo extends Component {
   constructor(props) {
     super(props);
@@ -13,6 +14,7 @@ class Noibo extends Component {
       ngNhanErr: "",
       sotien: 0,
       sotienErr: "",
+      sotienFormatted: "",
     };
   }
   changeClass = () => {
@@ -47,7 +49,6 @@ class Noibo extends Component {
     const listRe_show = listRe.filter(
       (item) => item.receiver_bank === defaultBank
     );
-    //console.log(listRe_show);
 
     var to_account_number;
     if (this.state.class) {
@@ -57,7 +58,6 @@ class Noibo extends Component {
     } else {
       to_account_number = this.state.ngNhan;
     }
-    console.log(to_account_number);
 
     const balance = list[this.refs.account.selectedIndex].balance;
     const from_account_number =
@@ -105,7 +105,7 @@ class Noibo extends Component {
     const { list, listRe } = this.props;
     const listAccount = list.map((item, index) => (
       <option key={item.account_number}>
-        {item.account_number} - Số dư : {item.balance}
+        {item.account_number} - Số dư : {thousandify(item.balance)} VNĐ
       </option>
     ));
     const listRe_show = listRe
@@ -211,9 +211,10 @@ class Noibo extends Component {
 
           <div className="form-group mt-2">
             <div>
-              <label htmlFor="inputAddress">Số tiền chuyển</label>
+              <label htmlFor="inputAddress">
+                Số tiền chuyển (<small>VNĐ</small>)
+              </label>
             </div>
-
             <span style={{ color: "red" }}>{this.state.sotienErr}</span>
             <input
               type="number"

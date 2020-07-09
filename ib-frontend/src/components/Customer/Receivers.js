@@ -28,13 +28,13 @@ class Receivers extends Component {
         <td>{item.receiver_bank}</td>
         <td>
           <button
-            className="btn btn-warning btn-sm mr-2"
+            className="btn btn-warning btn-xs mr-2"
             onClick={() => this._onChange(item.receiver_account_number)}
           >
             Sửa
           </button>
           <button
-            className="btn btn-danger btn-sm"
+            className="btn btn-danger btn-xs"
             onClick={() => {
               if (window.confirm("Xóa người nhận khỏi danh sách?"))
                 this._onRemove(item.receiver_account_number);
@@ -49,7 +49,7 @@ class Receivers extends Component {
       <div className="container">
         <h4>Danh sách người nhận</h4>
         <AddReceiver />
-        <table className="table table-sm">
+        <table className="table table-sm" style={{ fontSize: "15px" }}>
           <thead className="thead-dark">
             <tr>
               <th scope="col" className="w-50">

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import callApi from "../../utils/apiCaller";
 import { connect } from "react-redux";
 import * as EmployeeActions from "../../actions/EmployeeActions";
+import thousandify from "thousandify";
 class History extends Component {
   constructor(props) {
     super(props);
@@ -83,7 +84,7 @@ class History extends Component {
               </td>
               <td>{item.from_account_number}</td>
               <td>{item.to_account_number}</td>
-              <td>{item.amount}</td>
+              <td>{thousandify(item.amount)}</td>
               <td>{item.created_at}</td>
             </tr>
           );
@@ -97,7 +98,7 @@ class History extends Component {
               </td>
               <td>{item.from_account_number}</td>
               <td>{item.to_account_number}</td>
-              <td>{item.amount}</td>
+              <td>{thousandify(item.amount)}</td>
               <td>{item.created_at}</td>
             </tr>
           );
@@ -110,7 +111,7 @@ class History extends Component {
                 </td>
                 <td>{item.from_account_number}</td>
                 <td>{item.to_account_number}</td>
-                <td>{item.amount}</td>
+                <td>{thousandify(item.amount)}</td>
                 <td>{item.created_at}</td>
               </tr>
             );
@@ -124,7 +125,7 @@ class History extends Component {
                 </td>
                 <td>{item.from_account_number}</td>
                 <td>{item.to_account_number}</td>
-                <td>{item.amount}</td>
+                <td>{thousandify(item.amount)}</td>
                 <td>{item.created_at}</td>
               </tr>
             );
@@ -140,7 +141,7 @@ class History extends Component {
           </td>
           <td>{item.from_account_number}</td>
           <td>{item.to_account_number}</td>
-          <td>{item.amount}</td>
+          <td>{thousandify(item.amount)}</td>
           <td>{item.created_at}</td>
         </tr>
       ));
@@ -151,7 +152,7 @@ class History extends Component {
           </td>
           <td>{item.from_account_number}</td>
           <td>{item.to_account_number}</td>
-          <td>{item.amount}</td>
+          <td>{thousandify(item.amount)}</td>
           <td>{item.created_at}</td>
         </tr>
       ));
@@ -164,7 +165,7 @@ class History extends Component {
               </td>
               <td>{item.from_account_number}</td>
               <td>{item.to_account_number}</td>
-              <td>{item.amount}</td>
+              <td>{thousandify(item.amount)}</td>
               <td>{item.created_at}</td>
             </tr>
           );
@@ -178,7 +179,7 @@ class History extends Component {
               </td>
               <td>{item.from_account_number}</td>
               <td>{item.to_account_number}</td>
-              <td>{item.amount}</td>
+              <td>{thousandify(item.amount)}</td>
               <td>{item.created_at}</td>
             </tr>
           );
@@ -196,7 +197,9 @@ class History extends Component {
                     <th scope="col">Loại</th>
                     <th scope="col">Gửi</th>
                     <th scope="col">Nhận</th>
-                    <th scope="col">Số tiền</th>
+                    <th scope="col">
+                      Số tiền <small>(VNĐ)</small>
+                    </th>
                     <th scope="col">Thời gian</th>
                   </tr>
                 </thead>
@@ -215,7 +218,9 @@ class History extends Component {
                     <th scope="col">Loại</th>
                     <th scope="col">Gửi</th>
                     <th scope="col">Nhận</th>
-                    <th scope="col">Số tiền</th>
+                    <th scope="col">
+                      Số tiền <small>(VNĐ)</small>
+                    </th>
                     <th scope="col">Thời gian</th>
                   </tr>
                 </thead>
@@ -234,7 +239,9 @@ class History extends Component {
                     <th scope="col">Loại</th>
                     <th scope="col">Gửi</th>
                     <th scope="col">Nhận</th>
-                    <th scope="col">Số tiền</th>
+                    <th scope="col">
+                      Số tiền <small>(VNĐ)</small>
+                    </th>
                     <th scope="col">Thời gian</th>
                   </tr>
                 </thead>
@@ -253,7 +260,9 @@ class History extends Component {
                     <th scope="col">Loại</th>
                     <th scope="col">Gửi</th>
                     <th scope="col">Nhận</th>
-                    <th scope="col">Số tiền</th>
+                    <th scope="col">
+                      Số tiền <small>(VNĐ)</small>
+                    </th>
                     <th scope="col">Thời gian</th>
                   </tr>
                 </thead>

@@ -1,19 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as CustomerActions from "../../actions/CustomerActions";
+import thousandify from "thousandify";
 class Home extends Component {
-  componentDidMount() {
-    //var self = this;
-    //self.props.onFetchListAccount();
-    // console.log("again");
-  }
   render() {
     const { profile, list } = this.props;
     const accountList = list
       ? list.map((item) => (
           <tr key={item.account_number}>
             <th scope="row">{item.account_number}</th>
-            <td>{item.balance}</td>
+            <td>{thousandify(item.balance)} VNĐ</td>
             <td>{item.account_type === 1 ? "Thanh toán" : "Tiết kiệm"}</td>
           </tr>
         ))
@@ -38,16 +34,9 @@ class Home extends Component {
             </tr>
           </tbody>
         </table>
-        {/* <div>Họ tên : {profile.name}</div>
-                <div>
-                    <span>Email : {profile.email} </span>
-                </div>
-                <div>
-                    <span>Số điện thoại : {profile.phone}</span>
-                </div> */}
         <br />
         <h4>Danh sách tài khoản</h4>
-        <table className="table">
+        <table className="table" style={{ fontSize: "15px" }}>
           <thead className="thead-dark">
             <tr>
               <th scope="col">Số tài khoản</th>

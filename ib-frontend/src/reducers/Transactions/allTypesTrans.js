@@ -5,7 +5,6 @@ const allTypesTrans = (state = intState, action) => {
   switch (action.type) {
     case types.FETCH_ALL_TYPES_TRANS:
       newState = action.data;
-      console.log(newState);
       return newState;
 
     default:
