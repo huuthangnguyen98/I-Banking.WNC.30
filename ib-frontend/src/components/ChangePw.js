@@ -1,11 +1,7 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actions from "../actions/index";
 class ChangePw extends Component {
-  constructor(props) {
-    super(props);
-  }
   handleInput = (e) => {
     e.preventDefault();
     let err = false;

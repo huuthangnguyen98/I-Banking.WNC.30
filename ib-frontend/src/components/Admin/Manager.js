@@ -12,7 +12,7 @@ class Manager extends Component {
     const self = this;
 
     var name = prompt("Cập nhật Họ và tên :", item.full_name);
-    if (name.trim() !== "") {
+    if (name !== null) {
       self.props.onUpdateEmployee(item.user_id, name);
     }
   };

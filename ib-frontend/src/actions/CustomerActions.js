@@ -2,7 +2,7 @@ import * as types from "../constants/ActionTypes";
 import callApi from "../utils/apiCaller";
 import { changePw } from "./index";
 import { defaultBank } from "../constants/config";
-
+//import { hideOtpFrom } from "../components/Customer/Debts";
 export const fetchInfo = (data) => {
   return {
     type: types.FETCH_INFO,
@@ -94,6 +94,13 @@ export const addReceiverReq = (id, name, bank) => {
   };
 };
 
+export const toogleUI_otpFrom = (status) => {
+  return {
+    type: types.TOOGLE_OTP_FORM,
+    status,
+  };
+};
+
 const defaultPw = "123456aA@";
 export const sendOtp = (email, otp, newpw) => {
   return (dispatch) => {
@@ -101,9 +108,7 @@ export const sendOtp = (email, otp, newpw) => {
       email: email,
       otp: otp,
     }).then((res) => {
-      console.log(res);
       if (res.data.code === 0) {
-        console.log("susscess otp");
         const token = res.data.data;
         dispatch(changePw(defaultPw, newpw, token));
       } else {
@@ -115,13 +120,11 @@ export const sendOtp = (email, otp, newpw) => {
 
 export const sendOtpTransfer = (trans) => {
   const token = localStorage.getItem("token");
-  return () => {
+  return (dispatch) => {
+    dispatch(toogleUI_otpFrom(true));
     return callApi("account/transfer", "POST", trans, token).then((res) => {
       if (res.data.code === 0) {
-        console.log(res.data);
-
         localStorage.setItem("transId", res.data.data.transaction_id);
-        console.log(res.data.data.transaction_id);
       } else alert("Giao dịch không thành công. Vui lòng thử lại!");
     });
   };
@@ -138,10 +141,12 @@ export const confirmTransfer = (otp) => {
       { transaction_id, otp },
       token
     ).then((res) => {
-      console.log(res);
       if (res.data.code === 0) {
         alert("Chuyển khoản thành công!");
         dispatch(fetchListAccountReq());
+      } else if (res.data.code === 1) {
+        // hideOtpFrom();
+        alert("Mã OTP không chính xác!");
       } else {
         alert("Chuyển khoản thất bại. Vui lòng thử lại");
       }
@@ -196,5 +201,83 @@ export const changeReceiver = (id, name) => {
     type: types.CHANGE_RECEIVER,
     id,
     name,
+  };
+};
+
+export const fetListDebtsByUser = (data) => {
+  return {
+    type: types.FETCH_LIST_DEBT_BY_USER,
+    data,
+  };
+};
+
+export const fetListDebtsToUser = (data) => {
+  return {
+    type: types.FETCH_LIST_DEBT_TO_USER,
+    data,
+  };
+};
+
+export const fetchListDebts_allReq = () => {
+  const token = localStorage.getItem("token");
+  return async (dispatch) => {
+    let ResDebtsByUser = await callApi(
+      "user/list-debts",
+      "POST",
+      { debt_type: 1 },
+      token
+    );
+    if (ResDebtsByUser.data.code === 0)
+      dispatch(fetListDebtsByUser(ResDebtsByUser.data.data.list_debtors));
+    let ResDebtsToUser = await callApi(
+      "user/list-debts",
+      "POST",
+      { debt_type: 2 },
+      token
+    );
+    if (ResDebtsToUser.data.code === 0)
+      dispatch(fetListDebtsToUser(ResDebtsToUser.data.data.list_debts));
+  };
+};
+
+export const addDebt = (debt) => {
+  return {
+    type: types.ADD_DEBT,
+    debt,
+  };
+};
+
+export const addDebtReq = (id, amount, des) => {
+  const token = localStorage.getItem("token");
+  return (dispatch) => {
+    return callApi(
+      "user/save-debtor",
+      "POST",
+      {
+        debtor_account_number: id,
+        amount: amount,
+        description: des,
+      },
+      token
+    ).then((res) => {
+      if (res.data.code === 0) {
+        alert("Thêm nhắc nợ thành công!");
+        dispatch(addDebt(res.data.data));
+      } else alert("Có lỗi xảy ra. Vui lòng thử lại");
+    });
+  };
+};
+
+export const cancelDebt_byUser = (id) => {
+  return {
+    type: types.CANCEL_DEBT_BY_USER,
+    id,
+  };
+};
+
+export const cancelDebt_toUser = (id) => {
+  return {
+    type: types.CANCEL_DEBT_TO_USER,
+    id,
   };
 };

@@ -12,7 +12,7 @@ class Customer extends Component {
         <div className="container-fluid">
           <div className="row">
             <div className="col-sm-3">
-              <div className="container">
+              <div className="container-fluid">
                 <NavCustomer />
               </div>
             </div>

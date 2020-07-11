@@ -9,13 +9,15 @@ class Noibo extends Component {
     super(props);
     this.state = {
       class: true,
-      reqOtp: false,
+      // reqOtp: false,
       ngNhan: "",
       ngNhanErr: "",
       sotien: 0,
       sotienErr: "",
-      sotienFormatted: "",
     };
+  }
+  componentWillUnmount() {
+    this.props.onToogle_otpFrom(false);
   }
   changeClass = () => {
     this.setState({
@@ -35,8 +37,9 @@ class Noibo extends Component {
     );
   };
   formValide = (e) => {
-    let error = false;
     e.preventDefault();
+    if (!window.confirm("Xác nhận thực hiện giao dịch?")) return null;
+    let error = false;
 
     if (this.state.ngNhan === "" && this.state.class === false) {
       this.setState({
@@ -72,6 +75,17 @@ class Noibo extends Component {
       });
       error = true;
     }
+    //
+    if (
+      this.state.class === false &&
+      this.state.ngNhan.toString() === from_account_number.toString()
+    ) {
+      this.setState({
+        ngNhanErr: "Tài khoản nhận không hợp lệ!",
+      });
+      error = true;
+    }
+    //
     const des = this.refs.des.value;
     const trans = {
       from_account_number,
@@ -85,10 +99,9 @@ class Noibo extends Component {
     if (!error) this.checkValidAccount(to_account_number, trans);
   };
   sendReq = (trans) => {
-    this.setState({
-      reqOtp: true,
-    });
-    console.log("Nhap OTP");
+    // this.setState({
+    //   reqOtp: true,
+    // });
     this.props.onSendOtpTransfer(trans);
   };
   _conirmTransfer = () => {
@@ -97,12 +110,10 @@ class Noibo extends Component {
     if (otp !== "") this.props.onConfirmTransfer(otp);
   };
   _cancelTransfer = () => {
-    this.setState({
-      reqOtp: false,
-    });
+    this.props.onToogle_otpFrom(false);
   };
   render() {
-    const { list, listRe } = this.props;
+    const { list, listRe, UIState } = this.props;
     const listAccount = list.map((item, index) => (
       <option key={item.account_number}>
         {item.account_number} - Số dư : {thousandify(item.balance)} VNĐ
@@ -118,7 +129,8 @@ class Noibo extends Component {
       ));
     return (
       <div>
-        {this.state.reqOtp ? (
+        {/* this.state.reqOtp */}
+        {UIState.otpFrom ? (
           <div className="mt-2">
             <div className="alert alert-danger" role="alert">
               Nhập mã OTP để xác nhận giao dịch.
@@ -146,8 +158,7 @@ class Noibo extends Component {
         )}
         <form
           onSubmit={(e) => {
-            if (window.confirm("Xác nhận thực hiện giao dịch?"))
-              this.formValide(e);
+            this.formValide(e);
           }}
         >
           <div className="form-group">
@@ -257,6 +268,7 @@ const mapStateToProps = (state) => {
   return {
     list: state.listAccount,
     listRe: state.listReceivers,
+    UIState: state.UIState,
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -266,6 +278,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onConfirmTransfer: (otp) => {
       dispatch(CustomerActions.confirmTransfer(otp));
+    },
+    onToogle_otpFrom: (status) => {
+      dispatch(CustomerActions.toogleUI_otpFrom(status));
     },
   };
 };

@@ -15,7 +15,7 @@ class Receivers extends Component {
     const self = this;
 
     var name = prompt("Tên gợi nhớ mới :");
-    if (name.trim() !== "") {
+    if (name !== null) {
       self.props.onChange(id, name);
     }
   };

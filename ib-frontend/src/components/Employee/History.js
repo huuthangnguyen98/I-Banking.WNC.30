@@ -25,8 +25,6 @@ class History extends Component {
     if (typ === 2) type = 1; // transfer
     if (typ === 3) type = 2; // debt
 
-    // console.log(type);
-
     callApi("account/info", "POST", { account_number: id }, token).then(
       (res) => {
         if (res.data.code !== 0) {
@@ -130,6 +128,7 @@ class History extends Component {
               </tr>
             );
         }
+        return null;
       });
 
       listDebt = historyDebt.map((item) => (
@@ -270,6 +269,7 @@ class History extends Component {
               </table>
             </div>
           );
+          break;
         default:
       }
     } else {

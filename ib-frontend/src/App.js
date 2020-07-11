@@ -23,10 +23,7 @@ class App extends Component {
 
     return (
       <Router>
-        <div className="container">
-          {/* <IndexRoute /> */}
-          {main}
-        </div>
+        <div className="container">{main}</div>
       </Router>
     );
   }

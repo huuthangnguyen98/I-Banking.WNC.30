@@ -15,7 +15,6 @@ class PayIn extends Component {
   _confirm = () => {
     const token = localStorage.getItem("token");
     const id = this.refs.id.value;
-    var type;
     callApi("account/info", "POST", { account_number: id }, token).then(
       (res) => {
         if (res.data.code !== 0) {
@@ -39,7 +38,7 @@ class PayIn extends Component {
       account_info = (
         <div className="form-row">
           <h4>Thông tin tài khoản</h4>
-          <table class="table table-borderless">
+          <table className="table table-borderless">
             <tbody>
               <tr>
                 <td>Họ tên :</td>
