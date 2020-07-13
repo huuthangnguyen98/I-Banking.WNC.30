@@ -29,6 +29,7 @@ export const addEmployeeReq = (emp) => {
         alert("Thêm nhân viên thành công!");
         dispatch(addEmployee(res.data.data));
       } else {
+        console.log(res.data.message);
         alert("Thêm nhân viên thất bại! Vui lòng thử lại.");
       }
     });
@@ -64,6 +65,7 @@ export const removeEmployeeReq = (id) => {
         alert("Xóa nhân viên thành công!");
         dispatch(removeEmployee(id));
       } else {
+        console.log(res.data.message);
         alert("Cập nhật thất bại! Vui lòng thử lại.");
       }
     });
@@ -93,6 +95,7 @@ export const updateEmployeeReq = (id, name) => {
       if (res.data.code === 0) {
         dispatch(updateEmployee(id, name));
       } else {
+        console.log(res.data.message);
         alert("Cập nhật thất bại! Vui lòng thử lại.");
       }
     });

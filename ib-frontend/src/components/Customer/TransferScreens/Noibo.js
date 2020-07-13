@@ -96,7 +96,14 @@ class Noibo extends Component {
       to_bank: "30Bank",
       pay_type: 0,
     };
-    if (!error) this.checkValidAccount(to_account_number, trans);
+    if (!error) {
+      this.setState({
+        ngNhan: "",
+        ngNhanErr: "",
+        sotienErr: "",
+      });
+      this.checkValidAccount(to_account_number, trans);
+    }
   };
   sendReq = (trans) => {
     // this.setState({
@@ -148,6 +155,7 @@ class Noibo extends Component {
               <button
                 className="btn btn-warning btn-sm ml-3 mb-2"
                 onClick={() => this._cancelTransfer()}
+                style={{ fontSize: "12px" }}
               >
                 Hủy
               </button>

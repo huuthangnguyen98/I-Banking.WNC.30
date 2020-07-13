@@ -29,12 +29,14 @@ class Receivers extends Component {
         <td>
           <button
             className="btn btn-warning btn-xs mr-2"
+            style={{ fontSize: "12px" }}
             onClick={() => this._onChange(item.receiver_account_number)}
           >
             Sửa
           </button>
           <button
             className="btn btn-danger btn-xs"
+            style={{ fontSize: "12px" }}
             onClick={() => {
               if (window.confirm("Xóa người nhận khỏi danh sách?"))
                 this._onRemove(item.receiver_account_number);

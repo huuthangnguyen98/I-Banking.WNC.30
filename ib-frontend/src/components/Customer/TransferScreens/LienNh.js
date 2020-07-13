@@ -138,6 +138,7 @@ class LienNh extends Component {
               <button
                 className="btn btn-warning btn-sm ml-3 mb-2"
                 onClick={() => this._cancelTransfer()}
+                style={{ fontSize: "12px" }}
               >
                 Hủy
               </button>

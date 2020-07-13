@@ -3,15 +3,13 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { connect } from "react-redux";
 import IndexRoute from "./routers/index";
 import Admin from "./components/Admin/Admin";
-//import Login from "./components/Login";
 import Customer from "./components/Customer/Customer";
 import Employee from "./components/Employee/Employee";
-//import { loginWithToken } from "./actions/index";
 import * as actions from "./actions/index";
 class App extends Component {
   componentDidMount(dispatch) {
     const token = localStorage.getItem("token");
-    this.props.onLogin(token);
+    if (token) this.props.onLogin(token);
   }
   render() {
     let main;

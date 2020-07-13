@@ -41,11 +41,9 @@ class Debts extends Component {
 
   _onCancelDebtByUser = (id) => {
     const self = this;
-
     var des = prompt("Nội dung hủy nhắc nợ:");
     if (des !== null) {
-      // window.scroll(0, 0);
-      self.props.onCancelDebtByUser(id);
+      self.props.onCancelDebtByUser(id, des);
     }
   };
   _onCancelDebtToUser = (id) => {
@@ -53,16 +51,15 @@ class Debts extends Component {
 
     var des = prompt("Nội dung hủy nhắc nợ:");
     if (des !== null) {
-      self.props.onCancelDebtToUser(id);
+      self.props.onCancelDebtToUser(id, des);
     }
   };
-  _onPayback = () => {
+  _onPayback = (id) => {
     window.scroll(0, 0);
-    this.props.onToogle_otpFrom(true);
+    this.props.onsendOtpPayDebt(id);
   };
   _conirmTransfer = () => {
     const otp = this.refs.otp.value;
-
     if (otp !== "") this.props.onConfirmTransfer(otp);
   };
   _cancelTransfer = () => {
@@ -94,6 +91,7 @@ class Debts extends Component {
                     created_at: item.created_at,
                   })
                 }
+                style={{ fontSize: "12px" }}
               >
                 Chi tiết
               </button>
@@ -122,6 +120,7 @@ class Debts extends Component {
                     created_at: item.created_at,
                   })
                 }
+                style={{ fontSize: "12px" }}
               >
                 Chi tiết
               </button>
@@ -149,6 +148,7 @@ class Debts extends Component {
                     created_at: item.created_at,
                   })
                 }
+                style={{ fontSize: "12px" }}
               >
                 Chi tiết
               </button>
@@ -156,6 +156,7 @@ class Debts extends Component {
               <button
                 className="btn btn-danger btn-sm mr-2"
                 onClick={() => this._onCancelDebtByUser(item.debtor_id)}
+                style={{ fontSize: "12px" }}
               >
                 Hủy
               </button>
@@ -174,7 +175,7 @@ class Debts extends Component {
             <td>
               <span className="badge badge-pill badge-success">đã trả</span>
             </td>
-            <th scope="row">{item.debtor_account_number}</th>
+            <th scope="row">{item.reveiver_account_number}</th>
             <td>{thousandify(item.amount)}</td>
             <td>
               <button
@@ -183,12 +184,13 @@ class Debts extends Component {
                 data-target="#debtDetailToUser"
                 onClick={() =>
                   this.setState({
-                    id: item.debtor_account_number,
+                    id: item.reveiver_account_number,
                     amount: item.amount,
                     des: item.description,
                     created_at: item.created_at,
                   })
                 }
+                style={{ fontSize: "12px" }}
               >
                 Chi tiết
               </button>
@@ -202,7 +204,7 @@ class Debts extends Component {
             <td>
               <span className="badge badge-pill badge-secondary">đã hủy</span>
             </td>
-            <th scope="row">{item.debtor_account_number}</th>
+            <th scope="row">{item.reveiver_account_number}</th>
             <td>{thousandify(item.amount)}</td>
             <td>
               <button
@@ -211,12 +213,13 @@ class Debts extends Component {
                 data-target="#debtDetailToUser"
                 onClick={() =>
                   this.setState({
-                    id: item.debtor_account_number,
+                    id: item.reveiver_account_number,
                     amount: item.amount,
                     des: item.description,
                     created_at: item.created_at,
                   })
                 }
+                style={{ fontSize: "12px" }}
               >
                 Chi tiết
               </button>
@@ -229,7 +232,7 @@ class Debts extends Component {
             <td>
               <span className="badge badge-pill badge-danger">chưa trả</span>
             </td>
-            <th scope="row">{item.debtor_account_number}</th>
+            <th scope="row">{item.reveiver_account_number}</th>
             <td>{thousandify(item.amount)}</td>
             <td>
               <button
@@ -238,18 +241,20 @@ class Debts extends Component {
                 data-target="#debtDetailToUser"
                 onClick={() =>
                   this.setState({
-                    id: item.debtor_account_number,
+                    id: item.reveiver_account_number,
                     amount: item.amount,
                     des: item.description,
                     created_at: item.created_at,
                   })
                 }
+                style={{ fontSize: "12px" }}
               >
                 Chi tiết
               </button>
               <button
                 className="btn btn-danger btn-sm mr-2"
                 onClick={() => this._onCancelDebtToUser(item.debtor_id)}
+                style={{ fontSize: "12px" }}
               >
                 Hủy
               </button>
@@ -257,11 +262,12 @@ class Debts extends Component {
                 className="btn btn-warning btn-sm mr-2"
                 onClick={() => {
                   this.setState({
-                    toId: item.debtor_account_number,
+                    toId: item.reveiver_account_number,
                     toAmount: item.amount,
                   });
-                  this._onPayback();
+                  this._onPayback(item.debtor_id);
                 }}
+                style={{ fontSize: "12px" }}
               >
                 Thanh toán
               </button>
@@ -478,13 +484,19 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(CustomerActions.fetchListDebts_allReq());
     },
     onCancelDebtByUser: (id, des) => {
-      dispatch(CustomerActions.cancelDebt_byUser(id));
+      dispatch(CustomerActions.cancelDebt_byUserReq(id, des));
     },
     onCancelDebtToUser: (id, des) => {
-      dispatch(CustomerActions.cancelDebt_toUser(id));
+      dispatch(CustomerActions.cancelDebt_toUserReq(id, des));
     },
     onToogle_otpFrom: (status) => {
       dispatch(CustomerActions.toogleUI_otpFrom(status));
+    },
+    onsendOtpPayDebt: (id) => {
+      dispatch(CustomerActions.sendOtpPayDebt(id));
+    },
+    onConfirmTransfer: (otp) => {
+      dispatch(CustomerActions.confirmTransfer(otp));
     },
   };
 };

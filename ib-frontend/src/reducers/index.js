@@ -11,6 +11,7 @@ import listEmployee from "./Admin/listEmployee";
 import listDebtsByUser from "./Customer/listDebtsByUser";
 import listDebtsToUser from "./Customer/listDebtsToUser";
 import UIState from "./UIState";
+import notifications from "./Customer/notifications";
 export default combineReducers({
   Auth,
   customerProfile,
@@ -24,4 +25,5 @@ export default combineReducers({
   listDebtsByUser,
   listDebtsToUser,
   UIState,
+  notifications,
 });

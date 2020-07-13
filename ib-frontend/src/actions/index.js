@@ -59,6 +59,7 @@ export const changePw = (oldpw, newpw, data = null) => {
       if (res.data.code === 0) {
         alert("Thay đổi mật khẩu thành công");
       } else {
+        console.log(res.data.message);
         alert("Thay đổi mật khẩu không thành công. Vui lòng thử lại");
       }
     });

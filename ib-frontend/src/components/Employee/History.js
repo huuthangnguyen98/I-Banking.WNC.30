@@ -84,6 +84,7 @@ class History extends Component {
               <td>{item.to_account_number}</td>
               <td>{thousandify(item.amount)}</td>
               <td>{item.created_at}</td>
+              <td>{item.transaction_id}</td>
             </tr>
           );
         if (item.type === 2)
@@ -98,6 +99,7 @@ class History extends Component {
               <td>{item.to_account_number}</td>
               <td>{thousandify(item.amount)}</td>
               <td>{item.created_at}</td>
+              <td>{item.transaction_id}</td>
             </tr>
           );
         if (item.type === 3) {
@@ -111,6 +113,7 @@ class History extends Component {
                 <td>{item.to_account_number}</td>
                 <td>{thousandify(item.amount)}</td>
                 <td>{item.created_at}</td>
+                <td>{item.transaction_id}</td>
               </tr>
             );
           else
@@ -125,6 +128,7 @@ class History extends Component {
                 <td>{item.to_account_number}</td>
                 <td>{thousandify(item.amount)}</td>
                 <td>{item.created_at}</td>
+                <td>{item.transaction_id}</td>
               </tr>
             );
         }
@@ -142,6 +146,7 @@ class History extends Component {
           <td>{item.to_account_number}</td>
           <td>{thousandify(item.amount)}</td>
           <td>{item.created_at}</td>
+          <td>{item.transaction_id}</td>
         </tr>
       ));
       listTransfer = historyTransfer.map((item) => (
@@ -153,6 +158,7 @@ class History extends Component {
           <td>{item.to_account_number}</td>
           <td>{thousandify(item.amount)}</td>
           <td>{item.created_at}</td>
+          <td>{item.transaction_id}</td>
         </tr>
       ));
       listPayIn = historyPayIn.map((item) => {
@@ -166,6 +172,7 @@ class History extends Component {
               <td>{item.to_account_number}</td>
               <td>{thousandify(item.amount)}</td>
               <td>{item.created_at}</td>
+              <td>{item.transaction_id}</td>
             </tr>
           );
         } else {
@@ -180,6 +187,7 @@ class History extends Component {
               <td>{item.to_account_number}</td>
               <td>{thousandify(item.amount)}</td>
               <td>{item.created_at}</td>
+              <td>{item.transaction_id}</td>
             </tr>
           );
         }
@@ -200,6 +208,7 @@ class History extends Component {
                       Số tiền <small>(VNĐ)</small>
                     </th>
                     <th scope="col">Thời gian</th>
+                    <th scope="col">Mã GD</th>
                   </tr>
                 </thead>
                 <tbody>{listTransfer}</tbody>
@@ -221,6 +230,7 @@ class History extends Component {
                       Số tiền <small>(VNĐ)</small>
                     </th>
                     <th scope="col">Thời gian</th>
+                    <th scope="col">Mã GD</th>
                   </tr>
                 </thead>
                 <tbody>{listDebt}</tbody>
@@ -242,6 +252,7 @@ class History extends Component {
                       Số tiền <small>(VNĐ)</small>
                     </th>
                     <th scope="col">Thời gian</th>
+                    <th scope="col">Mã GD</th>
                   </tr>
                 </thead>
                 <tbody>{listPayIn}</tbody>
@@ -263,6 +274,7 @@ class History extends Component {
                       Số tiền <small>(VNĐ)</small>
                     </th>
                     <th scope="col">Thời gian</th>
+                    <th scope="col">Mã GD</th>
                   </tr>
                 </thead>
                 <tbody>{listAllTrans}</tbody>

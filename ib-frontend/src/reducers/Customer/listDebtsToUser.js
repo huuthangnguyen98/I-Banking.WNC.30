@@ -7,7 +7,13 @@ const listDebtsToUser = (state = intState, action) => {
       newState = action.data;
       return newState;
     case types.CANCEL_DEBT_TO_USER:
-      newState = state.filter((item) => item.debtor_id !== action.id);
+      newState = [...state];
+      newState.forEach((item) => {
+        if (item.debtor_id === action.id) {
+          item.description = action.des;
+          item.status = 2;
+        }
+      });
       return newState;
     default:
       return state;

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../actions/index";
 import { Link } from "react-router-dom";
-// import { loadReCaptcha, ReCaptcha } from "react-recaptcha-google";
+import { loadReCaptcha, ReCaptcha } from "react-recaptcha-google";
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -12,21 +12,25 @@ class Login extends Component {
     this.verifyCallback = this.verifyCallback.bind(this);
     this.state = {
       recaptchaToken: "",
+      errCaptcha: false,
     };
   }
   handleInput = (e) => {
     e.preventDefault();
     const username = this.refs.username.value;
     const pwd = this.refs.pwd.value;
-    //if (this.state.recaptchaToken !== "") this.props.onLogin(username, pwd);
+    // if (this.state.recaptchaToken !== "") this.props.onLogin(username, pwd);
+    // else
+    //   this.setState({
+    //     errCaptcha: true,
+    //   });
     this.props.onLogin(username, pwd);
   };
   // componentDidMount() {
-  //     loadReCaptcha();
-  //     if (this.captchaDemo) {
-  //         console.log("started, just a second...");
-  //         this.captchaDemo.reset();
-  //     }
+  //   loadReCaptcha();
+  //   if (this.captchaDemo) {
+  //     this.captchaDemo.reset();
+  //   }
   // }
 
   onLoadRecaptcha() {
@@ -75,18 +79,27 @@ class Login extends Component {
                 <label>Mật khẩu</label>
                 <input className="form-control" type="password" ref="pwd" />
               </div>{" "}
-              {/* <ReCaptcha
-                                ref={(el) => {
-                                    this.captchaDemo = el;
-                                }}
-                                size="normal"
-                                data-theme="dark"
-                                render="explicit"
-                                sitekey="6Lcl2KUZAAAAAMUlnRJqmHWUQdGLJdnauXabPXzD"
-                                onloadCallback={this.onLoadRecaptcha}
-                                verifyCallback={this.verifyCallback}
-                                hl="vi"
-                            /> */}
+              {/* {this.state.errCaptcha ? (
+                <i
+                  className="fa fa-info-circle mr-1"
+                  aria-hidden="true"
+                  style={{ color: "red" }}
+                >
+                  <small> Mã captcha không đúng</small>
+                </i>
+              ) : null}
+              <ReCaptcha
+                ref={(el) => {
+                  this.captchaDemo = el;
+                }}
+                size="normal"
+                data-theme="dark"
+                render="explicit"
+                sitekey="6Lcl2KUZAAAAAMUlnRJqmHWUQdGLJdnauXabPXzD"
+                onloadCallback={this.onLoadRecaptcha}
+                verifyCallback={this.verifyCallback}
+                hl="vi"
+              /> */}
               <div className="form-group mt-3">
                 <button type="submit" className="btn btn-primary btn-block">
                   {" "}

@@ -10,6 +10,7 @@ class Forgot extends Component {
       errMsg: false,
       sendEmail: 1,
       email: "",
+      btnMsg: "Tiếp tục",
     };
   }
   handleInput = (e) => {
@@ -18,6 +19,9 @@ class Forgot extends Component {
     this.sendEmail(email);
   };
   sendEmail = (email) => {
+    this.setState({
+      btnMsg: "Đang xử lí",
+    });
     return callApi("user/forgot-password", "POST", { email: email }).then(
       (res) => {
         if (res.data.code === 0) {
@@ -28,6 +32,9 @@ class Forgot extends Component {
             email: clemail,
           });
         } else {
+          this.setState({
+            btnMsg: "Tiếp tục",
+          });
           alert("Email không hợp lệ. Vui lòng thử lại");
         }
       }
@@ -56,7 +63,6 @@ class Forgot extends Component {
             <input
               className="form-control mb-1"
               placeholder="Mã OTP"
-              // type="email"
               type="text"
               ref="otp"
             />
@@ -81,17 +87,15 @@ class Forgot extends Component {
             <input
               className="form-control"
               placeholder="Địa chỉ email"
-              // type="email"
               type="email"
               ref="email"
             />
-          </div>{" "}
+          </div>
           <div className="form-group mt-2">
             <button className="btn btn-primary btn-block" ref="btncon">
-              {" "}
-              Tiếp tục
+              {this.state.btnMsg}
             </button>
-          </div>{" "}
+          </div>
         </form>
       );
     return (
@@ -120,9 +124,6 @@ class Forgot extends Component {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    // onSendEmail: (email) => {
-    //     dispatch(CustomerActions.sendEmail(email));
-    // },
     onSendOtp: (email, otp, newpw) => {
       dispatch(CustomerActions.sendOtp(email, otp, newpw));
     },

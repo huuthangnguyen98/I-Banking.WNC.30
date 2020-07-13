@@ -6,7 +6,10 @@ export const createCustomer = (customer) => {
   return () => {
     return callApi("user/create", "POST", customer, token).then((res) => {
       if (res.data.code === 0) alert("Tạo tài khoản thành công!");
-      else alert("Tạo tài khoản thất bại! Vui lòng thử lại");
+      else {
+        console.log(res.data.message);
+        alert("Tạo tài khoản thất bại! Vui lòng thử lại");
+      }
     });
   };
 };
@@ -21,7 +24,10 @@ export const payIn = (id, amount) => {
       token
     ).then((res) => {
       if (res.data.code === 0) alert("Nạp tiền thành công!");
-      else alert("Nạp tiền thất bại! Vui lòng thử lại");
+      else {
+        console.log(res.data.message);
+        alert("Nạp tiền thất bại! Vui lòng thử lại");
+      }
     });
   };
 };

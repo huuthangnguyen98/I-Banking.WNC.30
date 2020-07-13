@@ -1,8 +1,8 @@
 import * as types from "../constants/ActionTypes";
 import callApi from "../utils/apiCaller";
 import { changePw } from "./index";
-import { defaultBank } from "../constants/config";
-//import { hideOtpFrom } from "../components/Customer/Debts";
+import store from "../index";
+import notifications from "../reducers/Customer/notifications";
 export const fetchInfo = (data) => {
   return {
     type: types.FETCH_INFO,
@@ -42,7 +42,7 @@ export const fetchReceiversReq = () => {
       if (res.data.code === 0) {
         const listReceivers = res.data.data;
         dispatch(fetchReceivers(listReceivers));
-      }
+      } else console.log(res.data.message);
     });
   };
 };
@@ -54,16 +54,6 @@ export const addReceiver = (id, name, bank) => {
     id,
     bank,
   };
-};
-
-export const checkAccountValid = (id, bank = defaultBank) => {
-  const token = localStorage.getItem("token");
-  return callApi("account/info", "POST", { account_number: id }, token).then(
-    (res) => {
-      if (res.data.code !== 0)
-        alert("Số tài khoản không hợp lệ/ không tồn tại.");
-    }
-  );
 };
 
 export const addReceiverReq = (id, name, bank) => {
@@ -86,9 +76,15 @@ export const addReceiverReq = (id, name, bank) => {
           ).then((res) => {
             if (res.data.code === 0) {
               dispatch(addReceiver(id, name, bank));
+            } else {
+              console.log(res.data.message);
+              alert("Có lỗi xảy ra. Vui lòng thử lại!");
             }
           });
-        } else alert("Số tài khoản không hợp lệ. Vui lòng thử lại");
+        } else {
+          console.log(res.data.message);
+          alert("Số tài khoản không hợp lệ. Vui lòng thử lại");
+        }
       }
     );
   };
@@ -112,6 +108,7 @@ export const sendOtp = (email, otp, newpw) => {
         const token = res.data.data;
         dispatch(changePw(defaultPw, newpw, token));
       } else {
+        console.log(res.data.message);
         alert("Mã OTP không chính xác. Vui lòng thử lại");
       }
     });
@@ -121,12 +118,33 @@ export const sendOtp = (email, otp, newpw) => {
 export const sendOtpTransfer = (trans) => {
   const token = localStorage.getItem("token");
   return (dispatch) => {
-    dispatch(toogleUI_otpFrom(true));
     return callApi("account/transfer", "POST", trans, token).then((res) => {
       if (res.data.code === 0) {
+        dispatch(toogleUI_otpFrom(true));
         localStorage.setItem("transId", res.data.data.transaction_id);
-      } else alert("Giao dịch không thành công. Vui lòng thử lại!");
+      } else {
+        console.log(res.data.message);
+        alert("Giao dịch không thành công. Vui lòng thử lại!");
+      }
     });
+  };
+};
+
+export const sendOtpPayDebt = (id) => {
+  const token = localStorage.getItem("token");
+
+  return (dispatch) => {
+    return callApi("user/pay-debt", "POST", { debt_id: id }, token).then(
+      (res) => {
+        if (res.data.code === 0) {
+          dispatch(toogleUI_otpFrom(true));
+          localStorage.setItem("transId", res.data.data.transaction_id);
+        } else {
+          console.log(res.data.message);
+          alert("Giao dịch không thành công. Vui lòng thử lại!");
+        }
+      }
+    );
   };
 };
 
@@ -143,11 +161,13 @@ export const confirmTransfer = (otp) => {
     ).then((res) => {
       if (res.data.code === 0) {
         alert("Chuyển khoản thành công!");
+        dispatch(toogleUI_otpFrom(false));
         dispatch(fetchListAccountReq());
       } else if (res.data.code === 1) {
-        // hideOtpFrom();
+        console.log(res.data.message);
         alert("Mã OTP không chính xác!");
       } else {
+        console.log(res.data.message);
         alert("Chuyển khoản thất bại. Vui lòng thử lại");
       }
     });
@@ -173,7 +193,10 @@ export const removeReceiverReq = (id) => {
       token
     ).then((res) => {
       if (res.data.code === 0) dispatch(removeReceiver(id));
-      else alert("Có lỗi xảy ra. Vui lòng thử lại");
+      else {
+        console.log(res.data.message);
+        alert("Có lỗi xảy ra. Vui lòng thử lại");
+      }
     });
   };
 };
@@ -191,7 +214,10 @@ export const changeReceiverReq = (id, name) => {
       token
     ).then((res) => {
       if (res.data.code === 0) dispatch(changeReceiver(id, name));
-      else alert("Có lỗi xảy ra. Vui lòng thử lại");
+      else {
+        console.log(res.data.message);
+        alert("Có lỗi xảy ra. Vui lòng thử lại");
+      }
     });
   };
 };
@@ -263,21 +289,114 @@ export const addDebtReq = (id, amount, des) => {
       if (res.data.code === 0) {
         alert("Thêm nhắc nợ thành công!");
         dispatch(addDebt(res.data.data));
-      } else alert("Có lỗi xảy ra. Vui lòng thử lại");
+      } else {
+        console.log(res.data.message);
+        alert("Có lỗi xảy ra. Vui lòng thử lại");
+      }
     });
   };
 };
 
-export const cancelDebt_byUser = (id) => {
+export const cancelDebt_byUser = (id, des) => {
   return {
     type: types.CANCEL_DEBT_BY_USER,
     id,
+    des,
   };
 };
 
-export const cancelDebt_toUser = (id) => {
+export const cancelDebt_byUserReq = (id, des) => {
+  const token = localStorage.getItem("token");
+  return (dispatch) => {
+    return callApi(
+      "user/cancel-debt",
+      "POST",
+      {
+        debt_id: id,
+        description: des,
+      },
+      token
+    ).then((res) => {
+      if (res.data.code === 0) {
+        dispatch(cancelDebt_byUser(id, des));
+      } else {
+        console.log(res.data.message);
+        alert("Có lỗi xảy ra. Vui lòng thử lại");
+      }
+    });
+  };
+};
+
+export const cancelDebt_toUser = (id, des) => {
   return {
     type: types.CANCEL_DEBT_TO_USER,
     id,
+    des,
+  };
+};
+
+export const cancelDebt_toUserReq = (id, des) => {
+  const token = localStorage.getItem("token");
+  return (dispatch) => {
+    return callApi(
+      "user/cancel-debt",
+      "POST",
+      {
+        debt_id: id,
+        description: des,
+      },
+      token
+    ).then((res) => {
+      if (res.data.code === 0) {
+        dispatch(cancelDebt_toUser(id, des));
+      } else {
+        console.log(res.data.message);
+        alert("Có lỗi xảy ra. Vui lòng thử lại");
+      }
+    });
+  };
+};
+
+export const fetchNotifications = (data) => {
+  return {
+    type: types.FETCH_NOTIFICATIONS,
+    data,
+  };
+};
+
+export const firstfetchNotificationsReq = () => {
+  const token = localStorage.getItem("token");
+  return (dispatch) => {
+    return callApi("user/get-notification", "GET", null, token).then((res) => {
+      if (res.data.code === 0) {
+        dispatch(fetchNotifications(res.data.data));
+      } else {
+        console.log(res.data.message);
+      }
+    });
+  };
+};
+
+export const fetchNotificationsReq = () => {
+  const token = localStorage.getItem("token");
+  return (dispatch) => {
+    return callApi("user/get-notification", "GET", null, token).then((res) => {
+      if (res.data.code === 0) {
+        if (store.getState().notifications.length < res.data.data.length) {
+          //console.log("has new");
+          dispatch(toogle_newNotifi(true));
+          dispatch(fetchNotifications(res.data.data));
+        }
+      } else {
+        console.log(res.data.message);
+      }
+    });
+  };
+};
+
+export const toogle_newNotifi = (status) => {
+  return {
+    type: types.TOGGLE_NEWNOTIFI,
+    status,
   };
 };

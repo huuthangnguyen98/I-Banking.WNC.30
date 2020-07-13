@@ -1,13 +1,33 @@
 import React, { Component } from "react";
-import Nav from "../Nav";
 import NavCustomer from "../Customer/NavCustomer";
 import CusRoutes from "../../routers/CusRoutes";
+import NavTopCustomer from "./NavTopCustomer";
+import { connect } from "react-redux";
+
+import * as CustomerActions from "../../actions/CustomerActions";
 class Customer extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      intervalID: 0,
+    };
+  }
+  componentDidMount() {
+    this.props.onFetchNotifications_first();
+    var intervalID = setInterval(this.props.onFetchNotifications, 3000);
+    this.setState({
+      intervalID: intervalID,
+    });
+  }
+  componentWillUnmount() {
+    var intervalID = this.state.intervalID;
+    clearInterval(intervalID);
+  }
   render() {
     return (
       <div>
         <div className="container-fluid">
-          <Nav />
+          <NavTopCustomer />
         </div>
         <div className="container-fluid">
           <div className="row">
@@ -28,4 +48,21 @@ class Customer extends Component {
   }
 }
 
-export default Customer;
+const mapStateToProps = (state) => {
+  return {
+    UIState: state.UIState,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onFetchNotifications: () => {
+      dispatch(CustomerActions.fetchNotificationsReq());
+    },
+    onFetchNotifications_first: () => {
+      dispatch(CustomerActions.firstfetchNotificationsReq());
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Customer);

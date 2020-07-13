@@ -8,7 +8,7 @@ class Nav extends Component {
     return (
       <div className="container-fluid">
         <nav className="navbar navbar-expand-lg navbar-light bg-light ">
-          <h4>I-Banking</h4>
+          <h4>30-BANK</h4>
           <div className="collapse navbar-collapse">
             <ul className="navbar-nav ml-auto">
               <li className="nav-item dropdown">
