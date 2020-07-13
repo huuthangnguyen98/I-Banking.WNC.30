@@ -3,6 +3,12 @@ import { connect } from "react-redux";
 import * as CustomerActions from "../../actions/CustomerActions";
 import thousandify from "thousandify";
 class Home extends Component {
+  componentDidMount() {
+    document.title = "Thông tin";
+  }
+  componentWillUnmount() {
+    document.title = "30-BANK";
+  }
   render() {
     const { profile, list } = this.props;
     const accountList = list

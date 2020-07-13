@@ -1,10 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 class allNotifications extends Component {
+  componentDidMount() {
+    document.title = "Thông báo";
+  }
+  componentWillUnmount() {
+    document.title = "30-BANK";
+  }
   render() {
     const { notifications } = this.props;
     const notiCSs = {
-      //   border: "none",
       overflowWrap: "break-word",
     };
     const list_noti_show = notifications.map((item) => (

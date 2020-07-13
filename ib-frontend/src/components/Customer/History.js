@@ -13,6 +13,14 @@ class History extends Component {
       trans_type: 0,
     };
   }
+
+  componentDidMount() {
+    document.title = "Lịch sử giao dịch";
+  }
+  componentWillUnmount() {
+    document.title = "30-BANK";
+  }
+
   _confirm = (e) => {
     e.preventDefault();
 

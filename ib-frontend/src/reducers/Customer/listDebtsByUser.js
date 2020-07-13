@@ -7,7 +7,7 @@ const listDebtsByUser = (state = intState, action) => {
       newState = action.data;
       return newState;
     case types.ADD_DEBT:
-      newState = [...state, action.debt];
+      newState = [action.debt, ...state];
       return newState;
     case types.CANCEL_DEBT_BY_USER:
       newState = [...state];

@@ -25,6 +25,113 @@ class ShowUnpaid extends Component {
       .filter((item) => item.status === 1)
       .map((item) => {
         //--- copy from toUserList
+        if (item.status === 0)
+          return (
+            //Paid
+            <tr key={item.debtor_id}>
+              <td>
+                <span className="badge badge-pill badge-success">đã trả</span>
+              </td>
+              <th scope="row">{item.reveiver_account_number}</th>
+              <td>{thousandify(item.amount)}</td>
+              <td>
+                <button
+                  className="btn btn-success btn-sm mr-2"
+                  data-toggle="modal"
+                  data-target="#debtDetailToUser"
+                  onClick={() =>
+                    this.setState({
+                      id: item.reveiver_account_number,
+                      amount: item.amount,
+                      des: item.description,
+                      created_at: item.created_at,
+                    })
+                  }
+                  style={{ fontSize: "12px" }}
+                >
+                  Chi tiết
+                </button>
+              </td>
+            </tr>
+          );
+        if (item.status === 2)
+          return (
+            //Canceled
+            <tr key={item.debtor_id}>
+              <td>
+                <span className="badge badge-pill badge-secondary">đã hủy</span>
+              </td>
+              <th scope="row">{item.reveiver_account_number}</th>
+              <td>{thousandify(item.amount)}</td>
+              <td>
+                <button
+                  className="btn btn-success btn-sm mr-2"
+                  data-toggle="modal"
+                  data-target="#debtDetailToUser"
+                  onClick={() =>
+                    this.setState({
+                      id: item.reveiver_account_number,
+                      amount: item.amount,
+                      des: item.description,
+                      created_at: item.created_at,
+                    })
+                  }
+                  style={{ fontSize: "12px" }}
+                >
+                  Chi tiết
+                </button>
+              </td>
+            </tr>
+          );
+        if (item.status === 1)
+          return (
+            <tr key={item.debtor_id}>
+              <td>
+                <span className="badge badge-pill badge-danger">chưa trả</span>
+              </td>
+              <th scope="row">{item.reveiver_account_number}</th>
+              <td>{thousandify(item.amount)}</td>
+              <td>
+                <button
+                  className="btn btn-success btn-sm mr-2"
+                  data-toggle="modal"
+                  data-target="#debtDetailToUser"
+                  onClick={() =>
+                    this.setState({
+                      id: item.reveiver_account_number,
+                      amount: item.amount,
+                      des: item.description,
+                      created_at: item.created_at,
+                    })
+                  }
+                  style={{ fontSize: "12px" }}
+                >
+                  Chi tiết
+                </button>
+                <button
+                  className="btn btn-danger btn-sm mr-2"
+                  onClick={() => this._onCancelDebtToUser(item.debtor_id)}
+                  style={{ fontSize: "12px" }}
+                >
+                  Hủy
+                </button>
+                <button
+                  className="btn btn-warning btn-sm mr-2"
+                  onClick={() => {
+                    this.setState({
+                      toId: item.reveiver_account_number,
+                      toAmount: item.amount,
+                    });
+                    this._onPayback(item.debtor_id);
+                  }}
+                  style={{ fontSize: "12px" }}
+                >
+                  Thanh toán
+                </button>
+              </td>
+            </tr>
+          );
+
         return null;
         //------------------------
       });

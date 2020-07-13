@@ -19,10 +19,12 @@ class Debts extends Component {
   }
 
   componentWillUnmount() {
+    document.title = "30-BANK";
     this.props.onToogle_otpFrom(false);
   }
 
   componentDidMount() {
+    document.title = "Quản lí nhắc nợ";
     var self = this;
     self.props.onFetchListDebt_all();
   }

@@ -3,7 +3,12 @@ import { connect } from "react-redux";
 import AddReceiver from "../../containers/Customer/AddReceiver";
 import * as CustomerActions from "../../actions/CustomerActions";
 class Receivers extends Component {
+  componentWillUnmount() {
+    document.title = "30-BANK";
+  }
+
   componentDidMount() {
+    document.title = "Danh sách người nhận";
     var self = this;
     self.props.onFetchReceivers();
   }

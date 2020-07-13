@@ -383,7 +383,6 @@ export const fetchNotificationsReq = () => {
     return callApi("user/get-notification", "GET", null, token).then((res) => {
       if (res.data.code === 0) {
         if (store.getState().notifications.length < res.data.data.length) {
-          //console.log("has new");
           dispatch(toogle_newNotifi(true));
           dispatch(fetchNotifications(res.data.data));
         }
