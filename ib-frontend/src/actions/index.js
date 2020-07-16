@@ -10,22 +10,24 @@ export const wrongLogging = () => {
 export const loginWithToken = (token) => {
   return (dispatch) => {
     return callApi("user/info", "GET", null, token).then((res) => {
-      let role = res.data.data.role;
-      localStorage.setItem("username", res.data.data.full_name);
-      if (role === 1) dispatch(loginCustomer());
-      if (role === 2) dispatch(loginEmployee());
-      if (role === 3) dispatch(loginAdmin());
+      if (res.data.code === 0) {
+        let role = res.data.data.role;
+        localStorage.setItem("username", res.data.data.full_name);
+        if (role === 1) dispatch(loginCustomer());
+        if (role === 2) dispatch(loginEmployee());
+        if (role === 3) dispatch(loginAdmin());
 
-      const data = {
-        name: res.data.data.full_name,
-        email: res.data.data.email,
-        phone: res.data.data.phone,
-      };
-      dispatch(fetchInfo(data));
-      return callApi("user/list-account", "GET", null, token).then((res) => {
-        let list = res.data.data;
-        dispatch(fetchListAccount(list));
-      });
+        const data = {
+          name: res.data.data.full_name,
+          email: res.data.data.email,
+          phone: res.data.data.phone,
+        };
+        dispatch(fetchInfo(data));
+        return callApi("user/list-account", "GET", null, token).then((res) => {
+          let list = res.data.data;
+          dispatch(fetchListAccount(list));
+        });
+      } else console.log(res.data.message);
     });
   };
 };

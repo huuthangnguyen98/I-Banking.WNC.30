@@ -10,7 +10,7 @@ import allnotifications from "../components/Customer/allNotifications";
 class EmpRoutes extends Component {
   render() {
     return (
-      <div>
+      <div className="mt-4">
         <Route path="/" exact component={Home} />
         <Route path="/customer/receivers" component={Receivers} />
         <Route path="/customer/transfer" component={Transfer} />

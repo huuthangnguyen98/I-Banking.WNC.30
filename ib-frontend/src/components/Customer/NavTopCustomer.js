@@ -4,19 +4,15 @@ import * as actions from "../../actions/index";
 import { Link } from "react-router-dom";
 import * as CustomerActions from "../../actions/CustomerActions";
 class Nav extends Component {
+  handle = () => {
+    this.props.onToogle_showNotifi();
+    this.props.onToogle_newNotifi(false);
+  };
+
   render() {
     const username = localStorage.getItem("username");
-    const notiCSs = {
-      border: "none",
-      overflowWrap: "break-word",
-    };
-    const { notifications, UIState } = this.props;
-    const list_noti_show = notifications.slice(0, 4).map((item) => (
-      <li className="list-group-item" style={notiCSs} key={item.id}>
-        <small>{item.content}</small>
-        <small style={{ color: "blue" }}> - {item.updated_at}</small>
-      </li>
-    ));
+
+    const { UIState } = this.props;
 
     return (
       <div className="container-fluid">
@@ -24,55 +20,45 @@ class Nav extends Component {
           <Link className="navbar-brand" to="/">
             30-BANK
           </Link>
-
           <div className="collapse navbar-collapse">
             <ul className="navbar-nav ml-auto">
               <li className="nav-item active">
-                <a className="nav-link">{username}</a>
+                <span className="nav-link">{username}</span>
               </li>
-              <li className="nav-item dropdown">
-                <a
+              <li className="nav-item  mr-2 ml-2">
+                <span
                   className="nav-link"
-                  id="notiDropdown"
-                  role="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
                   style={{ cursor: "pointer" }}
-                  onClick={() => this.props.onToogle_newNotifi(false)}
+                  onClick={() => this.handle()}
                 >
                   {UIState.hasNewNotifi ? (
-                    <i
-                      className="fa fa-bell fa-lg"
-                      style={{ color: "red" }}
-                      aria-hidden="true"
-                    ></i>
+                    <span>
+                      <i
+                        className="fa fa-bell fa-lg"
+                        aria-hidden="true"
+                        style={Object.assign(
+                          { pointerEvents: "none" },
+                          { color: "red" }
+                        )}
+                      ></i>{" "}
+                      <span className="badge badge-danger notibtn">
+                        {UIState.num}
+                      </span>
+                    </span>
                   ) : (
-                    <i className="fa fa-bell-o fa-lg" aria-hidden="true"></i>
+                    <span>
+                      {" "}
+                      <i
+                        className="fa fa-bell-o fa-lg"
+                        aria-hidden="true"
+                        style={{ pointerEvents: "none" }}
+                      ></i>
+                    </span>
                   )}
-                </a>
-                <div
-                  className="dropdown-menu dropdown-menu-right"
-                  aria-labelledby="notiDropdown"
-                  style={{ width: "400px" }}
-                >
-                  <ul className="list-group">
-                    {list_noti_show}
-
-                    <Link
-                      to="/customer/allnotifications"
-                      style={{ textDecoration: "none" }}
-                    >
-                      <button className="dropdown-item">
-                        <small style={{ color: "blue" }}>Xem tất cả</small>
-                      </button>
-                    </Link>
-                  </ul>
-                </div>
+                </span>
               </li>
-
               <li className="nav-item dropdown" style={{ cursor: "pointer" }}>
-                <a
+                <span
                   className="nav-link dropdown-toggle"
                   id="navbarDropdown"
                   role="button"
@@ -84,7 +70,7 @@ class Nav extends Component {
                     className="fa fa-user-circle-o fa-lg"
                     aria-hidden="true"
                   ></i>
-                </a>
+                </span>
                 <div
                   className="dropdown-menu dropdown-menu-right"
                   aria-labelledby="navbarDropdown"
@@ -129,6 +115,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onToogle_newNotifi: (status) => {
       dispatch(CustomerActions.toogle_newNotifi(status));
+    },
+    onToogle_showNotifi: () => {
+      dispatch(CustomerActions.toogle_showNotifi());
     },
   };
 };

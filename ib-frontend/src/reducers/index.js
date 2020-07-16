@@ -12,6 +12,7 @@ import listDebtsByUser from "./Customer/listDebtsByUser";
 import listDebtsToUser from "./Customer/listDebtsToUser";
 import UIState from "./UIState";
 import notifications from "./Customer/notifications";
+import debtDetail from "./Customer/debtDetail";
 export default combineReducers({
   Auth,
   customerProfile,
@@ -26,4 +27,5 @@ export default combineReducers({
   listDebtsToUser,
   UIState,
   notifications,
+  debtDetail,
 });

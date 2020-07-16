@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-//import * as CustomerActions from "../../actions/CustomerActions";
 import thousandify from "thousandify";
 class ShowUnpaid extends Component {
   constructor(props) {
@@ -19,122 +17,58 @@ class ShowUnpaid extends Component {
     });
   };
   render() {
-    const { listDebtsToUser } = this.props;
+    const {
+      listDebtsToUser,
+      _onCancelDebtToUser,
+      _onPayback,
+      show_detailDebt,
+    } = this.props;
 
     const listDebtsToUser_showUnpaid = listDebtsToUser
       .filter((item) => item.status === 1)
-      .map((item) => {
+      .map((item) => (
         //--- copy from toUserList
-        if (item.status === 0)
-          return (
-            //Paid
-            <tr key={item.debtor_id}>
-              <td>
-                <span className="badge badge-pill badge-success">đã trả</span>
-              </td>
-              <th scope="row">{item.reveiver_account_number}</th>
-              <td>{thousandify(item.amount)}</td>
-              <td>
-                <button
-                  className="btn btn-success btn-sm mr-2"
-                  data-toggle="modal"
-                  data-target="#debtDetailToUser"
-                  onClick={() =>
-                    this.setState({
-                      id: item.reveiver_account_number,
-                      amount: item.amount,
-                      des: item.description,
-                      created_at: item.created_at,
-                    })
-                  }
-                  style={{ fontSize: "12px" }}
-                >
-                  Chi tiết
-                </button>
-              </td>
-            </tr>
-          );
-        if (item.status === 2)
-          return (
-            //Canceled
-            <tr key={item.debtor_id}>
-              <td>
-                <span className="badge badge-pill badge-secondary">đã hủy</span>
-              </td>
-              <th scope="row">{item.reveiver_account_number}</th>
-              <td>{thousandify(item.amount)}</td>
-              <td>
-                <button
-                  className="btn btn-success btn-sm mr-2"
-                  data-toggle="modal"
-                  data-target="#debtDetailToUser"
-                  onClick={() =>
-                    this.setState({
-                      id: item.reveiver_account_number,
-                      amount: item.amount,
-                      des: item.description,
-                      created_at: item.created_at,
-                    })
-                  }
-                  style={{ fontSize: "12px" }}
-                >
-                  Chi tiết
-                </button>
-              </td>
-            </tr>
-          );
-        if (item.status === 1)
-          return (
-            <tr key={item.debtor_id}>
-              <td>
-                <span className="badge badge-pill badge-danger">chưa trả</span>
-              </td>
-              <th scope="row">{item.reveiver_account_number}</th>
-              <td>{thousandify(item.amount)}</td>
-              <td>
-                <button
-                  className="btn btn-success btn-sm mr-2"
-                  data-toggle="modal"
-                  data-target="#debtDetailToUser"
-                  onClick={() =>
-                    this.setState({
-                      id: item.reveiver_account_number,
-                      amount: item.amount,
-                      des: item.description,
-                      created_at: item.created_at,
-                    })
-                  }
-                  style={{ fontSize: "12px" }}
-                >
-                  Chi tiết
-                </button>
-                <button
-                  className="btn btn-danger btn-sm mr-2"
-                  onClick={() => this._onCancelDebtToUser(item.debtor_id)}
-                  style={{ fontSize: "12px" }}
-                >
-                  Hủy
-                </button>
-                <button
-                  className="btn btn-warning btn-sm mr-2"
-                  onClick={() => {
-                    this.setState({
-                      toId: item.reveiver_account_number,
-                      toAmount: item.amount,
-                    });
-                    this._onPayback(item.debtor_id);
-                  }}
-                  style={{ fontSize: "12px" }}
-                >
-                  Thanh toán
-                </button>
-              </td>
-            </tr>
-          );
-
-        return null;
+        <tr key={item.debtor_id}>
+          <td>
+            <span className="badge badge-pill badge-danger">chưa trả</span>
+          </td>
+          <th scope="row">{item.reveiver_account_number}</th>
+          <td>{thousandify(item.amount)}</td>
+          <td>{item.debtor_id}</td>
+          <td>
+            <button
+              className="btn btn-success btn-sm mr-2"
+              data-toggle="modal"
+              data-target="#debtDetailComponent"
+              onClick={() => show_detailDebt(item.debtor_id)}
+              style={{ fontSize: "12px" }}
+            >
+              Chi tiết
+            </button>
+            <button
+              className="btn btn-danger btn-sm mr-2"
+              onClick={() => _onCancelDebtToUser(item.debtor_id)}
+              style={{ fontSize: "12px" }}
+            >
+              Hủy
+            </button>
+            <button
+              className="btn btn-warning btn-sm mr-2"
+              onClick={() => {
+                this.setState({
+                  toId: item.reveiver_account_number,
+                  toAmount: item.amount,
+                });
+                _onPayback(item.debtor_id);
+              }}
+              style={{ fontSize: "12px" }}
+            >
+              Thanh toán
+            </button>
+          </td>
+        </tr>
         //------------------------
-      });
+      ));
     if (this.state.show)
       var dash = (
         <div>
@@ -157,7 +91,7 @@ class ShowUnpaid extends Component {
                 <th scope="col">
                   Số tiền <small>(VNĐ)</small>
                 </th>
-
+                <th scope="col">Mã</th>
                 <th scope="col">Thao tác</th>
               </tr>
             </thead>
@@ -181,67 +115,9 @@ class ShowUnpaid extends Component {
         </div>
 
         {dash}
-        {/* Modal to show debt detail to User */}
-        <div
-          className="modal fade"
-          id="debtDetailToUserUnpaid"
-          tabIndex="-1"
-          role="dialog"
-          aria-labelledby="my-modal"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog  modal-sm" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h6 className="modal-title" id="exampleModalLabel">
-                  Thông tin chi tiết
-                </h6>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <div className="container">
-                  <div>
-                    <span className="badge badge-pill badge-secondary mr-2">
-                      TK nhắc nợ
-                    </span>{" "}
-                    {this.state.id}
-                  </div>
-                  <div>
-                    <span className="badge badge-pill badge-warning mr-2">
-                      Số tiền
-                    </span>{" "}
-                    {thousandify(this.state.amount)} <small>VNĐ</small>
-                  </div>
-                  <div>
-                    <span className="badge badge-pill badge-info mr-2">
-                      Nội dung
-                    </span>{" "}
-                    <small> {this.state.des}</small>
-                  </div>
-                  <div>
-                    <span className="badge badge-pill badge-success mr-2">
-                      Thời gian tạo
-                    </span>{" "}
-                    <small> {this.state.created_at}</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     );
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {};
-};
-export default connect(null, mapDispatchToProps)(ShowUnpaid);
+export default ShowUnpaid;

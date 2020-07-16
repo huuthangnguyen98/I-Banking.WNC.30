@@ -1,13 +1,19 @@
-export const ADD_CUSTOMER = "ADD_CUSTOMER";
+// For Logging user
 export const LOGIN_CUSTOMER = "LOGIN_CUSTOMER";
 export const LOGIN_EMPLOYEE = "LOGIN_EMPLOYEE";
 export const LOGIN_ADMIN = "LOGIN_ADMIN";
 export const LOGOUT = "LOGOUT";
 export const WRONG_LOGGING = "WRONG_LOGGING";
 
+// For Customer
 export const FETCH_INFO = "FETCH_INFO";
 export const FETCH_NOTIFICATIONS = "FETCH_NOTIFICATIONS";
 export const TOGGLE_NEWNOTIFI = "TOGGLE_NEWNOTIFI";
+export const TOGGLE_SHOW_NOTIFI = "TOGGLE_SHOW_NOTIFI";
+export const HIDE_NOTIFI = "HIDE_NOTIFI";
+export const READ_ALL_NOTIFI = "READ_ALL_NOTIFI";
+export const READ_A_NOTIFICATION = "READ_A_NOTIFICATION"; // Đánh dấu đã đọc 1 notification
+export const FETCH_DEBT_DETAIL = "FETCH_DEBT_DETAIL"; // Lấy thông tin của 1 debt
 export const FETCH_LIST_ACCOUNT = "FETCH_LIST_ACCOUNT";
 export const FETCH_RECEIVERS = "FETCH_RECEIVERS";
 export const ADD_RECEIVER = "ADD_RECEIVER";
@@ -19,6 +25,7 @@ export const ADD_DEBT = "ADD_DEBT";
 export const CANCEL_DEBT_BY_USER = "CANCEL_DEBT_BY_USER";
 export const CANCEL_DEBT_TO_USER = "CANCEL_DEBT_TO_USER";
 
+// For Employee
 export const CREATE_CUSTOMER = "CREATE_CUSTOMER";
 export const GET_HISTORY = "GET_HISTORY";
 export const FETCH_HISTORY = "FETCH_HISTORY";
@@ -27,9 +34,11 @@ export const FETCH_LIST_TRANSER = "FETCH_LIST_TRANSER";
 export const FETCH_LIST_DEBT = "FETCH_LIST_DEBT";
 export const FETCH_ALL_TYPES_TRANS = "FETCH_ALL_TYPES_TRANS";
 
+// For Admin
 export const FETCH_LIST_EMPLOYEE = "FETCH_LIST_EMPLOYEE";
 export const ADD_EMPLOYEE = "ADD_EMPLOYEE";
 export const UPDATE_EMPLOYEE = "UPDATE_EMPLOYEE";
 export const REMOVE_EMPLOYEE = "REMOVE_EMPLOYEE";
 
+// For UI displaying
 export const TOOGLE_OTP_FORM = "TOOGLE_OTP_FORM";

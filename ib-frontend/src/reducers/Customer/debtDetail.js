@@ -1,15 +1,14 @@
 import * as types from "../../constants/ActionTypes";
-var intState = [];
+var intState = {};
 let newState;
-const historyTransfer = (state = intState, action) => {
+const debtDetail = (state = intState, action) => {
   switch (action.type) {
-    case types.FETCH_LIST_TRANSER:
+    case types.FETCH_DEBT_DETAIL:
       newState = action.data;
-      console.log(newState);
       return newState;
     default:
       return state;
   }
 };
 
-export default historyTransfer;
+export default debtDetail;

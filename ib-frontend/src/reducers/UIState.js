@@ -2,6 +2,8 @@ import * as types from "../constants/ActionTypes";
 var intState = {
   otpFrom: false,
   hasNewNotifi: false,
+  showNotifi: false,
+  num: 0,
 };
 let newState;
 const UIState = (state = intState, action) => {
@@ -13,6 +15,15 @@ const UIState = (state = intState, action) => {
     case types.TOGGLE_NEWNOTIFI:
       newState = Object.assign({}, state);
       newState.hasNewNotifi = action.status;
+      newState.num = action.num;
+      return newState;
+    case types.TOGGLE_SHOW_NOTIFI:
+      newState = Object.assign({}, state);
+      newState.showNotifi = !state.showNotifi;
+      return newState;
+    case types.HIDE_NOTIFI:
+      newState = Object.assign({}, state);
+      newState.showNotifi = false;
       return newState;
     default:
       return state;

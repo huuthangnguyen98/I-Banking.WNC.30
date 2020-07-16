@@ -2,7 +2,7 @@ import * as types from "../constants/ActionTypes";
 import callApi from "../utils/apiCaller";
 import { changePw } from "./index";
 import store from "../index";
-import notifications from "../reducers/Customer/notifications";
+import * as config from "../constants/config";
 export const fetchInfo = (data) => {
   return {
     type: types.FETCH_INFO,
@@ -364,11 +364,21 @@ export const fetchNotifications = (data) => {
   };
 };
 
+// GET notification lúc vừa đăng nhập
 export const firstfetchNotificationsReq = () => {
   const token = localStorage.getItem("token");
   return (dispatch) => {
     return callApi("user/get-notification", "GET", null, token).then((res) => {
       if (res.data.code === 0) {
+        const list_notifi = res.data.data;
+        let num = 0;
+        list_notifi.forEach((item) => {
+          if (item.status === 0) {
+            num++;
+            // Has unread notification
+          }
+        });
+        if (num !== 0) dispatch(toogle_newNotifi(true, num));
         dispatch(fetchNotifications(res.data.data));
       } else {
         console.log(res.data.message);
@@ -377,13 +387,25 @@ export const firstfetchNotificationsReq = () => {
   };
 };
 
+// GET notification trong phiên sử dụng
 export const fetchNotificationsReq = () => {
   const token = localStorage.getItem("token");
   return (dispatch) => {
     return callApi("user/get-notification", "GET", null, token).then((res) => {
       if (res.data.code === 0) {
-        if (store.getState().notifications.length < res.data.data.length) {
-          dispatch(toogle_newNotifi(true));
+        const oldNum = store.getState().notifications.length;
+        const newNum = res.data.data.length;
+        // Số noti tăng lên trong phiên làm việc
+        if (oldNum < newNum) {
+          const list_notifi = res.data.data;
+          let num = 0;
+          list_notifi.forEach((item) => {
+            if (item.status === 0) {
+              num++;
+              // Has unread notification
+            }
+          });
+          dispatch(toogle_newNotifi(true, num));
           dispatch(fetchNotifications(res.data.data));
         }
       } else {
@@ -393,9 +415,85 @@ export const fetchNotificationsReq = () => {
   };
 };
 
-export const toogle_newNotifi = (status) => {
+export const toogle_newNotifi = (status, num) => {
   return {
     type: types.TOGGLE_NEWNOTIFI,
     status,
+    num,
+  };
+};
+
+export const toogle_showNotifi = () => {
+  return {
+    type: types.TOGGLE_SHOW_NOTIFI,
+  };
+};
+
+export const hide_notifi = () => {
+  return {
+    type: types.HIDE_NOTIFI,
+  };
+};
+
+export const read_all_notifi = () => {
+  return {
+    type: types.READ_ALL_NOTIFI,
+  };
+};
+
+export const read_all_notifiReq = () => {
+  const token = localStorage.getItem("token");
+  return (dispatch) => {
+    return callApi("user/read-all", "GET", null, token).then((res) => {
+      if (res.data.code === 0) {
+        dispatch(read_all_notifi());
+      } else {
+        console.log(res.data.message);
+      }
+    });
+  };
+};
+
+export const read_a_notification = (id) => {
+  return {
+    type: types.READ_A_NOTIFICATION,
+    id,
+  };
+};
+
+export const read_a_notificationReq = (id) => {
+  const token = localStorage.getItem("token");
+  return (dispatch) => {
+    return callApi(`user/read-notification?id=${id}`, "GET", null, token).then(
+      (res) => {
+        if (res.data.code === 0) {
+          dispatch(read_a_notification(id));
+        } else {
+          console.log(res.data.message);
+        }
+      }
+    );
+  };
+};
+
+export const fetchDebtDetail = (data) => {
+  return {
+    type: types.FETCH_DEBT_DETAIL,
+    data,
+  };
+};
+
+export const fetchDebtDetailReq = (id) => {
+  const token = localStorage.getItem("token");
+  return (dispatch) => {
+    return callApi("user/get-debt", "POST", { debt_id: id }, token).then(
+      (res) => {
+        if (res.data.code === 0) {
+          dispatch(fetchDebtDetail(res.data.data));
+        } else {
+          console.log(res.data.message);
+        }
+      }
+    );
   };
 };

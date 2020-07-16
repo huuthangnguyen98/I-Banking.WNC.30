@@ -4,6 +4,7 @@ import { defaultBank } from "../../../constants/config";
 import * as CustomerActions from "../../../actions/CustomerActions";
 //import apiCaller from "../../../utils/apiCaller";
 //import { checkAccountValid } from "../"
+import * as config from "../../../constants/config";
 import callApi from "../../../utils/apiCaller";
 class LienNh extends Component {
   constructor(props) {
@@ -24,15 +25,18 @@ class LienNh extends Component {
   };
   checkValidAccount = (id, trans) => {
     const token = localStorage.getItem("token");
-    return callApi("account/info", "POST", { account_number: id }, token).then(
-      (res) => {
-        if (res.data.code !== 0) {
-          alert("Số tài khoản không hợp lệ/ không tồn tại.");
-        } else {
-          this.sendReq(trans);
-        }
+    return callApi(
+      "account/info",
+      "POST",
+      { account_number: id, account_bank: config.defaultBank },
+      token
+    ).then((res) => {
+      if (res.data.code !== 0) {
+        alert("Số tài khoản không hợp lệ/ không tồn tại.");
+      } else {
+        this.sendReq(trans);
       }
-    );
+    });
   };
   formValide = (e) => {
     let error = false;

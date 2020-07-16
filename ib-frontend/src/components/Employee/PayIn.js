@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import callApi from "../../utils/apiCaller";
 import { connect } from "react-redux";
 import * as EmployeeActions from "../../actions/EmployeeActions";
+import * as config from "../../constants/config";
+import thousandify from "thousandify";
 class PayIn extends Component {
   constructor(props) {
     super(props);
@@ -15,22 +17,25 @@ class PayIn extends Component {
   _confirm = () => {
     const token = localStorage.getItem("token");
     const id = this.refs.id.value;
-    callApi("account/info", "POST", { account_number: id }, token).then(
-      (res) => {
-        if (res.data.code !== 0) {
-          alert("Số tài khoản không hợp lệ/ không tồn tại.");
-          this.setState({
-            confimed: false,
-          });
-        } else {
-          this.setState({
-            confimed: true,
-            name: res.data.data.account_name,
-            type: res.data.data.account_type,
-          });
-        }
+    callApi(
+      "account/info",
+      "POST",
+      { account_number: id, account_bank: config.defaultBank },
+      token
+    ).then((res) => {
+      if (res.data.code !== 0) {
+        alert("Số tài khoản không hợp lệ/ không tồn tại.");
+        this.setState({
+          confimed: false,
+        });
+      } else {
+        this.setState({
+          confimed: true,
+          name: res.data.data.account_name,
+          type: res.data.data.account_type,
+        });
       }
-    );
+    });
   };
   render() {
     let account_info;
@@ -106,11 +111,19 @@ class PayIn extends Component {
                 type="button"
                 className="btn btn-primary"
                 onClick={() => {
-                  if (window.confirm("Xác nhận nạp tiền vào tài khoản?"))
+                  if (
+                    window.confirm(
+                      `Xác nhận nạp ${thousandify(
+                        this.refs.amount.value
+                      )} VNĐ vào tài khoản ${this.refs.id.value} ?`
+                    )
+                  ) {
                     this.props.onPayIn(
                       this.refs.id.value,
                       this.refs.amount.value
                     );
+                    this._confirm();
+                  }
                 }}
               >
                 Xác nhận

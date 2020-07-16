@@ -4,6 +4,7 @@ import { defaultBank } from "../../../constants/config";
 import * as CustomerActions from "../../../actions/CustomerActions";
 import callApi from "../../../utils/apiCaller";
 import thousandify from "thousandify";
+import * as config from "../../../constants/config";
 class Noibo extends Component {
   constructor(props) {
     super(props);
@@ -26,15 +27,18 @@ class Noibo extends Component {
   };
   checkValidAccount = (id, trans) => {
     const token = localStorage.getItem("token");
-    return callApi("account/info", "POST", { account_number: id }, token).then(
-      (res) => {
-        if (res.data.code !== 0) {
-          alert("Số tài khoản không hợp lệ/ không tồn tại.");
-        } else {
-          this.sendReq(trans);
-        }
+    return callApi(
+      "account/info",
+      "POST",
+      { account_number: id, account_bank: config.defaultBank },
+      token
+    ).then((res) => {
+      if (res.data.code !== 0) {
+        alert("Số tài khoản không hợp lệ/ không tồn tại.");
+      } else {
+        this.sendReq(trans);
       }
-    );
+    });
   };
   formValide = (e) => {
     e.preventDefault();
@@ -251,7 +255,7 @@ class Noibo extends Component {
             <input type="text" className="form-control" ref="des" />
           </div>
 
-          <div className="form-group">
+          {/* <div className="form-group">
             <label htmlFor="exampleFormControlSelect1">
               Hình thức thanh toán phí
             </label>
@@ -259,7 +263,7 @@ class Noibo extends Component {
               <option>Người nhận trả phí</option>
               <option>Người gửi trả phí</option>
             </select>
-          </div>
+          </div> */}
 
           <div className="d-flex justify-content-center mt-2">
             <button type="submit" className="btn btn-primary">
