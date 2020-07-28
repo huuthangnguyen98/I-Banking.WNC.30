@@ -72,7 +72,7 @@ class AddEmployee extends Component {
             </div>
           </div>
           <div className="form-row">
-            <div className="form-group col-sm-5">
+            <div className="form-group col-sm-8">
               <input
                 type="email"
                 className="form-control"
@@ -80,7 +80,7 @@ class AddEmployee extends Component {
                 ref="email"
               />
             </div>
-            <div className="form-group col-sm-5">
+            <div className="form-group col-sm-4">
               <input
                 type="text"
                 className="form-control"
@@ -88,11 +88,11 @@ class AddEmployee extends Component {
                 ref="pw"
               />
             </div>
-            <div className="form-group col-sm-2">
-              <button type="submit" className="btn btn-primary">
-                Thêm
-              </button>
-            </div>
+          </div>
+          <div className="d-flex justify-content-center">
+            <button type="submit" className="btn btn-primary">
+              Thêm nhân viên
+            </button>
           </div>
         </form>
       </div>

@@ -1,13 +1,21 @@
 import * as types from "../constants/ActionTypes";
 import callApi from "../utils/apiCaller";
+import { show_spinner, hide_spinner } from "./index";
 
 export const createCustomer = (customer) => {
   let token = localStorage.getItem("token");
-  return () => {
+  return (dispatch) => {
+    // show spinner
+    dispatch(show_spinner());
+    // //
+
     return callApi("user/create", "POST", customer, token).then((res) => {
+      //hide spinner
+      dispatch(hide_spinner());
+      // //
       if (res.data.code === 0) alert("Tạo tài khoản thành công!");
       else {
-        console.log(res.data.message);
+        console.log(res.data.message + " : " + res.data.code);
         alert("Tạo tài khoản thất bại! Vui lòng thử lại");
       }
     });
@@ -16,16 +24,19 @@ export const createCustomer = (customer) => {
 
 export const payIn = (id, amount) => {
   let token = localStorage.getItem("token");
-  return () => {
+  return (dispatch) => {
     return callApi(
       "account/pay-in",
       "POST",
       { to_account_number: id, amount },
       token
     ).then((res) => {
+      //hide spinner
+      dispatch(hide_spinner());
+      // //
       if (res.data.code === 0) alert("Nạp tiền thành công!");
       else {
-        console.log(res.data.message);
+        console.log(res.data.message + " : " + res.data.code);
         alert("Nạp tiền thất bại! Vui lòng thử lại");
       }
     });
@@ -35,6 +46,10 @@ export const payIn = (id, amount) => {
 export const getHistoryReq = (id, type) => {
   let token = localStorage.getItem("token");
   return (dispatch) => {
+    // show spinner
+    dispatch(show_spinner());
+    // //
+
     return callApi(
       "account/list-transactions",
       "POST",
@@ -44,6 +59,10 @@ export const getHistoryReq = (id, type) => {
       // 1 chuyển khoản
       // 2 thanh toán nợ
       // 3 nhận tiền
+
+      // hide spinner
+      dispatch(hide_spinner());
+
       switch (type) {
         case 1:
           dispatch(fetchHistoryTransfer(res.data.data.list_transfers));

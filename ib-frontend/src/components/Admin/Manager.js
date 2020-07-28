@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as AdminActions from "../../actions/AdminActions";
+import * as Actions from "../../actions/index";
 class Manager extends Component {
   constructor(props) {
     super(props);
@@ -17,6 +18,9 @@ class Manager extends Component {
     }
   };
   componentDidMount() {
+    const { listEmp } = this.props;
+    console.log(listEmp.length);
+    if (listEmp.length === 0) this.props.on_showSpinner();
     const self = this;
     self.props.onFetchListEmployee();
   }
@@ -86,6 +90,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onRemoveEmployee: (id) => {
       dispatch(AdminActions.removeEmployeeReq(id));
+    },
+    on_showSpinner: () => {
+      dispatch(Actions.show_spinner());
     },
   };
 };

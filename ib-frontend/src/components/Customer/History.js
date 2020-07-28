@@ -6,6 +6,7 @@ import thousandify from "thousandify";
 import Pagination from "react-js-pagination";
 import * as config from "../../constants/config";
 import HistoryDetail from "./HistoryDetail";
+import * as Actions from "../../actions/index";
 class History extends Component {
   constructor(props) {
     super(props);
@@ -54,7 +55,7 @@ class History extends Component {
     if (typ === 1) type = 3; // payin
     if (typ === 2) type = 1; // transfer
     if (typ === 3) type = 2; // debt
-
+    this.props.on_showSpinner();
     this.props.onGetHistory(id, type);
     callApi(
       "account/info",
@@ -499,6 +500,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onGetHistory: (id, type) => {
       dispatch(EmployeeActions.getHistoryReq(id, type));
+    },
+    on_showSpinner: () => {
+      dispatch(Actions.show_spinner());
     },
   };
 };

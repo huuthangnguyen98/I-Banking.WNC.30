@@ -5,16 +5,18 @@ import * as CustomerActions from "../../../actions/CustomerActions";
 import callApi from "../../../utils/apiCaller";
 import thousandify from "thousandify";
 import * as config from "../../../constants/config";
+import * as Actions from "../../../actions/index";
 class Noibo extends Component {
   constructor(props) {
     super(props);
     this.state = {
       class: true,
-      // reqOtp: false,
       ngNhan: "",
       ngNhanErr: "",
       sotien: 0,
       sotienErr: "",
+      confirmed: false,
+      nameRe: "",
     };
   }
   componentWillUnmount() {
@@ -23,9 +25,39 @@ class Noibo extends Component {
   changeClass = () => {
     this.setState({
       class: !this.state.class,
+      confirmed: false,
     });
   };
+
+  _validate = () => {
+    console.log("checking");
+    const token = localStorage.getItem("token");
+    return callApi(
+      "account/info",
+      "POST",
+      {
+        account_number: this.state.ngNhan,
+        account_bank: config.defaultBank,
+      },
+      token
+    ).then((res) => {
+      if (res.data.code !== 0) {
+        alert("Số tài khoản không hợp lệ/ không tồn tại.");
+        this.setState({
+          confirmed: false,
+        });
+      } else {
+        // console.log(res.data.data);
+        this.setState({
+          confirmed: true,
+          nameRe: res.data.data.account_name,
+        });
+      }
+    });
+  };
+
   checkValidAccount = (id, trans) => {
+    this.props.on_showSpinner();
     const token = localStorage.getItem("token");
     return callApi(
       "account/info",
@@ -110,9 +142,6 @@ class Noibo extends Component {
     }
   };
   sendReq = (trans) => {
-    // this.setState({
-    //   reqOtp: true,
-    // });
     this.props.onSendOtpTransfer(trans);
   };
   _conirmTransfer = () => {
@@ -140,7 +169,6 @@ class Noibo extends Component {
       ));
     return (
       <div>
-        {/* this.state.reqOtp */}
         {UIState.otpFrom ? (
           <div className="mt-2">
             <div className="alert alert-danger" role="alert">
@@ -157,9 +185,8 @@ class Noibo extends Component {
                 Xác nhận
               </button>
               <button
-                className="btn btn-warning btn-sm ml-3 mb-2"
+                className="btn btn-warning ml-3 mb-2"
                 onClick={() => this._cancelTransfer()}
-                style={{ fontSize: "12px" }}
               >
                 Hủy
               </button>
@@ -218,6 +245,9 @@ class Noibo extends Component {
             </div>
           ) : (
             <div className="form-group mt-2">
+              <label htmlFor="exampleFormControlSelect1">
+                Nhập số tài khoản
+              </label>
               <span style={{ color: "red" }}>{this.state.ngNhanErr}</span>
               <input
                 type="text"
@@ -229,47 +259,61 @@ class Noibo extends Component {
                   });
                 }}
               />
+              <div className="d-flex justify-content-center mt-2">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => this._validate()}
+                >
+                  Kiểm tra
+                </button>
+              </div>
+
+              {this.state.confirmed ? (
+                <div className="container mt-2">
+                  <div
+                    className="row  p-2 rounded"
+                    style={{ backgroundColor: "#FFA07A" }}
+                  >
+                    <div className="col col-sm-4">Người nhận :</div>
+                    <div className="col col-sm-8">{this.state.nameRe}</div>
+                  </div>
+                </div>
+              ) : null}
             </div>
           )}
 
-          <div className="form-group mt-2">
+          {this.state.confirmed || this.state.class ? (
             <div>
-              <label htmlFor="inputAddress">
-                Số tiền chuyển (<small>VNĐ</small>)
-              </label>
+              <div className="form-group mt-2">
+                <div>
+                  <label htmlFor="inputAddress">
+                    Số tiền chuyển (<small>VNĐ</small>)
+                  </label>
+                </div>
+                <span style={{ color: "red" }}>{this.state.sotienErr}</span>
+                <input
+                  type="number"
+                  className="form-control"
+                  onChange={(e) => {
+                    this.setState({
+                      sotien: +e.target.value,
+                    });
+                  }}
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="inputAddress">Nội dung</label>
+                <input type="text" className="form-control" ref="des" />
+              </div>
+              <div className="d-flex justify-content-center mt-2">
+                <button type="submit" className="btn btn-primary">
+                  Chuyển tiền
+                </button>
+              </div>
             </div>
-            <span style={{ color: "red" }}>{this.state.sotienErr}</span>
-            <input
-              type="number"
-              className="form-control"
-              onChange={(e) => {
-                this.setState({
-                  sotien: +e.target.value,
-                });
-              }}
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="inputAddress">Nội dung</label>
-            <input type="text" className="form-control" ref="des" />
-          </div>
-
-          {/* <div className="form-group">
-            <label htmlFor="exampleFormControlSelect1">
-              Hình thức thanh toán phí
-            </label>
-            <select className="form-control">
-              <option>Người nhận trả phí</option>
-              <option>Người gửi trả phí</option>
-            </select>
-          </div> */}
-
-          <div className="d-flex justify-content-center mt-2">
-            <button type="submit" className="btn btn-primary">
-              Chuyển tiền
-            </button>
-          </div>
+          ) : null}
         </form>
       </div>
     );
@@ -293,6 +337,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onToogle_otpFrom: (status) => {
       dispatch(CustomerActions.toogleUI_otpFrom(status));
+    },
+    on_showSpinner: () => {
+      dispatch(Actions.show_spinner());
     },
   };
 };

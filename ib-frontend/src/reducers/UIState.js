@@ -4,6 +4,7 @@ var intState = {
   hasNewNotifi: false,
   showNotifi: false,
   num: 0,
+  spinner: false,
 };
 let newState;
 const UIState = (state = intState, action) => {
@@ -24,6 +25,14 @@ const UIState = (state = intState, action) => {
     case types.HIDE_NOTIFI:
       newState = Object.assign({}, state);
       newState.showNotifi = false;
+      return newState;
+    case types.SHOW_SPINNER:
+      newState = Object.assign({}, state);
+      newState.spinner = true;
+      return newState;
+    case types.HIDE_SPINNER:
+      newState = Object.assign({}, state);
+      newState.spinner = false;
       return newState;
     default:
       return state;

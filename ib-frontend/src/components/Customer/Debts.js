@@ -5,18 +5,11 @@ import ShowUnpaid from "./ShowUnpaid";
 import * as CustomerActions from "../../actions/CustomerActions";
 import thousandify from "thousandify";
 import Pagination from "react-js-pagination";
+import * as Actions from "../../actions/index";
 class Debts extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // reqOtp: false,
-      // des: "",
-      // created_at: "",
-      // id: "",
-      // amount: 0,
-      // toId: "",
-      // toAmount: 0,
-      //
       activePage_byUser: 1,
       activePage_toUser: 1,
     };
@@ -36,6 +29,8 @@ class Debts extends Component {
 
   componentDidMount() {
     document.title = "Quản lí nhắc nợ";
+    const { listDebtsToUser } = this.props;
+    if (listDebtsToUser.length === 0) this.props.on_showSpinner();
     var self = this;
     self.props.onFetchListDebt_all();
   }
@@ -104,17 +99,6 @@ class Debts extends Component {
               <td>
                 <button
                   className="btn btn-success btn-sm mr-2"
-                  // data-toggle="modal"
-                  // data-target="#debtDetail"
-                  // onClick={() =>
-                  //   this.setState({
-                  //     id: item.debtor_account_number,
-                  //     amount: item.amount,
-                  //     des: item.description,
-                  //     created_at: item.created_at,
-                  //   })
-                  // }
-
                   data-toggle="modal"
                   data-target="#debtDetailComponent"
                   onClick={() => this.show_detailDebt(item.debtor_id)}
@@ -138,16 +122,6 @@ class Debts extends Component {
               <td>
                 <button
                   className="btn btn-success btn-sm mr-2"
-                  // data-toggle="modal"
-                  // data-target="#debtDetail"
-                  // onClick={() =>
-                  //   this.setState({
-                  //     id: item.debtor_account_number,
-                  //     amount: item.amount,
-                  //     des: item.description,
-                  //     created_at: item.created_at,
-                  //   })
-                  // }
                   data-toggle="modal"
                   data-target="#debtDetailComponent"
                   onClick={() => this.show_detailDebt(item.debtor_id)}
@@ -170,16 +144,6 @@ class Debts extends Component {
               <td>
                 <button
                   className="btn btn-success btn-sm mr-2"
-                  // data-toggle="modal"
-                  // data-target="#debtDetail"
-                  // onClick={() =>
-                  //   this.setState({
-                  //     id: item.debtor_account_number,
-                  //     amount: item.amount,
-                  //     des: item.description,
-                  //     created_at: item.created_at,
-                  //   })
-                  // }
                   data-toggle="modal"
                   data-target="#debtDetailComponent"
                   onClick={() => this.show_detailDebt(item.debtor_id)}
@@ -222,16 +186,6 @@ class Debts extends Component {
               <td>
                 <button
                   className="btn btn-success btn-sm mr-2"
-                  // data-toggle="modal"
-                  // data-target="#debtDetailToUser"
-                  // onClick={() =>
-                  //   this.setState({
-                  //     id: item.reveiver_account_number,
-                  //     amount: item.amount,
-                  //     des: item.description,
-                  //     created_at: item.created_at,
-                  //   })
-                  // }
                   data-toggle="modal"
                   data-target="#debtDetailComponent"
                   onClick={() => this.show_detailDebt(item.debtor_id)}
@@ -255,16 +209,6 @@ class Debts extends Component {
               <td>
                 <button
                   className="btn btn-success btn-sm mr-2"
-                  // data-toggle="modal"
-                  // data-target="#debtDetailToUser"
-                  // onClick={() =>
-                  //   this.setState({
-                  //     id: item.reveiver_account_number,
-                  //     amount: item.amount,
-                  //     des: item.description,
-                  //     created_at: item.created_at,
-                  //   })
-                  // }
                   data-toggle="modal"
                   data-target="#debtDetailComponent"
                   onClick={() => this.show_detailDebt(item.debtor_id)}
@@ -287,16 +231,6 @@ class Debts extends Component {
               <td>
                 <button
                   className="btn btn-success btn-sm mr-2"
-                  // data-toggle="modal"
-                  // data-target="#debtDetailToUser"
-                  // onClick={() =>
-                  //   this.setState({
-                  //     id: item.reveiver_account_number,
-                  //     amount: item.amount,
-                  //     des: item.description,
-                  //     created_at: item.created_at,
-                  //   })
-                  // }
                   data-toggle="modal"
                   data-target="#debtDetailComponent"
                   onClick={() => this.show_detailDebt(item.debtor_id)}
@@ -439,117 +373,6 @@ class Debts extends Component {
             linkClass="page-link"
           />
         </div>
-        {/* // */}
-        {/* Modal to show debt detail by User */}
-        {/* <div
-          className="modal fade"
-          id="debtDetail"
-          tabIndex="-1"
-          role="dialog"
-          aria-labelledby="my-modal"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog  " role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h6 className="modal-title" id="exampleModalLabel">
-                  Thông tin chi tiết
-                </h6>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <div className="container">
-                  <div>
-                    <span className="badge badge-pill badge-secondary mr-2">
-                      TK nợ
-                    </span>{" "}
-                    {this.state.id}
-                  </div>
-                  <div>
-                    <span className="badge badge-pill badge-warning mr-2">
-                      Số tiền
-                    </span>{" "}
-                    {thousandify(this.state.amount)} <small>VNĐ</small>
-                  </div>
-                  <div>
-                    <span className="badge badge-pill badge-info mr-2">
-                      Nội dung
-                    </span>{" "}
-                    <small> {this.state.des}</small>
-                  </div>
-                  <div>
-                    <span className="badge badge-pill badge-success mr-2">
-                      Thời gian tạo
-                    </span>{" "}
-                    <small> {this.state.created_at}</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> */}
-        {/* Modal to show debt detail to User */}
-        {/* <div
-          className="modal fade"
-          id="debtDetailToUser"
-          tabIndex="-1"
-          role="dialog"
-          aria-labelledby="my-modal"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog  " role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h6 className="modal-title" id="exampleModalLabel">
-                  Thông tin chi tiết
-                </h6>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <div className="container">
-                  <div>
-                    <span className="badge badge-pill badge-secondary mr-2">
-                      TK nhắc nợ
-                    </span>{" "}
-                    {this.state.id}
-                  </div>
-                  <div>
-                    <span className="badge badge-pill badge-warning mr-2">
-                      Số tiền
-                    </span>{" "}
-                    {thousandify(this.state.amount)} <small>VNĐ</small>
-                  </div>
-                  <div>
-                    <span className="badge badge-pill badge-info mr-2">
-                      Nội dung
-                    </span>{" "}
-                    <small> {this.state.des}</small>
-                  </div>
-                  <div>
-                    <span className="badge badge-pill badge-success mr-2">
-                      Thời gian tạo
-                    </span>{" "}
-                    <small> {this.state.created_at}</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> */}
       </div>
     );
   }
@@ -585,6 +408,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     on_fetchDebtDetail: (id) => {
       dispatch(CustomerActions.fetchDebtDetailReq(id));
+    },
+    on_showSpinner: () => {
+      dispatch(Actions.show_spinner());
     },
   };
 };

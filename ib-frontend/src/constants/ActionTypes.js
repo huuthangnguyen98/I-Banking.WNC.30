@@ -4,6 +4,7 @@ export const LOGIN_EMPLOYEE = "LOGIN_EMPLOYEE";
 export const LOGIN_ADMIN = "LOGIN_ADMIN";
 export const LOGOUT = "LOGOUT";
 export const WRONG_LOGGING = "WRONG_LOGGING";
+export const FETCH_LIST_PARTNER = "FETCH_LIST_PARTNER";
 
 // For Customer
 export const FETCH_INFO = "FETCH_INFO";
@@ -42,3 +43,5 @@ export const REMOVE_EMPLOYEE = "REMOVE_EMPLOYEE";
 
 // For UI displaying
 export const TOOGLE_OTP_FORM = "TOOGLE_OTP_FORM";
+export const SHOW_SPINNER = "SHOW_SPINNER";
+export const HIDE_SPINNER = "HIDE_SPINNER";

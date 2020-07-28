@@ -1,10 +1,14 @@
 import * as types from "../constants/ActionTypes";
 import callApi from "../utils/apiCaller";
+import { show_spinner, hide_spinner } from "../actions/index";
 
 export const fetchListEmployeeReq = () => {
   const token = localStorage.getItem("token");
   return (dispatch) => {
     return callApi("employee/list-employee", "GET", null, token).then((res) => {
+      //hide spinner
+      dispatch(hide_spinner());
+      // //
       let list = res.data.data;
       dispatch(fetchListEmployee(list));
     });
@@ -14,6 +18,10 @@ export const fetchListEmployeeReq = () => {
 export const addEmployeeReq = (emp) => {
   const token = localStorage.getItem("token");
   return (dispatch) => {
+    // show spinner
+    dispatch(show_spinner());
+    // //
+
     return callApi(
       "employee/create",
       "POST",
@@ -25,11 +33,14 @@ export const addEmployeeReq = (emp) => {
       },
       token
     ).then((res) => {
+      //hide spinner
+      dispatch(hide_spinner());
+      // //
       if (res.data.code === 0) {
         alert("Thêm nhân viên thành công!");
         dispatch(addEmployee(res.data.data));
       } else {
-        console.log(res.data.message);
+        console.log(res.data.message + " : " + res.data.code);
         alert("Thêm nhân viên thất bại! Vui lòng thử lại.");
       }
     });
@@ -53,6 +64,10 @@ export const removeEmployee = (id) => {
 export const removeEmployeeReq = (id) => {
   const token = localStorage.getItem("token");
   return (dispatch) => {
+    // show spinner
+    dispatch(show_spinner());
+    // //
+
     return callApi(
       "employee/delete",
       "POST",
@@ -61,11 +76,14 @@ export const removeEmployeeReq = (id) => {
       },
       token
     ).then((res) => {
+      //hide spinner
+      dispatch(hide_spinner());
+      // //
       if (res.data.code === 0) {
         alert("Xóa nhân viên thành công!");
         dispatch(removeEmployee(id));
       } else {
-        console.log(res.data.message);
+        console.log(res.data.message + " : " + res.data.code);
         alert("Cập nhật thất bại! Vui lòng thử lại.");
       }
     });
@@ -83,6 +101,10 @@ export const updateEmployee = (id, name) => {
 export const updateEmployeeReq = (id, name) => {
   const token = localStorage.getItem("token");
   return (dispatch) => {
+    // show spinner
+    dispatch(show_spinner());
+    // //
+
     return callApi(
       "employee/update",
       "POST",
@@ -92,10 +114,13 @@ export const updateEmployeeReq = (id, name) => {
       },
       token
     ).then((res) => {
+      //hide spinner
+      dispatch(hide_spinner());
+      // //
       if (res.data.code === 0) {
         dispatch(updateEmployee(id, name));
       } else {
-        console.log(res.data.message);
+        console.log(res.data.message + " : " + res.data.code);
         alert("Cập nhật thất bại! Vui lòng thử lại.");
       }
     });

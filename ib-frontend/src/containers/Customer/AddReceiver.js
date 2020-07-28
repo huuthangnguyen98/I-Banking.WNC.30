@@ -18,6 +18,10 @@ class AddReceiver extends Component {
     }
   };
   render() {
+    const { Partners } = this.props;
+    const listPartners_show = Partners.map((item) => (
+      <option key={item.partnerId}>{item.partnerName}</option>
+    ));
     return (
       <form onSubmit={(e) => this._addReceiver(e)}>
         <div className="form-row">
@@ -42,7 +46,7 @@ class AddReceiver extends Component {
           <div className="form-group col-sm-10">
             <select className="form-control" ref="bank">
               <option>30Bank</option>
-              <option>BIDV</option>
+              {listPartners_show}
             </select>
           </div>
           <div className="form-group col-sm-2">
@@ -59,6 +63,7 @@ class AddReceiver extends Component {
 const mapStateToProps = (state) => {
   return {
     list: state.listReceivers,
+    Partners: state.Partners,
   };
 };
 

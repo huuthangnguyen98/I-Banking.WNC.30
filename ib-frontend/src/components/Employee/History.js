@@ -6,6 +6,7 @@ import thousandify from "thousandify";
 import Pagination from "react-js-pagination";
 import * as config from "../../constants/config";
 import HistoryDetail from "../Customer/HistoryDetail";
+import * as Actions from "../../actions/index";
 class History extends Component {
   constructor(props) {
     super(props);
@@ -35,7 +36,7 @@ class History extends Component {
   }
   _confirm = (e) => {
     e.preventDefault();
-
+    this.props.on_showSpinner();
     const token = localStorage.getItem("token");
     const id = this.refs.id.value;
     const typ = this.refs.type.selectedIndex;
@@ -487,6 +488,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onGetHistory: (id, type) => {
       dispatch(EmployeeActions.getHistoryReq(id, type));
+    },
+    on_showSpinner: () => {
+      dispatch(Actions.show_spinner());
     },
   };
 };

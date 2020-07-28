@@ -9,3 +9,26 @@
 .notibtn {
   pointer-events: none;
 }
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner:before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 100px;
+  margin-top: -20px;
+  margin-left: -50px;
+  border-radius: 50%;
+  border: 10px solid #ccc;
+  border-top-color: #000;
+  animation: spinner 1s linear infinite;
+}

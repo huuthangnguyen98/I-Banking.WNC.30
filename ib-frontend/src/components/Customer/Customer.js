@@ -5,6 +5,7 @@ import NavTopCustomer from "./NavTopCustomer";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import * as CustomerActions from "../../actions/CustomerActions";
+import { fetch_list_partnerReq } from "../../actions/index";
 import DebtDetail from "./DebtDetail";
 class Customer extends Component {
   constructor(props) {
@@ -25,6 +26,7 @@ class Customer extends Component {
     //
 
     this.props.onFetchNotifications_first();
+    this.props.on_fetchListPartner();
     var intervalID = setInterval(this.props.onFetchNotifications, 3000);
     this.setState({
       intervalID: intervalID,
@@ -136,7 +138,8 @@ class Customer extends Component {
                         className="list-group"
                         style={Object.assign(
                           { overFlowY: "scroll" },
-                          { height: "400px" },
+                          // { height: "400px" },
+                          { maxHeight: "400px" },
                           { overflowX: "hidden" }
                         )}
                       >
@@ -198,6 +201,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     on_fetchDebtDetail: (id) => {
       dispatch(CustomerActions.fetchDebtDetailReq(id));
+    },
+    on_fetchListPartner: () => {
+      dispatch(fetch_list_partnerReq());
     },
   };
 };

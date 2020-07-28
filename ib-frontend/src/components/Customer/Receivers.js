@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import AddReceiver from "../../containers/Customer/AddReceiver";
 import * as CustomerActions from "../../actions/CustomerActions";
+import * as Actions from "../../actions/index";
 class Receivers extends Component {
   componentWillUnmount() {
     document.title = "30-BANK";
@@ -9,6 +10,8 @@ class Receivers extends Component {
 
   componentDidMount() {
     document.title = "Danh sách người nhận";
+    const { list } = this.props;
+    if (list.length === 0) this.props.on_showSpinner();
     var self = this;
     self.props.onFetchReceivers();
   }
@@ -96,6 +99,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onFetchReceivers: () => {
       dispatch(CustomerActions.fetchReceiversReq());
+    },
+    on_showSpinner: () => {
+      dispatch(Actions.show_spinner());
     },
   };
 };

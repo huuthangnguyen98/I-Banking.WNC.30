@@ -1,7 +1,6 @@
 import * as types from "../constants/ActionTypes";
 import callApi from "../utils/apiCaller";
 import { fetchInfo, fetchListAccount } from "./CustomerActions";
-
 export const wrongLogging = () => {
   return {
     type: types.WRONG_LOGGING,
@@ -9,7 +8,15 @@ export const wrongLogging = () => {
 };
 export const loginWithToken = (token) => {
   return (dispatch) => {
+    // show spinner
+    dispatch(show_spinner());
+    // //
+
     return callApi("user/info", "GET", null, token).then((res) => {
+      //hide spinner
+      dispatch(hide_spinner());
+      // //
+
       if (res.data.code === 0) {
         let role = res.data.data.role;
         localStorage.setItem("username", res.data.data.full_name);
@@ -23,20 +30,28 @@ export const loginWithToken = (token) => {
           phone: res.data.data.phone,
         };
         dispatch(fetchInfo(data));
+
         return callApi("user/list-account", "GET", null, token).then((res) => {
           let list = res.data.data;
           dispatch(fetchListAccount(list));
         });
-      } else console.log(res.data.message);
+      } else console.log(res.data.message + " : " + res.data.code);
     });
   };
 };
 export const login = (username, pwd) => {
   return (dispatch) => {
+    // show spinner
+    dispatch(show_spinner());
+    // //
+
     return callApi("authenticate", "POST", {
       username,
       password: pwd,
     }).then((res) => {
+      //hide spinner
+      dispatch(hide_spinner());
+      // //
       if (res.data.data) {
         localStorage.setItem("token", res.data.data);
 
@@ -51,17 +66,24 @@ export const changePw = (oldpw, newpw, data = null) => {
   var token;
   if (data === null) token = localStorage.getItem("token");
   else token = data;
-  return () => {
+  return (dispatch) => {
+    // show spinner
+    dispatch(show_spinner());
+    // //
+
     return callApi(
       "user/change-password",
       "POST",
       { old_password: oldpw, new_password: newpw },
       token
     ).then((res) => {
+      //hide spinner
+      dispatch(hide_spinner());
+      // //
       if (res.data.code === 0) {
         alert("Thay đổi mật khẩu thành công");
       } else {
-        console.log(res.data.message);
+        console.log(res.data.message + " : " + res.data.code);
         alert("Thay đổi mật khẩu không thành công. Vui lòng thử lại");
       }
     });
@@ -90,5 +112,35 @@ export const logout = () => {
   localStorage.removeItem("token");
   return {
     type: types.LOGOUT,
+  };
+};
+
+export const show_spinner = () => {
+  return {
+    type: types.SHOW_SPINNER,
+  };
+};
+
+export const hide_spinner = () => {
+  return {
+    type: types.HIDE_SPINNER,
+  };
+};
+
+export const fetch_list_partner = (data) => {
+  return {
+    type: types.FETCH_LIST_PARTNER,
+    data,
+  };
+};
+
+export const fetch_list_partnerReq = () => {
+  const token = localStorage.getItem("token");
+  return (dispatch) => {
+    return callApi("account/list-partners", "GET", null, token).then((res) => {
+      if (res.data.code === 0) {
+        dispatch(fetch_list_partner(res.data.data));
+      } else console.log(res.data.message + " : " + res.data.code);
+    });
   };
 };
