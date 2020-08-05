@@ -18,8 +18,9 @@ class Manager extends Component {
     }
   };
   componentDidMount() {
+    // console.log(getDate());
     const { listEmp } = this.props;
-    console.log(listEmp.length);
+    //console.log(listEmp.length);
     if (listEmp.length === 0) this.props.on_showSpinner();
     const self = this;
     self.props.onFetchListEmployee();

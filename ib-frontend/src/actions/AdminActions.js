@@ -132,3 +132,56 @@ export const fetchListEmployee = (data) => {
     data,
   };
 };
+
+// export const fetchHistoryToLinkedBank = (data) => {
+//   return {
+//     type: types.FETCH_HISTORY_TO_LINKED_BANK,
+//     data,
+//   };
+// };
+
+// export const fetchHistoryFromLinkedBank = (data) => {
+//   return {
+//     type: types.FETCH_HISTORY_FROM_LINKED_BANK,
+//     data,
+//   };
+// };
+
+export const fetchStatistic = (data) => {
+  return {
+    type: types.FETCH_STATISTIC,
+    data,
+  };
+};
+
+export const fetchHistoryLinkedBankReq = (date_from, date_to, bank_name) => {
+  const token = localStorage.getItem("token");
+  return (dispatch) => {
+    // show spinner
+    dispatch(show_spinner());
+    // //
+    return callApi(
+      "admin/statistic",
+      "POST",
+      {
+        date_from,
+        date_to,
+        bank_name,
+      },
+      token
+    ).then((res) => {
+      //hide spinner
+      dispatch(hide_spinner());
+      // //
+      if (res.data.code === 0) {
+        //console.log(res.data.data);
+        // console.log(res.data.data.list_transaction_to);
+        // dispatch(fetchHistoryToLinkedBank(res.data.data.list_transaction_to));
+        // dispatch(fetchHistoryFromLinkedBank(res.data.data.list_transaction_to));
+        dispatch(fetchStatistic(res.data.data));
+      } else {
+        console.log(res.data.message + " : " + res.data.code);
+      }
+    });
+  };
+};

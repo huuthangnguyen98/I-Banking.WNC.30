@@ -92,6 +92,7 @@ class History extends Component {
       allTypesTrans,
       list,
     } = this.props;
+    // console.log(allTypesTrans);
     const listAccount = list.map((item, index) => (
       <option key={item.account_number}>{item.account_number}</option>
     ));

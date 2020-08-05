@@ -37,6 +37,9 @@ class LienNh extends Component {
 
   _validate = () => {
     const token = localStorage.getItem("token");
+    //
+    this.props.on_showSpinner();
+    //
     return callApi(
       "account/info",
       "POST",
@@ -46,6 +49,9 @@ class LienNh extends Component {
       },
       token
     ).then((res) => {
+      //
+      this.props.on_hideSpinner();
+      //
       if (res.data.code !== 0) {
         alert("Số tài khoản không hợp lệ/ không tồn tại.");
         this.setState({
@@ -122,6 +128,10 @@ class LienNh extends Component {
 
     var des = this.refs.des.value;
     if (des === "") des = "none";
+    var is_pay_fee = "";
+    const fee = this.refs.fee.selectedIndex;
+    if (fee === 0) is_pay_fee = false;
+    if (fee === 1) is_pay_fee = true;
     const trans = {
       from_account_number,
       to_account_number,
@@ -130,6 +140,7 @@ class LienNh extends Component {
       from_bank: "30Bank",
       to_bank: account_bank,
       pay_type: 0,
+      is_pay_fee,
     };
 
     if (!error) this.checkValidAccount(to_account_number, trans, account_bank);
@@ -169,167 +180,177 @@ class LienNh extends Component {
       ));
     return (
       <div>
-        {UIState.otpFrom ? (
-          <div className="mt-2">
-            <div className="alert alert-danger" role="alert">
-              Nhập mã OTP để xác nhận giao dịch.
-            </div>
-            <div className="form-inline">
-              <div className="form-group mx-sm-3 mb-2">
-                <input className="form-control" ref="otp" />
+        {
+          UIState.otpFrom ? (
+            <div className="mt-2">
+              <div className="alert alert-danger" role="alert">
+                Nhập mã OTP để xác nhận giao dịch.
               </div>
-              <button
-                className="btn btn-danger mb-2"
-                onClick={() => this._conirmTransfer()}
-              >
-                Xác nhận
-              </button>
-              <button
-                className="btn btn-warning ml-3 mb-2"
-                onClick={() => this._cancelTransfer()}
-              >
-                Hủy
-              </button>
-            </div>
-          </div>
-        ) : null}
-        <form
-          onSubmit={(e) => {
-            if (window.confirm("Xác nhận thực hiện giao dịch?"))
-              this.formValide(e);
-          }}
-        >
-          <div className="form-group">
-            <label htmlFor="exampleFormControlSelect1">
-              Chọn tài khoản thanh toán
-            </label>
-            <select className="form-control" ref="account">
-              {listAccount}
-            </select>
-          </div>
-          <div className="d-flex justify-content-around mb-2">
-            <div className="custom-control custom-radio custom-control-inline">
-              <input
-                type="radio"
-                name="trongList"
-                id="trongList"
-                className="custom-control-input"
-                checked={this.state.class}
-                onChange={() => this.changeClass()}
-              />
-              <label className="custom-control-label" htmlFor="trongList">
-                Người nhận trong danh sách
-              </label>
-            </div>
-            <div className="custom-control custom-radio custom-control-inline">
-              <input
-                type="radio"
-                name="ngoaiList"
-                id="ngoaiList"
-                className="custom-control-input"
-                checked={!this.state.class}
-                onChange={() => this.changeClass()}
-              />
-              <label className="custom-control-label" htmlFor="ngoaiList">
-                Nhập số tài khoản
-              </label>
-            </div>
-          </div>
-          {this.state.class ? (
-            <div>
-              <label htmlFor="exampleFormControlSelect1">Chọn người nhận</label>
-              <select className="form-control" ref="chonNguoiNhan">
-                {listRe_show}
-              </select>
-            </div>
-          ) : (
-            <div className="form-group mt-2">
-              <label htmlFor="exampleFormControlSelect1">Chọn ngân hàng</label>
-              <select className="form-control mb-2" ref="bankSelect">
-                {listPartners_show}
-              </select>
-              <label htmlFor="exampleFormControlSelect1">
-                Nhập số tài khoản
-              </label>
-              <span style={{ color: "red" }}>{this.state.ngNhanErr}</span>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Số tài khoản người nhận"
-                onChange={(e) => {
-                  this.setState({
-                    ngNhan: e.target.value,
-                  });
-                }}
-              />
-              <div className="d-flex justify-content-center mt-2">
+              <div className="form-inline">
+                <div className="form-group mx-sm-3 mb-2">
+                  <input className="form-control" ref="otp" />
+                </div>
                 <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={() => this._validate()}
+                  className="btn btn-danger mb-2"
+                  onClick={() => this._conirmTransfer()}
                 >
-                  Kiểm tra
+                  Xác nhận
+                </button>
+                <button
+                  className="btn btn-warning ml-3 mb-2"
+                  onClick={() => this._cancelTransfer()}
+                >
+                  Hủy
                 </button>
               </div>
+            </div>
+          ) : (
+            // ----
+            <form
+              onSubmit={(e) => {
+                if (window.confirm("Xác nhận thực hiện giao dịch?"))
+                  this.formValide(e);
+              }}
+            >
+              <div className="form-group">
+                <label htmlFor="exampleFormControlSelect1">
+                  Chọn tài khoản thanh toán
+                </label>
+                <select className="form-control" ref="account">
+                  {listAccount}
+                </select>
+              </div>
+              <div className="d-flex justify-content-around mb-2">
+                <div className="custom-control custom-radio custom-control-inline">
+                  <input
+                    type="radio"
+                    name="trongList"
+                    id="trongList"
+                    className="custom-control-input"
+                    checked={this.state.class}
+                    onChange={() => this.changeClass()}
+                  />
+                  <label className="custom-control-label" htmlFor="trongList">
+                    Người nhận trong danh sách
+                  </label>
+                </div>
+                <div className="custom-control custom-radio custom-control-inline">
+                  <input
+                    type="radio"
+                    name="ngoaiList"
+                    id="ngoaiList"
+                    className="custom-control-input"
+                    checked={!this.state.class}
+                    onChange={() => this.changeClass()}
+                  />
+                  <label className="custom-control-label" htmlFor="ngoaiList">
+                    Nhập số tài khoản
+                  </label>
+                </div>
+              </div>
+              {this.state.class ? (
+                <div>
+                  <label htmlFor="exampleFormControlSelect1">
+                    Chọn người nhận
+                  </label>
+                  <select className="form-control" ref="chonNguoiNhan">
+                    {listRe_show}
+                  </select>
+                </div>
+              ) : (
+                <div className="form-group mt-2">
+                  <label htmlFor="exampleFormControlSelect1">
+                    Chọn ngân hàng
+                  </label>
+                  <select className="form-control mb-2" ref="bankSelect">
+                    {listPartners_show}
+                  </select>
+                  <label htmlFor="exampleFormControlSelect1">
+                    Nhập số tài khoản
+                  </label>
+                  <span style={{ color: "red" }}>{this.state.ngNhanErr}</span>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Số tài khoản người nhận"
+                    onChange={(e) => {
+                      this.setState({
+                        ngNhan: e.target.value,
+                      });
+                    }}
+                  />
+                  <div className="d-flex justify-content-center mt-2">
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      onClick={() => this._validate()}
+                    >
+                      Kiểm tra
+                    </button>
+                  </div>
 
-              {this.state.confirmed ? (
-                <div className="container mt-2">
-                  <div
-                    className="row  p-2 rounded"
-                    style={{ backgroundColor: "#FFA07A" }}
-                  >
-                    <div className="col col-sm-4">Người nhận :</div>
-                    <div className="col col-sm-8">{this.state.nameRe}</div>
+                  {this.state.confirmed ? (
+                    <div className="container mt-2">
+                      <div
+                        className="row  p-2 rounded"
+                        style={{ backgroundColor: "#FFA07A" }}
+                      >
+                        <div className="col col-sm-4">Người nhận :</div>
+                        <div className="col col-sm-8">{this.state.nameRe}</div>
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
+              )}
+
+              {this.state.confirmed || this.state.class ? (
+                <div>
+                  <div className="form-group mt-2">
+                    <div>
+                      <label htmlFor="inputAddress">
+                        Số tiền chuyển <small>(VNĐ)</small>
+                      </label>
+                    </div>
+
+                    <span style={{ color: "red" }}>{this.state.sotienErr}</span>
+                    <input
+                      type="number"
+                      className="form-control"
+                      onChange={(e) => {
+                        this.setState({
+                          sotien: +e.target.value,
+                        });
+                      }}
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="inputAddress">Nội dung</label>
+                    <input type="text" className="form-control" ref="des" />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="exampleFormControlSelect1">
+                      Hình thức thanh toán phí
+                    </label>
+                    <select className="form-control" ref="fee">
+                      <option>Người nhận trả phí</option>
+                      <option>Người gửi trả phí</option>
+                    </select>
+                  </div>
+
+                  <div className="d-flex justify-content-center mt-2">
+                    <button type="submit" className="btn btn-primary">
+                      Chuyển tiền
+                    </button>
                   </div>
                 </div>
               ) : null}
-            </div>
-          )}
+            </form>
+          )
 
-          {this.state.confirmed || this.state.class ? (
-            <div>
-              <div className="form-group mt-2">
-                <div>
-                  <label htmlFor="inputAddress">
-                    Số tiền chuyển <small>(VNĐ)</small>
-                  </label>
-                </div>
-
-                <span style={{ color: "red" }}>{this.state.sotienErr}</span>
-                <input
-                  type="number"
-                  className="form-control"
-                  onChange={(e) => {
-                    this.setState({
-                      sotien: +e.target.value,
-                    });
-                  }}
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="inputAddress">Nội dung</label>
-                <input type="text" className="form-control" ref="des" />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="exampleFormControlSelect1">
-                  Hình thức thanh toán phí
-                </label>
-                <select className="form-control">
-                  <option>Người nhận trả phí</option>
-                  <option>Người gửi trả phí</option>
-                </select>
-              </div>
-
-              <div className="d-flex justify-content-center mt-2">
-                <button type="submit" className="btn btn-primary">
-                  Chuyển tiền
-                </button>
-              </div>
-            </div>
-          ) : null}
-        </form>
+          // ---
+        }
       </div>
     );
   }
@@ -345,9 +366,6 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    // onFetchInfo: () => {
-    //     dispatch(CustomerActions.fetchInfo());
-    // },
     onSendOtpTransfer: (trans) => {
       dispatch(CustomerActions.sendOtpTransfer(trans));
     },
@@ -359,6 +377,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     on_showSpinner: () => {
       dispatch(Actions.show_spinner());
+    },
+    on_hideSpinner: () => {
+      dispatch(Actions.hide_spinner());
     },
   };
 };

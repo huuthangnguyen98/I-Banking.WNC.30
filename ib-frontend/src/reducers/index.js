@@ -14,6 +14,7 @@ import UIState from "./UIState";
 import notifications from "./Customer/notifications";
 import debtDetail from "./Customer/debtDetail";
 import Partners from "./Partners";
+import statistic from "../reducers/Admin/statistic";
 export default combineReducers({
   Auth,
   customerProfile,
@@ -30,4 +31,5 @@ export default combineReducers({
   notifications,
   debtDetail,
   Partners,
+  statistic,
 });

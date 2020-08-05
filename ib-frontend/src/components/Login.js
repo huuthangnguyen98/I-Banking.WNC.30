@@ -95,7 +95,7 @@ class Login extends Component {
                 size="normal"
                 data-theme="dark"
                 render="explicit"
-                sitekey="6Lcl2KUZAAAAAMUlnRJqmHWUQdGLJdnauXabPXzD"
+                sitekey="6Ld1KrcZAAAAADtB1Fq9741cXlF3pCbng9YcO5IW"
                 onloadCallback={this.onLoadRecaptcha}
                 verifyCallback={this.verifyCallback}
                 hl="vi"

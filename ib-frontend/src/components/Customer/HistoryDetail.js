@@ -1,10 +1,18 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import thousandify from "thousandify";
+import * as config from "../../constants/config";
 class HistoryDetail extends Component {
   render() {
     const { transfer } = this.props;
-    let badgeType;
+    let badgeType, lienNH;
+    if (
+      transfer.from_bank !== config.defaultBank ||
+      transfer.to_bank !== config.defaultBank
+    )
+      lienNH = (
+        <span className="badge badge-pill badge-dark">Liên ngân hàng</span>
+      );
     switch (transfer.type) {
       case 1:
         badgeType = (
@@ -51,9 +59,11 @@ class HistoryDetail extends Component {
             <div className="modal-body container">
               <div className="row">
                 <div className="col col-sm-4">Mã giao dịch</div>
-                <div className="col col-sm-8">: {transfer.transaction_id} </div>
+                <div className="col col-sm-8">: {transfer.transaction_id}</div>
                 <div className="col col-sm-4">Loại</div>
-                <div className="col col-sm-8">: {badgeType}</div>
+                <div className="col col-sm-8">
+                  : {badgeType} {lienNH}
+                </div>
                 <div className="col col-sm-4">Tài khoản gửi</div>
                 <div className="col col-sm-8">
                   : {transfer.from_account_number}{" "}
@@ -71,9 +81,9 @@ class HistoryDetail extends Component {
                 <div className="col col-sm-4">Thời gian</div>
                 <div className="col col-sm-8">: {transfer.created_at} </div>
                 <div className="col col-sm-4">Gửi từ Ngân hàng</div>
-                <div className="col col-sm-8">: {transfer.fromBank}</div>
+                <div className="col col-sm-8">: {transfer.from_bank}</div>
                 <div className="col col-sm-4">Đến Ngân hàng</div>
-                <div className="col col-sm-8">: {transfer.toBank}</div>
+                <div className="col col-sm-8">: {transfer.to_bank}</div>
               </div>
             </div>
           </div>

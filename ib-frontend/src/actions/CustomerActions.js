@@ -140,9 +140,6 @@ export const sendOtpTransfer = (trans) => {
   const token = localStorage.getItem("token");
 
   return (dispatch) => {
-    //
-    dispatch(toogleUI_otpFrom(true));
-    //
     return callApi("account/transfer", "POST", trans, token).then((res) => {
       dispatch(hide_spinner());
       if (res.data.code === 0) {
@@ -201,7 +198,7 @@ export const confirmTransfer = (otp) => {
       // //
       if (res.data.code === 0) {
         alert("Chuyển khoản thành công!");
-        dispatch(toogleUI_otpFrom(false));
+
         dispatch(fetchListAccountReq());
       } else if (res.data.code === 1) {
         console.log(res.data.message + " : " + res.data.code);
@@ -210,6 +207,7 @@ export const confirmTransfer = (otp) => {
         console.log(res.data.message + " : " + res.data.code);
         alert("Chuyển khoản thất bại. Vui lòng thử lại");
       }
+      dispatch(toogleUI_otpFrom(false));
     });
   };
 };

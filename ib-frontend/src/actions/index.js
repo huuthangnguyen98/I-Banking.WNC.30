@@ -8,14 +8,14 @@ export const wrongLogging = () => {
 };
 export const loginWithToken = (token) => {
   return (dispatch) => {
-    // show spinner
-    dispatch(show_spinner());
-    // //
+    // // show spinner
+    // dispatch(show_spinner());
+    // // //
 
     return callApi("user/info", "GET", null, token).then((res) => {
-      //hide spinner
-      dispatch(hide_spinner());
-      // //
+      // //hide spinner
+      // dispatch(hide_spinner());
+      // // //
 
       if (res.data.code === 0) {
         let role = res.data.data.role;
