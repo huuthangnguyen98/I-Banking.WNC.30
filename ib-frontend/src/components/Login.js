@@ -6,8 +6,10 @@ import { loadReCaptcha, ReCaptcha } from "react-recaptcha-google";
 class Login extends Component {
   constructor(props) {
     super(props);
-    // if (localStorage.getItem("token"))
-    //     this.props.onLoginWithToken(localStorage.getItem("token"));
+    // Auto-login
+    // const token = localStorage.getItem("token");
+    // if (token) this.props.onLoginWithToken(token);
+    //--------
     this.onLoadRecaptcha = this.onLoadRecaptcha.bind(this);
     this.verifyCallback = this.verifyCallback.bind(this);
     this.state = {
@@ -26,7 +28,7 @@ class Login extends Component {
       });
 
     // Disable recaptcha
-    // this.props.onLogin(username, pwd);
+    //  this.props.onLogin(username, pwd);
   };
   componentDidMount() {
     loadReCaptcha();

@@ -8,10 +8,10 @@ import Employee from "./components/Employee/Employee";
 import * as actions from "./actions/index";
 import UIState from "./reducers/UIState";
 class App extends Component {
-  componentDidMount(dispatch) {
-    const token = localStorage.getItem("token");
-    if (token) this.props.onLogin(token);
-  }
+  // componentDidMount(dispatch) {
+  //   const token = localStorage.getItem("token");
+  //   if (token) this.props.onLogin(token);
+  // }
   render() {
     let main;
     let role = this.props.Auth.role;
@@ -20,7 +20,6 @@ class App extends Component {
     else if (role === 1) main = <Customer />;
     else if (role === 2) main = <Employee />;
     else if (role === 3) main = <Admin />;
-    // console.log(UIState.spinner);
     return (
       <Router>
         {UIState.spinner ? <div className="spinner" role="status"></div> : null}
