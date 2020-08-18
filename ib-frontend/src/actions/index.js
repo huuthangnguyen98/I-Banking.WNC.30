@@ -52,10 +52,11 @@ export const login = (username, pwd) => {
       //hide spinner
       dispatch(hide_spinner());
       // //
-      if (res.data.data) {
-        localStorage.setItem("token", res.data.data);
-
-        let token = res.data.data;
+      if (res.data.code === 0) {
+        let token = res.data.data.access_token;
+        localStorage.setItem("token", token);
+        localStorage.setItem("refreshToken", res.data.data.refresh_token);
+        localStorage.setItem("phone", username);
         return dispatch(loginWithToken(token));
       } else dispatch(wrongLogging());
     });

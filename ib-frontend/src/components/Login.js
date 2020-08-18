@@ -19,19 +19,21 @@ class Login extends Component {
     e.preventDefault();
     const username = this.refs.username.value;
     const pwd = this.refs.pwd.value;
-    // if (this.state.recaptchaToken !== "") this.props.onLogin(username, pwd);
-    // else
-    //   this.setState({
-    //     errCaptcha: true,
-    //   });
-    this.props.onLogin(username, pwd);
+    if (this.state.recaptchaToken !== "") this.props.onLogin(username, pwd);
+    else
+      this.setState({
+        errCaptcha: true,
+      });
+
+    // Disable recaptcha
+    // this.props.onLogin(username, pwd);
   };
-  // componentDidMount() {
-  //   loadReCaptcha();
-  //   if (this.captchaDemo) {
-  //     this.captchaDemo.reset();
-  //   }
-  // }
+  componentDidMount() {
+    loadReCaptcha();
+    if (this.captchaDemo) {
+      this.captchaDemo.reset();
+    }
+  }
 
   onLoadRecaptcha() {
     if (this.captchaDemo) {
@@ -79,7 +81,7 @@ class Login extends Component {
                 <label>Mật khẩu</label>
                 <input className="form-control" type="password" ref="pwd" />
               </div>{" "}
-              {/* {this.state.errCaptcha ? (
+              {this.state.errCaptcha ? (
                 <i
                   className="fa fa-info-circle mr-1"
                   aria-hidden="true"
@@ -99,7 +101,7 @@ class Login extends Component {
                 onloadCallback={this.onLoadRecaptcha}
                 verifyCallback={this.verifyCallback}
                 hl="vi"
-              /> */}
+              />
               <div className="form-group mt-3">
                 <button type="submit" className="btn btn-primary btn-block">
                   {" "}
