@@ -37,7 +37,7 @@ class Transfer extends Component {
     return (
       <div>
         <h4>Chuyển khoản</h4>
-        <hr />
+        {/* <hr />
         <div>
           <div className="d-flex justify-content-center">
             <button
@@ -53,7 +53,7 @@ class Transfer extends Component {
             </button>
           </div>
           {this.state.show ? <AddReceiver /> : null}
-        </div>
+        </div> */}
 
         <hr />
         <div className="d-flex justify-content-around">

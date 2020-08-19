@@ -137,8 +137,10 @@ export const sendOtp = (email, otp, newpw) => {
 };
 
 export const sendOtpTransfer = (trans) => {
-  const token = localStorage.getItem("token");
+  localStorage.setItem("to_account_number", trans.to_account_number);
+  localStorage.setItem("to_bank", trans.to_bank);
 
+  const token = localStorage.getItem("token");
   return (dispatch) => {
     return callApi("account/transfer", "POST", trans, token).then((res) => {
       dispatch(hide_spinner());
@@ -197,13 +199,29 @@ export const confirmTransfer = (otp) => {
       dispatch(hide_spinner());
       // //
       if (res.data.code === 0) {
-        alert("Chuyển khoản thành công!");
-
         dispatch(fetchListAccountReq());
-        //     var name = prompt("Chuyển khoản thành công. Bạn có muốn lưu lại  gợi nhớ mới :");
-        //     if (name !== null) {
-        //   self.props.onChange(id, name);
-        // }
+
+        const id = localStorage.getItem("to_account_number");
+        const bank = localStorage.getItem("to_bank");
+
+        const list = store.getState().listReceivers;
+        let isHas = false;
+        list.forEach((item) => {
+          if (id.toString() === item.receiver_account_number.toString()) {
+            isHas = true;
+          }
+        });
+
+        if (isHas) {
+          alert("Chuyển khoản thành công!");
+        } else {
+          var name = prompt(
+            "Chuyển khoản thành công. Bạn có muốn lưu lại người nhận này. Tên gợi nhớ :"
+          );
+          if (name !== null) {
+            dispatch(addReceiverReq(id, name, bank));
+          }
+        }
       } else if (res.data.code === 1) {
         console.log(res.data.message + " : " + res.data.code);
         alert("Mã OTP không chính xác!");
