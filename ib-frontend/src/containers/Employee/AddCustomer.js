@@ -64,7 +64,7 @@ class AddCustomer extends Component {
           </div>
           <div className="form-group col-md-6">
             <label>Mật khẩu</label>
-            <input type="text" className="form-control" ref="pw" />
+            <input type="password" className="form-control" ref="pw" />
           </div>
         </div>
         <div className="d-flex justify-content-center">

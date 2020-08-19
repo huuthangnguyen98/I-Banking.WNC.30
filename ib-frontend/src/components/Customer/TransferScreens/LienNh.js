@@ -83,6 +83,9 @@ class LienNh extends Component {
     });
   };
   formValide = (e) => {
+    e.preventDefault();
+    if (!window.confirm("Xác nhận thực hiện giao dịch?")) return null;
+
     let error = false;
     e.preventDefault();
 
@@ -208,8 +211,8 @@ class LienNh extends Component {
             // ----
             <form
               onSubmit={(e) => {
-                if (window.confirm("Xác nhận thực hiện giao dịch?"))
-                  this.formValide(e);
+                // if (window.confirm("Xác nhận thực hiện giao dịch?"))
+                this.formValide(e);
               }}
             >
               <div className="form-group">

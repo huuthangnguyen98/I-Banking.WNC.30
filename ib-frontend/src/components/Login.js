@@ -28,7 +28,7 @@ class Login extends Component {
       });
 
     // Disable recaptcha
-    // this.props.onLogin(username, pwd);
+    //   this.props.onLogin(username, pwd);
   };
   componentDidMount() {
     loadReCaptcha();

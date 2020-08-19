@@ -7,7 +7,7 @@ import Customer from "./components/Customer/Customer";
 import Employee from "./components/Employee/Employee";
 import * as actions from "./actions/index";
 import UIState from "./reducers/UIState";
-import { refreshingToken } from "./actions/index";
+import callApi from "./utils/apiCaller";
 
 class App extends Component {
   constructor(props) {
@@ -18,7 +18,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    var intervalID = setInterval(refreshingToken, 4 * 60 * 1000);
+    var intervalID = setInterval(this.refreshingToken, 4 * 60 * 1000);
     this.setState({
       intervalID: intervalID,
     });
@@ -27,6 +27,23 @@ class App extends Component {
     var intervalID = this.state.intervalID;
     clearInterval(intervalID);
   }
+
+  refreshingToken = () => {
+    const refreshToken = localStorage.getItem("refreshToken");
+    const username = localStorage.getItem("phone");
+
+    if (refreshToken && username) {
+      return callApi("user/refresh-token", "POST", {
+        phone: username,
+        refresh_token: refreshToken,
+      }).then((res) => {
+        if (res.data.code === 0) {
+          const token = res.data.data.access_token;
+          localStorage.setItem("token", token);
+        }
+      });
+    }
+  };
 
   // componentDidMount(dispatch) {
   //   const token = localStorage.getItem("token");

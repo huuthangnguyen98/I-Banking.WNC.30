@@ -12,8 +12,16 @@ class Debts extends Component {
     this.state = {
       activePage_byUser: 1,
       activePage_toUser: 1,
+      toId: 0,
+      toAmount: 0,
     };
   }
+  setInfoPayBack = (id, amount) => {
+    this.setState({
+      toId: id,
+      toAmount: amount,
+    });
+  };
   //
   handlePageChange_byUser(pageNumber) {
     this.setState({ activePage_byUser: pageNumber });
@@ -248,10 +256,14 @@ class Debts extends Component {
                 <button
                   className="btn btn-warning btn-sm mr-2"
                   onClick={() => {
-                    this.setState({
-                      toId: item.reveiver_account_number,
-                      toAmount: item.amount,
-                    });
+                    // this.setState({
+                    //   toId: item.reveiver_account_number,
+                    //   toAmount: item.amount,
+                    // });
+                    this.setInfoPayBack(
+                      item.reveiver_account_number,
+                      item.amount
+                    );
                     this._onPayback(item.debtor_id);
                   }}
                   style={{ fontSize: "12px" }}
@@ -308,6 +320,7 @@ class Debts extends Component {
             _onCancelDebtToUser={this._onCancelDebtToUser}
             _onPayback={this._onPayback}
             show_detailDebt={this.show_detailDebt}
+            setInfoPayBack={this.setInfoPayBack}
           />
         </div>
         <hr />

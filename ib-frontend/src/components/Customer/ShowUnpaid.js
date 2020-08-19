@@ -22,6 +22,7 @@ class ShowUnpaid extends Component {
       _onCancelDebtToUser,
       _onPayback,
       show_detailDebt,
+      setInfoPayBack,
     } = this.props;
 
     const listDebtsToUser_showUnpaid = listDebtsToUser
@@ -55,10 +56,11 @@ class ShowUnpaid extends Component {
             <button
               className="btn btn-warning btn-sm mr-2"
               onClick={() => {
-                this.setState({
-                  toId: item.reveiver_account_number,
-                  toAmount: item.amount,
-                });
+                // this.setState({
+                //   toId: item.reveiver_account_number,
+                //   toAmount: item.amount,
+                // });
+                setInfoPayBack(item.reveiver_account_number, item.amount);
                 _onPayback(item.debtor_id);
               }}
               style={{ fontSize: "12px" }}

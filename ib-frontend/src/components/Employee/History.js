@@ -36,7 +36,7 @@ class History extends Component {
   }
   _confirm = (e) => {
     e.preventDefault();
-    this.props.on_showSpinner();
+    // this.props.on_showSpinner();
     const token = localStorage.getItem("token");
     const id = this.refs.id.value;
     const typ = this.refs.type.selectedIndex;
@@ -447,7 +447,7 @@ class History extends Component {
               <input
                 type="text"
                 className="form-control"
-                placeholder="Tên đăng nhập hoặc số tài khoản"
+                placeholder="Số tài khoản"
                 ref="id"
               />
             </div>
@@ -489,9 +489,9 @@ const mapDispatchToProps = (dispatch) => {
     onGetHistory: (id, type) => {
       dispatch(EmployeeActions.getHistoryReq(id, type));
     },
-    on_showSpinner: () => {
-      dispatch(Actions.show_spinner());
-    },
+    // on_showSpinner: () => {
+    //   dispatch(Actions.show_spinner());
+    // },
   };
 };
 

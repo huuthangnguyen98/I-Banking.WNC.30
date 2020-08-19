@@ -65,7 +65,7 @@ class PayIn extends Component {
             <input
               type="text"
               className="form-control"
-              placeholder="Tên đăng nhập hoặc số tài khoản"
+              placeholder="Số tài khoản"
               ref="id"
               readOnly={this.state.confimed}
             />
@@ -123,6 +123,7 @@ class PayIn extends Component {
                       this.refs.amount.value
                     );
                     this._confirm();
+                    this.refs.amount.value = null;
                   }
                 }}
               >

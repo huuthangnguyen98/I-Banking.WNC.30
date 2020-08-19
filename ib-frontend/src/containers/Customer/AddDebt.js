@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as CustomerActions from "../../actions/CustomerActions";
+import * as config from "../../constants/config";
 class AddDebt extends Component {
   componentDidMount() {
     const self = this;
@@ -50,12 +51,14 @@ class AddDebt extends Component {
   render() {
     const { listReceivers } = this.props;
 
-    const listRe_show = listReceivers.map((item) => (
-      <option key={item.receiver_account_number}>
-        {item.receiver_account_number} - {item.receiver_name} -{" "}
-        {item.receiver_bank}
-      </option>
-    ));
+    const listRe_show = listReceivers
+      .filter((item) => item.receiver_bank === config.defaultBank)
+      .map((item) => (
+        <option key={item.receiver_account_number}>
+          {item.receiver_account_number} - {item.receiver_name} -{" "}
+          {item.receiver_bank}
+        </option>
+      ));
     let input;
     if (this.state.inputType) {
       input = (

@@ -30,7 +30,7 @@ class Receivers extends Component {
   render() {
     const { list } = this.props;
     const List = list.map((item, index) => (
-      <tr key={item.receiver_id}>
+      <tr key={item.receiver_account_number.toString() + index.toString()}>
         <th scope="row">{item.receiver_account_number}</th>
         <td>{item.receiver_name}</td>
         <td>{item.receiver_bank}</td>

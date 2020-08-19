@@ -70,7 +70,7 @@ class Forgot extends Component {
             <input
               className="form-control"
               placeholder="Mật khẩu mới"
-              type="text"
+              type="password"
               ref="newpw"
             />
           </div>{" "}

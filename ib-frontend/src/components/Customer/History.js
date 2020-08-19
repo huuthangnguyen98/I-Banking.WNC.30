@@ -479,8 +479,8 @@ class History extends Component {
         </form>
 
         {account_info}
+        <small style={{ color: "red" }}>*Trong vòng 30 ngày</small>
         <div style={{ fontSize: "15px" }}>{table}</div>
-
         <HistoryDetail transfer={this.state.transfer} />
       </div>
     );
