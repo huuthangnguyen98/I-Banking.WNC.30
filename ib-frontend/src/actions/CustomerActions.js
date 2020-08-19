@@ -200,6 +200,10 @@ export const confirmTransfer = (otp) => {
         alert("Chuyển khoản thành công!");
 
         dispatch(fetchListAccountReq());
+        //     var name = prompt("Chuyển khoản thành công. Bạn có muốn lưu lại  gợi nhớ mới :");
+        //     if (name !== null) {
+        //   self.props.onChange(id, name);
+        // }
       } else if (res.data.code === 1) {
         console.log(res.data.message + " : " + res.data.code);
         alert("Mã OTP không chính xác!");

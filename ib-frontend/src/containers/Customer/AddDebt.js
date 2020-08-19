@@ -31,6 +31,13 @@ class AddDebt extends Component {
       alert("Vui lòng nhập Số tài khoản!");
       err = true;
     }
+    const { listAccount } = this.props;
+    listAccount.forEach((item) => {
+      if (item.account_number == id) {
+        err = true;
+        alert("Không thể thêm số tài khoản của chính mình!");
+      }
+    });
     if (!err) {
       this.props.onAddDebt(id, amount, des);
     }
@@ -111,6 +118,7 @@ class AddDebt extends Component {
 const mapStateToProps = (state) => {
   return {
     listReceivers: state.listReceivers,
+    listAccount: state.listAccount,
   };
 };
 

@@ -21,14 +21,14 @@ class Login extends Component {
     e.preventDefault();
     const username = this.refs.username.value;
     const pwd = this.refs.pwd.value;
-    if (this.state.recaptchaToken !== "") this.props.onLogin(username, pwd);
-    else
-      this.setState({
-        errCaptcha: true,
-      });
+    // if (this.state.recaptchaToken !== "") this.props.onLogin(username, pwd);
+    // else
+    //   this.setState({
+    //     errCaptcha: true,
+    //   });
 
     // Disable recaptcha
-    //  this.props.onLogin(username, pwd);
+    this.props.onLogin(username, pwd);
   };
   componentDidMount() {
     loadReCaptcha();
@@ -92,7 +92,7 @@ class Login extends Component {
                   <small> Mã captcha không đúng</small>
                 </i>
               ) : null}
-              <ReCaptcha
+              {/* <ReCaptcha
                 ref={(el) => {
                   this.captchaDemo = el;
                 }}
@@ -103,7 +103,7 @@ class Login extends Component {
                 onloadCallback={this.onLoadRecaptcha}
                 verifyCallback={this.verifyCallback}
                 hl="vi"
-              />
+              /> */}
               <div className="form-group mt-3">
                 <button type="submit" className="btn btn-primary btn-block">
                   {" "}

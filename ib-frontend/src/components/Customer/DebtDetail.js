@@ -55,8 +55,8 @@ class DebtDetail extends Component {
                 </div>
                 <div className="col col-sm-4">Tài khoản chủ nợ</div>
                 <div className="col col-sm-8">
-                  : {debtDetail.reveiver_account_number} -{" "}
-                  {debtDetail.receiver_name}
+                  : {debtDetail.reveiver_account_number}
+                  {/* -{" "}{debtDetail.receiver_name} */}
                 </div>
                 <div className="col col-sm-4">Số tiền</div>
                 <div className="col col-sm-8">

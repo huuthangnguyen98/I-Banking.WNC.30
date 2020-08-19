@@ -7,14 +7,21 @@ class AddReceiver extends Component {
     const id = this.refs.id.value;
     const name = this.refs.name.value;
     const bank = this.refs.bank.value;
-    const { list } = this.props;
+    const { list, listAccount } = this.props;
     if (
       list.filter((item) => item.receiver_account_number.toString() === id)
         .length > 0
     ) {
       alert("Số tài khoản đã tồn tại trong danh sách!");
     } else {
-      if (id !== "") this.props.onAddReiver(id, name, bank);
+      var isSame = false;
+      listAccount.forEach((item) => {
+        if (item.account_number == id) {
+          isSame = true;
+          alert("Không thể thêm số tài khoản của chính mình làm người nhận!");
+        }
+      });
+      if (id !== "" && isSame === false) this.props.onAddReiver(id, name, bank);
     }
   };
   render() {
@@ -64,6 +71,7 @@ const mapStateToProps = (state) => {
   return {
     list: state.listReceivers,
     Partners: state.Partners,
+    listAccount: state.listAccount,
   };
 };
 
