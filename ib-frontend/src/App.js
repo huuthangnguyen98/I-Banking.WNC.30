@@ -7,7 +7,27 @@ import Customer from "./components/Customer/Customer";
 import Employee from "./components/Employee/Employee";
 import * as actions from "./actions/index";
 import UIState from "./reducers/UIState";
+import { refreshingToken } from "./actions/index";
+
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      intervalID: 0,
+    };
+  }
+
+  componentDidMount() {
+    var intervalID = setInterval(refreshingToken, 4 * 60 * 1000);
+    this.setState({
+      intervalID: intervalID,
+    });
+  }
+  componentWillUnmount() {
+    var intervalID = this.state.intervalID;
+    clearInterval(intervalID);
+  }
+
   // componentDidMount(dispatch) {
   //   const token = localStorage.getItem("token");
   //   if (token) this.props.onLogin(token);
@@ -40,6 +60,9 @@ const mapDispatchToProps = (dispatch) => {
     onLogin: (token) => {
       dispatch(actions.loginWithToken(token));
     },
+    // onRefreshingToken: () => {
+    //   dispatch(actions.refreshingToken());
+    // },
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(App);

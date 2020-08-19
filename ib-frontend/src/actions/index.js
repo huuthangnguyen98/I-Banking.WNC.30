@@ -31,6 +31,24 @@ export const loginWithToken = (token) => {
     });
   };
 };
+
+export const refreshingToken = () => {
+  const refreshToken = localStorage.getItem("refreshToken");
+  const username = localStorage.getItem("phone");
+
+  if (refreshToken && username) {
+    return callApi("user/refresh-token", "POST", {
+      phone: username,
+      refresh_token: refreshToken,
+    }).then((res) => {
+      if (res.data.code === 0) {
+        const token = res.data.data.access_token;
+        localStorage.setItem("token", token);
+      }
+    });
+  }
+};
+
 export const login = (username, pwd) => {
   return (dispatch) => {
     // show spinner

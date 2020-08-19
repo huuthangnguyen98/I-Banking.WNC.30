@@ -27,14 +27,13 @@ class Customer extends Component {
 
     this.props.onFetchNotifications_first();
     this.props.on_fetchListPartner();
-    var intervalID = setInterval(this.props.onFetchNotifications, 3000);
+    var intervalID = setInterval(this.props.onFetchNotifications, 5000);
     this.setState({
       intervalID: intervalID,
     });
   }
   componentWillUnmount() {
     //
-
     document.removeEventListener("click", this.handleClick);
     //
     var intervalID = this.state.intervalID;
@@ -50,10 +49,6 @@ class Customer extends Component {
       this.props.onHide_notifi();
     }
   };
-
-  // readl_all = () => {
-  //   this.props.onHide_notifi();
-  // };
 
   read_a_notification = (id_noti, id_debt) => {
     const self = this;
