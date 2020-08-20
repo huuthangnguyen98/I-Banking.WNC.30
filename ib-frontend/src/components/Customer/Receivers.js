@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import AddReceiver from "../../containers/Customer/AddReceiver";
 import * as CustomerActions from "../../actions/CustomerActions";
 import * as Actions from "../../actions/index";
+//start
 class Receivers extends Component {
   componentWillUnmount() {
     document.title = "30-BANK";

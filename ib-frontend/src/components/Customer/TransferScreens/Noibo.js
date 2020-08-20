@@ -19,6 +19,7 @@ class Noibo extends Component {
       nameRe: "",
     };
   }
+  // done herre
   componentWillUnmount() {
     this.props.onToogle_otpFrom(false);
   }

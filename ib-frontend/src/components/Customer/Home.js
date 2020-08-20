@@ -9,6 +9,7 @@ class Home extends Component {
   componentWillUnmount() {
     document.title = "30-BANK";
   }
+  // done here
   render() {
     const { profile, list } = this.props;
     const accountList = list

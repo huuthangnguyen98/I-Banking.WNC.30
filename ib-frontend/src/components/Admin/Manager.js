@@ -25,6 +25,7 @@ class Manager extends Component {
     const self = this;
     self.props.onFetchListEmployee();
   }
+  // done here
   render() {
     const { listEmp } = this.props;
 

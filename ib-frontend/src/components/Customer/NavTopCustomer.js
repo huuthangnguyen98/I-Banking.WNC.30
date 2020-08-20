@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import * as actions from "../../actions/index";
 import { Link } from "react-router-dom";
 import * as CustomerActions from "../../actions/CustomerActions";
+//start
 class Nav extends Component {
   handle = () => {
     this.props.onToogle_showNotifi();

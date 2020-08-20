@@ -58,7 +58,7 @@ export const addReceiver = (id, name, bank) => {
     id,
     bank,
   };
-};
+};// done here
 
 export const addReceiverReq = (id, name, bank) => {
   //console.log(bank);

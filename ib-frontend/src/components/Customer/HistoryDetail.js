@@ -36,6 +36,7 @@ class HistoryDetail extends Component {
         break;
       default:
     }
+    // done here
     return (
       <div
         className="modal fade"

@@ -20,6 +20,7 @@ class Transfer extends Component {
     var self = this;
     self.props.onFetchReceivers();
   }
+  // start here
   changeClass = () => {
     this.setState({
       class: !this.state.class,

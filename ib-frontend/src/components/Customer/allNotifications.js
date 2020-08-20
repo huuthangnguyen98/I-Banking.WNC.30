@@ -48,6 +48,7 @@ class allNotifications extends Component {
           <small style={{ color: "blue" }}> - {item.updated_at}</small>
         </li>
       ));
+      // done here
     return (
       <div className="container">
         <div className="row justify-content-sm-center">

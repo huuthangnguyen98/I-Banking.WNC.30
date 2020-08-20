@@ -91,6 +91,7 @@ export const loginCustomer = () => {
     type: types.LOGIN_CUSTOMER,
   };
 };
+// done here
 
 export const loginEmployee = () => {
   return {

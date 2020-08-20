@@ -22,7 +22,7 @@ class Debts extends Component {
       toAmount: amount,
     });
   };
-  //
+  //done here
   handlePageChange_byUser(pageNumber) {
     this.setState({ activePage_byUser: pageNumber });
   }
