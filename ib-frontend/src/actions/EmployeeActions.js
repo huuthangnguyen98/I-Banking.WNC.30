@@ -10,7 +10,7 @@ export const createCustomer = (customer) => {
     // //
 
     return callApi("user/create", "POST", customer, token).then((res) => {
-      //hide spinner
+      //hide spinner 
       dispatch(hide_spinner());
       // //
       if (res.data.code === 0) alert("Tạo tài khoản thành công!");
@@ -21,6 +21,7 @@ export const createCustomer = (customer) => {
     });
   };
 };
+//done here
 
 export const payIn = (id, amount) => {
   let token = localStorage.getItem("token");

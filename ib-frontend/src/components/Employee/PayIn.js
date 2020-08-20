@@ -13,6 +13,7 @@ class PayIn extends Component {
       type: 0,
     };
   }
+  //done here
 
   _confirm = () => {
     const token = localStorage.getItem("token");

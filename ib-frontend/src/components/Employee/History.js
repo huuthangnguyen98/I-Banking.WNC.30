@@ -21,6 +21,7 @@ class History extends Component {
       activePage_transfer: 1,
       transfer: {},
     };
+    // end here___
   }
   handlePageChange(pageNumber) {
     this.setState({ activePage: pageNumber });

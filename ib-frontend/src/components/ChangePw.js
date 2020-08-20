@@ -44,7 +44,7 @@ class ChangePw extends Component {
       </div>
     );
   }
-  //nothing here
+  //done here
 }
 const mapDispatchToProps = (dispatch) => {
   return {
