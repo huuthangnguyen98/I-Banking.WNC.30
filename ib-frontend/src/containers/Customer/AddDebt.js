@@ -20,7 +20,9 @@ class AddDebt extends Component {
     if (this.state.inputType) id = this.refs.id.value;
     else {
       const { listReceivers } = this.props;
-      id = listReceivers[this.refs.id.selectedIndex].receiver_account_number;
+      id = listReceivers.filter(
+        (item) => item.receiver_bank === config.defaultBank
+      )[this.refs.id.selectedIndex].receiver_account_number;
     }
     const amount = this.refs.amount.value;
     const des = this.refs.des.value;
