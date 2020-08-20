@@ -10,6 +10,7 @@ class Login extends Component {
     // const token = localStorage.getItem("token");
     // if (token) this.props.onLoginWithToken(token);
     //--------
+    //-----
     this.onLoadRecaptcha = this.onLoadRecaptcha.bind(this);
     this.verifyCallback = this.verifyCallback.bind(this);
     this.state = {

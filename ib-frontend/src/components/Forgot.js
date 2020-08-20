@@ -18,6 +18,7 @@ class Forgot extends Component {
     const email = this.refs.email.value;
     this.sendEmail(email);
   };
+  //nothing hêre
   sendEmail = (email) => {
     this.setState({
       btnMsg: "Đang xử lí",
