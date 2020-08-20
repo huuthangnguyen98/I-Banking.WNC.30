@@ -12,3 +12,4 @@ const debtDetail = (state = intState, action) => {
 };
 
 export default debtDetail;
+// end here

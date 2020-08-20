@@ -12,3 +12,4 @@ const Partners = (state = initalState, action) => {
 };
 
 export default Partners;
+//end here

@@ -33,3 +33,4 @@ export default combineReducers({
   Partners,
   statistic,
 });
+// end here

@@ -26,3 +26,4 @@ const notifications = (state = intState, action) => {
 };
 
 export default notifications;
+// end here

@@ -18,3 +18,4 @@ const customerProfile = (state = intState, action) => {
 };
 
 export default customerProfile;
+// end here

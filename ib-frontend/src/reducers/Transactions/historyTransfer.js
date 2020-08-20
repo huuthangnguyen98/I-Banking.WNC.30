@@ -13,3 +13,4 @@ const historyTransfer = (state = intState, action) => {
 };
 
 export default historyTransfer;
+// end here

@@ -19,3 +19,4 @@ const statistic = (state = intState, action) => {
 };
 
 export default statistic;
+// end here

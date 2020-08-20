@@ -12,3 +12,4 @@ const historyPayIn = (state = intState, action) => {
 };
 
 export default historyPayIn;
+// end here

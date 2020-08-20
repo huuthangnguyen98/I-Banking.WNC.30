@@ -13,3 +13,4 @@ const allTypesTrans = (state = intState, action) => {
 };
 
 export default allTypesTrans;
+// end here

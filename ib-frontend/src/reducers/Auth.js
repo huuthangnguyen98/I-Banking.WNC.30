@@ -46,3 +46,4 @@ const Auth = (state = initalState, action) => {
 };
 
 export default Auth;
+// end here

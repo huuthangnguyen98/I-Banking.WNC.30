@@ -12,3 +12,4 @@ const historyDebt = (state = intState, action) => {
 };
 
 export default historyDebt;
+// end here
