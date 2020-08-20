@@ -41,7 +41,7 @@ export const fetchReceiversReq = () => {
   const token = localStorage.getItem("token");
   return (dispatch) => {
     return callApi("user/list-receiver", "GET", null, token).then((res) => {
-      // hide spinner
+      // hide spinner ----
       dispatch(hide_spinner());
       if (res.data.code === 0) {
         const listReceivers = res.data.data;
@@ -71,7 +71,7 @@ export const addReceiverReq = (id, name, bank) => {
       { account_number: id, account_bank: bank },
       token
     ).then((res) => {
-      //hide spinner
+      //hide sping ----
       dispatch(hide_spinner());
       // //
       //  console.log(res);

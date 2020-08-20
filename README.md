@@ -5,6 +5,6 @@
 #### 1612618 - Nguyen Huu Thang
 #### 1612228 - Tran Sy Hung
 #### 1612327 - Mai Van Hoang Lan
-#### -----------------------------------------
+#### -----
 ### SPA : reactjs, react-router, redux
 ### backend : Spring boot

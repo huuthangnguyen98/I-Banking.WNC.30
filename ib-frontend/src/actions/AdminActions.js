@@ -6,7 +6,7 @@ export const fetchListEmployeeReq = () => {
   const token = localStorage.getItem("token");
   return (dispatch) => {
     return callApi("employee/list-employee", "GET", null, token).then((res) => {
-      //hide spinner
+      //hide -----
       dispatch(hide_spinner());
       // //
       let list = res.data.data;
@@ -18,7 +18,7 @@ export const fetchListEmployeeReq = () => {
 export const addEmployeeReq = (emp) => {
   const token = localStorage.getItem("token");
   return (dispatch) => {
-    // show spinner
+    // show ----
     dispatch(show_spinner());
     // //
 
